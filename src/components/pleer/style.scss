@@ -1,0 +1,41 @@
+.pleer_layer {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pleer_box {
+        width: calc(100% - 50px);
+        max-width: 1400px;
+        height: 800px;
+        //border: 1px solid red;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        h1 {
+            color: white;
+            font-family: 'EB Garamond';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 100px;
+            line-height: 100px;
+            text-align: center;
+        }
+        .progressBar {
+            height: 10px;
+            width: 100%;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+            .progressline {
+                height: 100%;
+                width: 30%;
+                background-color: white;
+                box-shadow: 0px 0px 5px rgba(244, 244, 244, 0.5);
+                border-radius: 5px;
+            }
+        }
+    }
+}
