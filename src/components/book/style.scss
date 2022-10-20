@@ -12,7 +12,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.6);
     }
     .book_box_move {
         box-sizing: border-box;
@@ -33,7 +33,7 @@
                 box-sizing: border-box;
                 width: 330px;
                 height: 520px;
-                background-color: rgba(0, 0, 0, 0.6);
+              //  background-color: rgba(0, 0, 0, 0.6);
                 overflow: hidden;
                 border-radius: 5px;
                 background-position: center;
@@ -41,9 +41,8 @@
                 background-repeat: no-repeat;
                 transition: none;
                 &.small {
+                    opacity: 0;
                     transform: scale(0.1);
-                    // width: 175px;
-                    // height: 260px;
                 }
             }
             &:nth-child(1) {

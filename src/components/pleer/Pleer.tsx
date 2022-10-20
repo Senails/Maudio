@@ -1,72 +1,37 @@
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setpause } from '../../redux/slices/pleerSlice';
+import { RootState } from '../../redux/store';
+import { sleep } from '../../Utils/sleep';
+import ProgressBar from './progressbar/ProgressBar';
 import './style.scss';
 
 export function Pleer(){
-    let polsunok = useRef<HTMLDivElement>(null);
-    let progress = useRef<HTMLDivElement>(null);
+    let {name, playpause} = useSelector((state:RootState)=>state.pleer);
+    let dispatch = useDispatch();
+    let [play, setplay] = useState('play');
 
-    useEffect(()=>{
-        let polzik = polsunok.current;
-        let line = progress.current;
-        if (!polzik) return;
-        polzik.addEventListener('mousedown',mousehandler);
-        function mousehandler(event:MouseEvent){
-            let startX = event.clientX;
-            let {left} = polzik!.getBoundingClientRect();
-
-            let allWhidth = polzik?.offsetWidth;
-            let WidthLine = startX-left;
-            let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
-
-            // let line:HTMLDivElement = polzik!.querySelector('.progressline')!;
-            line!.style.width=percentWhidth+'%';
-
-            document.addEventListener('mousemove',mousemove);
-            document.addEventListener('mouseup',mouseup);
-
-            function mousemove(e:MouseEvent){
-                let nowX=e.clientX;
-                let delta = nowX-startX;
-
-                let resultWidth = WidthLine+delta;
-
-                if (resultWidth<=0) resultWidth=0;
-                if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
-
-                let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
-
-                line!.style.width=percent;
-            }
-
-            function mouseup(){
-                let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
-                ResPolzik(percentvalue);
-
-                document.removeEventListener('mousemove',mousemove);
-                document.removeEventListener('mouseup',mouseup);
-            }
+    async function PauseHendler(){
+        if (play==='play'){
+            setplay('play hide');
+            await sleep(300);
+            setplay('pause');
+            dispatch(setpause('pause'));
+        }else if (play==='pause'){
+            setplay('pause hide')
+            await sleep(300);
+            setplay('play');
+            dispatch(setpause('play'));
         }
-
-
-
-        
-        function ResPolzik(PercetRes:number){
-            console.log(PercetRes)
-        }
-
-        return ()=>{
-            polsunok.current?.removeEventListener('mousedown',mousehandler);
-        }
-    },[])
+    }
 
     return <div className='pleer_layer'>
         <div className='pleer_box'>
-            <h1>Чужак</h1>
-
-
-            <div ref={polsunok} className='progressBar'>
-                <div ref={progress} className='progressline'></div>
+            <h1>{name} {playpause}</h1>
+            <div className='place' onClick={PauseHendler}>
+                <div className={`play-pause ${play}`}></div>
             </div>
+            <ProgressBar/>
         </div>
     </div>
 }
