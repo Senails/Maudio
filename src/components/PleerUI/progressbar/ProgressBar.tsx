@@ -1,16 +1,22 @@
-import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setpleerselect } from "../../../redux/slices/pleerSlice";
 import { RootState } from "../../../redux/store";
 import { numToTime } from "../../../Utils/numtotime";
 import './style.scss';
 
 export default function ProgressBar(){
-    let {lenght , alllenght} = useSelector((state:RootState)=>state.pleer)
+    let {lenght , alllenght} = useSelector((state:RootState)=>state.pleer);
+    let dispatch= useDispatch();
+
+    let [UserControl,setUserControl]=useState(false);
+
+    let showtime = useRef<HTMLSpanElement>(null);
     let polsunok = useRef<HTMLDivElement>(null);
     let progress = useRef<HTMLDivElement>(null);
 
-
     useEffect(()=>{
+        if (UserControl) return;
         let line = progress.current;
 
         let PercentLenght = lenght/alllenght;
@@ -18,6 +24,7 @@ export default function ProgressBar(){
         line!.style.width= `${NewWidth}%`;
     },[lenght]);
 
+    //управление ползунком
     useEffect(()=>{
         let polzik = polsunok.current;
         let line = progress.current;
@@ -26,6 +33,8 @@ export default function ProgressBar(){
         polzik!.addEventListener('touchstart',touchhandler);
 
         function mousehandler(event:MouseEvent){
+            setUserControl(true);
+
             let startX = event.clientX;
             let {left} = polzik!.getBoundingClientRect();
 
@@ -55,31 +64,54 @@ export default function ProgressBar(){
             }
 
             function mouseup(){
-                console.log("mouseup");
                 let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
                 ResPolzik(percentvalue);
 
                 document.removeEventListener('mousemove',mousemove);
                 document.removeEventListener('mouseup',mouseup);
+                setUserControl(false);
             }
         }
         function touchhandler(event:TouchEvent){
-            console.log(1);
+            setUserControl(true);
+            event.preventDefault();
+
+            let startX = event.touches[0].clientX;
+            let {left} = polzik!.getBoundingClientRect();
+
+            let allWhidth = polzik?.offsetWidth;
+            let WidthLine = startX-left;
+            let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
 
 
+            line!.style.width=percentWhidth+'%';
 
             document.addEventListener('touchend',touchend);
+            document.addEventListener('touchmove',touchmove);
+
+            function touchmove(e:TouchEvent){
+                let nowX=e.touches[0].clientX;
+                let delta = nowX-startX;
+
+                let resultWidth = WidthLine+delta;
+
+                if (resultWidth<=0) resultWidth=0;
+                if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
+
+                let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
+
+                line!.style.width=percent;
+            }
 
             function touchend(){
-                console.log("tochend");
+                let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
+                ResPolzik(percentvalue);
 
+                document.removeEventListener('touchmove',touchmove);
                 document.removeEventListener('touchend',touchend);
+
+                setUserControl(false);
             }
-        }
-
-
-        function ResPolzik(PercetRes:number){
-            console.log(PercetRes)
         }
 
         return ()=>{
@@ -88,11 +120,66 @@ export default function ProgressBar(){
         }
     },[])
 
-    return <div className="progressBar-box">
-        <div ref={polsunok} className='progressBar'>
+    function ResPolzik(PercetRes:number){
+        let needLenght= alllenght*PercetRes;
+        dispatch(setpleerselect(needLenght));
+    }
+
+    //подсказка времени
+    function mousemove(event:React.MouseEvent){
+        showtime.current!.classList.add('active');
+        let mouseleft = event.pageX;
+        let {left}= event.currentTarget.getBoundingClientRect();
+
+        let allWidth = event.currentTarget.clientWidth;
+        let spanWidth=showtime.current!.offsetWidth;
+
+        let Needleft = mouseleft-left;
+        if (Needleft<=0) Needleft=0;
+        if (Needleft>=allWidth) Needleft=allWidth;
+
+        let now = (Needleft-spanWidth/2)/allWidth;
+        showtime.current!.style.left=(now*100).toFixed(2)+'%';
+
+        let percent = Needleft/allWidth;
+        let time = percent*alllenght;
+        showtime.current!.innerHTML=numToTime(time);
+    }
+    function touchmove(event:React.TouchEvent){
+        showtime.current!.classList.add('active');
+
+        let mouseleft = event.touches[0].pageX;
+        let {left}= event.currentTarget.getBoundingClientRect();
+
+        let allWidth = event.currentTarget.clientWidth;
+        let spanWidth=showtime.current!.offsetWidth;
+
+        let Needleft = mouseleft-left;
+        if (Needleft<=0) Needleft=0;
+        if (Needleft>=allWidth) Needleft=allWidth;
+
+        let now = (Needleft-spanWidth/2)/allWidth;
+        showtime.current!.style.left=(now*100).toFixed(2)+'%';
+
+        let percent = Needleft/allWidth;
+        let time = percent*alllenght;
+        showtime.current!.innerHTML=numToTime(time);
+    }
+    function mouseLeave(){
+        showtime.current!.classList.remove('active');
+    }
+    function touchend(){
+        showtime.current!.classList.remove('active');
+    }
+
+    return <div ref={polsunok} className="progressBar-box" onMouseMove={mousemove} onTouchMove={touchmove} onMouseLeave={mouseLeave} onTouchEnd={touchend}>
+        <span ref={showtime} className="show-time"></span>
+
+        <div className='progressBar'>
             <div ref={progress} className='progressline'></div>
         </div>
-        <span className='left'>{numToTime(lenght)}</span>
-        <span className='right'>{numToTime(alllenght)}</span>
+
+        <span className='timecheck left'>{numToTime(lenght)}</span>
+        <span className='timecheck right'>{numToTime(alllenght)}</span>
     </div>
 }
