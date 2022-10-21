@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { setlenght, setpause } from "../../redux/slices/pleerSlice";
+import { setlenght, setpause, setvolume } from "../../redux/slices/pleerSlice";
 import { RootState } from "../../redux/store"
+import { sleep } from "../../Utils/sleep";
 
 let flag = false;
 let interval:NodeJS.Timer;
@@ -25,6 +26,8 @@ export default function AudioPl(){
                 audio.current!.play();
                 dispatch(setlenght(audio.current!.currentTime));
 
+
+
                 interval = setInterval(()=>{
                     let now = audio.current!.currentTime;
                     dispatch(setlenght(now));
@@ -32,6 +35,8 @@ export default function AudioPl(){
 
             }else{
                 clearInterval(interval);
+
+                
                 audio.current!.pause();
             }
         }
@@ -60,6 +65,26 @@ export default function AudioPl(){
             audio.current!.removeEventListener('ended',ended);
         }
     },[]);
+
+    async function ChangeVolume(NewVolume:number,ms:number) {
+        let frames = Math.floor((ms/1000)*60);
+        let period = Math.floor(ms/frames);
+
+        let OldVolume = volume;
+
+        let volumedelta = NewVolume-OldVolume;
+        let volumepart = volumedelta/frames;
+
+        let volumeNow = OldVolume;
+
+        for(let i=0; i<frames;i++){
+            await sleep(period);
+            volumeNow=volumeNow+volumepart;
+            volumeNow= volumeNow<0?0:volumeNow
+
+            dispatch(setvolume(volumeNow));
+        }
+    }
 
     return <audio ref={audio} src={"./1245511.mp3"} loop={false} hidden></audio>
 }
