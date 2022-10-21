@@ -1,0 +1,15 @@
+.left-panel{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+    height: calc(80% - 80px);
+    border: 1px solid red;
+
+    @media (max-width: 1200px) {
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 400px;
+    }
+}

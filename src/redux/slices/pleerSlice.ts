@@ -17,8 +17,8 @@ let initialState:pleerState = {
     playpause: 'pause',
     volume: 0.5,
     name: 'Чужак',
-    alllenght:100,
-    lenght:30,
+    alllenght:441,
+    lenght:0,
 }
 
 
@@ -36,10 +36,16 @@ export const pleerSlice = createSlice({
         setvolume(state, action:PayloadAction<number>){
             state.volume = action.payload;
         },
+        setlenght(state, action:PayloadAction<number>){
+            state.lenght=action.payload;
+        },
+        setalllenght(state, action:PayloadAction<number>){
+            state.alllenght=action.payload;
+        },
     }
 })
   
   // Action creators are generated for each case reducer function
-  export const {setimage,setpause,setvolume} = pleerSlice.actions
+  export const {setimage,setpause,setvolume,setlenght,setalllenght} = pleerSlice.actions
   
   export default pleerSlice.reducer
