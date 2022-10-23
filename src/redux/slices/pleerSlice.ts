@@ -5,7 +5,6 @@ import { sleep } from '../../Utils/sleep';
 import { RootState } from '../store';
 
 
-
 type bookpart={
     lenght:number;
     url:string;
@@ -28,7 +27,6 @@ type pleerState={
     pleerlenght:number,
 }
 
-
 let book : Book={
     name: 'Чужак',
     image: "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902",
@@ -39,16 +37,7 @@ let book : Book={
     ],
 }
 
-let initialState:pleerState = {
-    bookMap: book,
-    activeSrc:"./1245511.mp3",
-    activefragment:0,
-    playpause: 'pause',
-    volume: 0.5,
-    lenght:0,
-    pleerlenght:0,
-}
-
+let initialState:pleerState = GetInitionPleerstate();
   
 export const pleerSlice = createSlice({
     name: 'pleer',
@@ -135,3 +124,23 @@ async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number , dispat
     return;
 }
 
+function GetInitionPleerstate():pleerState{
+    let href = window.location.href;
+    let str = localStorage.getItem(href);
+    if (str){
+        let json = JSON.parse(str);
+        let savedState = json.pleer;
+
+        return savedState;
+    }
+
+    return {
+        bookMap: book,
+        activeSrc:"./1245511.mp3",
+        activefragment:0,
+        playpause: 'pause',
+        volume: 0.5,
+        lenght:0,
+        pleerlenght:0,
+    }
+}
