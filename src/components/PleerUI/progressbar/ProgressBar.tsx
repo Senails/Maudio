@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setpleerselect } from "../../../redux/slices/pleerSlice";
-import { RootState } from "../../../redux/store";
+import { UserSelectLenght } from "../../../redux/slices/pleerSlice";
+import { RootState, useAppDispatch, useAppSelector } from "../../../redux/store";
 import { numToTime } from "../../../Utils/numtotime";
 import './style.scss';
 
 export default function ProgressBar(){
-    let {lenght , alllenght} = useSelector((state:RootState)=>state.pleer);
-    let dispatch= useDispatch();
+    let lenght = useAppSelector((state:RootState)=>state.pleer.lenght);
+    let alllenght = useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
+    let dispatch= useAppDispatch();
 
     let [UserControl,setUserControl]=useState(false);
 
@@ -74,7 +74,6 @@ export default function ProgressBar(){
         }
         function touchhandler(event:TouchEvent){
             setUserControl(true);
-            event.preventDefault();
 
             let startX = event.touches[0].clientX;
             let {left} = polzik!.getBoundingClientRect();
@@ -122,7 +121,7 @@ export default function ProgressBar(){
 
     function ResPolzik(PercetRes:number){
         let needLenght= alllenght*PercetRes;
-        dispatch(setpleerselect(needLenght));
+        dispatch(UserSelectLenght(needLenght));
     }
 
     //подсказка времени

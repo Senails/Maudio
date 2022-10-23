@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setpause, setvolume } from '../../redux/slices/pleerSlice';
-import { RootState } from '../../redux/store';
+import { setpause } from '../../redux/slices/pleerSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/sleep';
 import ProgressBar from './progressbar/ProgressBar';
 import './style.scss';
@@ -9,8 +8,9 @@ import './style.scss';
 let flag=false;
 
 export function PleerUI(){
-    let {name,playpause} = useSelector((state:RootState)=>state.pleer);
-    let dispatch = useDispatch();
+    let playpause = useAppSelector((state:RootState)=>state.pleer.playpause);
+    let name = useAppSelector((state:RootState)=>state.pleer.bookMap.name);
+    let dispatch = useAppDispatch();
     let [play, setplay] = useState('pause');
 
 

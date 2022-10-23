@@ -4,14 +4,20 @@ import { PleerUI } from "./components/PleerUI/Pleer";
 import AudioPl from "./components/Audiopleer/AudioPl";
 import LeftPanel from "./components/leftPanel/LeftPanel";
 import { useEffect } from "react";
+import { getAudioSize } from "./Utils/getaudiosize";
+import { useAppDispatch } from "./redux/store";
 
 
 
 
 function App() {
+  let dispatch = useAppDispatch();
+
+
   useEffect(()=>{
-    // console.log()
-  },[]);
+
+
+},[]);
 
 
 
@@ -21,7 +27,7 @@ function App() {
       <Book/>
       <PleerUI/>
       <AudioPl/>
-      <LeftPanel/>
+      {/* <LeftPanel/> */}
     </div>
   );
 }

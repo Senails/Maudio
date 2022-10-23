@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { RootState, useAppSelector } from '../../redux/store';
 import { GetImageSrc } from '../../Utils/getImageSrc';
 import { sleep } from '../../Utils/sleep';
 import { getTimeControl } from '../../Utils/timecontrol';
@@ -10,7 +9,7 @@ import './style.scss';
 let TimeControl = getTimeControl(1200);
 
 export function Book(){
-    let image = useSelector((state:RootState)=>state.pleer.image);
+    let image = useAppSelector((state:RootState)=>state.pleer.bookMap.image);
     let [flag , setflag] =useState(false);
     let [move,setmove]=useState(false);
     
