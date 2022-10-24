@@ -16,11 +16,11 @@ function App() {
   useEffect(()=>{
 
 
-    return ()=>{
-      let href = window.location.href;
-      let state = store.getState();
-      localStorage.setItem(href,JSON.stringify(state));
-    }
+    // return ()=>{
+    //   let href = window.location.href;
+    //   let state = store.getState();
+    //   localStorage.setItem(href,JSON.stringify(state));
+    // }
   },[]);
 
   return (

@@ -5,8 +5,7 @@
     box-sizing: border-box;
     width: 100px;
     height: 200px;
-    // border: 1px solid red;
-    border-radius: 20px;
+    //border: 1px solid red;
     overflow: hidden;
     .volume-icon{
         position: absolute;
@@ -74,5 +73,11 @@
             top: 50px;
             opacity: 1;
         }
+    }
+    p{
+        color: white;
+        position: absolute;
+        left: 0;
+        bottom: 0;
     }
 }

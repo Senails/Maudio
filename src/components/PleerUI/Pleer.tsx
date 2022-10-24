@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setpause } from '../../redux/slices/pleerSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/sleep';
@@ -44,8 +44,16 @@ export function PleerUI(){
         }
     }
 
+    function weelhandler(event: React.WheelEvent){
+        if (event.deltaY>=0){
+            console.log(-1);
+        }else{
+            console.log(1);
+        }
+    }
+
     return <div className='pleer_layer'>
-        <div className='pleer_box'>
+        <div className='pleer_box' onWheel={weelhandler}>
             <h1>{name}</h1>
             <div className='place' onClick={PauseHendler}>
                 <div className={`play-pause ${play}`}></div>

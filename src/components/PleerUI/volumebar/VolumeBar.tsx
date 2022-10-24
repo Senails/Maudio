@@ -8,11 +8,6 @@ export default function Volumebar(){
 
 
     useEffect(()=>{
-
-
-
-
-
     },[]);
 
     
@@ -25,5 +20,8 @@ export default function Volumebar(){
                 </div>
             </div>
         </div>
+        <p>
+            {userSelectVolume}
+        </p>
     </div>
 }
