@@ -4,6 +4,7 @@ import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/sleep';
 import ProgressBar from './progressbar/ProgressBar';
 import './style.scss';
+import Volumebar from './volumebar/VolumeBar';
 
 let flag=false;
 
@@ -50,6 +51,7 @@ export function PleerUI(){
                 <div className={`play-pause ${play}`}></div>
             </div>
             <ProgressBar/>
+            <Volumebar/>
         </div>
     </div>
 }

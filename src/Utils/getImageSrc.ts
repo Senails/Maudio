@@ -6,13 +6,15 @@ export async function GetImageSrc(url:string) {
             let response = await fetch(url);
             let blob = await response.blob();
 
-            let reader = new FileReader();
 
-            reader.readAsDataURL(blob)
+            let src = URL.createObjectURL(blob);
+            res(src);
 
-            reader.addEventListener('loadend',()=>{
-                res(reader.result);
-            })
+            // let reader = new FileReader();
+            // reader.readAsDataURL(blob)
+            // reader.addEventListener('loadend',()=>{
+            //     res(reader.result);
+            // })
         }catch{
             res('');
         }

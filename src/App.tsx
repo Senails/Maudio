@@ -5,7 +5,7 @@ import AudioPl from "./components/Audiopleer/AudioPl";
 import LeftPanel from "./components/leftPanel/LeftPanel";
 import { useEffect } from "react";
 import { getAudioSize } from "./Utils/getaudiosize";
-import { store, useAppDispatch } from "./redux/store";
+import { store } from "./redux/store";
 
 
 
@@ -14,10 +14,10 @@ function App() {
   
 
   useEffect(()=>{
-    window.addEventListener('unload',unload);
-    function unload(){
-      let href = window.location.href;
 
+
+    return ()=>{
+      let href = window.location.href;
       let state = store.getState();
       localStorage.setItem(href,JSON.stringify(state));
     }

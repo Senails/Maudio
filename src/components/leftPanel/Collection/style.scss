@@ -1,0 +1,52 @@
+.collection-div{
+    width: 240px;
+    margin: 0 auto;
+   // border: 1px solid red;
+    color: white;
+    position: relative;
+
+    .collection-box{
+        width: 240px;
+        height: 40px;
+        //border: 1px solid red;
+        margin-bottom: 10px;
+        position: relative;
+        p{
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 38px;
+            height: 38px;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .collection-line{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            border-radius: 1.5px;
+            background: rgba(255, 255, 255, 0.5);
+            .white-line{
+                width: 30%;
+                height: 3px;
+                border-radius: 1.5px;
+                background-color: white;
+            }
+        }
+        &.notactive{
+            opacity: 0.6;
+        }
+    }
+    .book-box{
+        width: 200px;
+        margin-left: auto;
+    }
+}

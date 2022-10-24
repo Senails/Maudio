@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { RootState, useAppSelector } from '../../redux/store';
-import { GetImageSrc } from '../../Utils/getImageSrc';
 import { sleep } from '../../Utils/sleep';
 import { getTimeControl } from '../../Utils/timecontrol';
 import './style.scss';
@@ -19,14 +18,13 @@ export function Book(){
     useEffect(()=>{
         TimeControl(ChangeImage);
         async function ChangeImage(){
+            let src = image;//
+            // let src = await GetImageSrc(image);
             if (!flag){
-                let src = await GetImageSrc(image);
                 img1.current!.style.backgroundImage=`url(${src})`;
                 img2.current!.classList.add('small');
                 setflag(true)
             }else{
-                let src = await GetImageSrc(image);
-
                 img2.current!.style.backgroundImage=`url(${src})`;
                 img1.current!.classList.add('small');
                 img2.current!.classList.remove('small');

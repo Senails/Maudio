@@ -1,15 +1,45 @@
 .left-panel{
+    box-sizing: border-box;
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 0px;
+    left: 0px;
     width: 300px;
-    height: calc(80% - 80px);
+    height: 80%;
     border: 1px solid red;
+    transition: background-color 0.5s, left 0.5s;
+    padding-top: 10px;
+
+    .contetn-box{
+        margin: 0 auto;
+        width: 280px;
+        // background-color: rgba(73, 73, 73, 0.738);
+        height: calc(100% - 10px);
+        overflow: hidden;
+        position: relative;
+    }
+    .right-button{
+        display: none;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        top: 10px;
+        right: 10px;
+    }
+
+    .left-button{
+        display: none;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        top: 10px;
+        left: 10px;
+    }
 
     @media (max-width: 1200px) {
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 400px;
+    }
+
+    @media (max-width: 600px) {
     }
 }

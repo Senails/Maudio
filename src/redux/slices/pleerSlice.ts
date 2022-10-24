@@ -5,6 +5,24 @@ import { sleep } from '../../Utils/sleep';
 import { RootState } from '../store';
 
 
+export type Collection = {
+    name: string,
+    books: Book[];
+}
+
+export type Seria = {
+    name: string,
+    description: string,
+    authtor: string,
+    collections: Collection[],
+}
+
+type seriosState = {
+    serios: Seria,
+    activecollection : number,
+    activebook: number,
+}
+
 type bookpart={
     lenght:number;
     url:string;
@@ -23,6 +41,7 @@ type pleerState={
     activefragment:number,
     playpause:'pause'|'play',
     volume:number,
+    userSelectVolume:number,
     lenght:number,
     pleerlenght:number,
 }
@@ -79,6 +98,10 @@ export const pleerSlice = createSlice({
             state.activeSrc = src;
             state.pleerlenght=lenght;
         },
+        UserSelectValue(state, action:PayloadAction<number>){
+            state.userSelectVolume = action.payload;
+            if (state.playpause==='play') state.volume=action.payload;
+        },
     },
 })
 
@@ -94,7 +117,7 @@ export const setpause = createAsyncThunk(
 
         if (param==='play'){
             dispatch(setplay(param));
-            ChangeVolume(state.pleer.volume,0.5,300,dispatch);
+            ChangeVolume(state.pleer.volume,state.pleer.userSelectVolume,300,dispatch);
         }else{
             await ChangeVolume(state.pleer.volume,0,300,dispatch);
             dispatch(setplay(param));
@@ -140,6 +163,7 @@ function GetInitionPleerstate():pleerState{
         activefragment:0,
         playpause: 'pause',
         volume: 0.5,
+        userSelectVolume:0.5,
         lenght:0,
         pleerlenght:0,
     }
