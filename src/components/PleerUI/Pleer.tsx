@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { setpause } from '../../redux/slices/pleerSlice';
+import { setpause, UserSelectVolume } from '../../redux/slices/pleerSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/sleep';
 import ProgressBar from './progressbar/ProgressBar';
@@ -9,7 +9,7 @@ import Volumebar from './volumebar/VolumeBar';
 let flag=false;
 
 export function PleerUI(){
-    let playpause = useAppSelector((state:RootState)=>state.pleer.playpause);
+    let {playpause, userVolume} = useAppSelector((state:RootState)=>state.pleer);
     let name = useAppSelector((state:RootState)=>state.pleer.bookMap.name);
     let dispatch = useAppDispatch();
     let [play, setplay] = useState('pause');
@@ -46,9 +46,15 @@ export function PleerUI(){
 
     function weelhandler(event: React.WheelEvent){
         if (event.deltaY>=0){
-            console.log(-1);
+            let Newvolume = userVolume-0.05;
+            Newvolume=Math.round(Newvolume*100)/100;
+            Newvolume= Newvolume<=0?0:Newvolume;
+            dispatch(UserSelectVolume(Newvolume));
         }else{
-            console.log(1);
+            let Newvolume = userVolume+0.05;
+            Newvolume=Math.round(Newvolume*100)/100;
+            Newvolume= Newvolume>=1?1:Newvolume;
+            dispatch(UserSelectVolume(Newvolume));
         }
     }
 

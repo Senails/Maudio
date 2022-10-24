@@ -3,7 +3,7 @@ import { RootState, useAppSelector } from '../../../redux/store';
 import './style.scss';
 
 export default function Volumebar(){
-    let {userSelectVolume} = useAppSelector((state:RootState)=>state.pleer);
+    let {userVolume} = useAppSelector((state:RootState)=>state.pleer);
     let circle = useRef<HTMLDivElement>(null);
 
 
@@ -11,7 +11,7 @@ export default function Volumebar(){
     },[]);
 
     
-    return <div className={`volume-box ${userSelectVolume>0?'':'block'} changed`}>
+    return <div className={`volume-box ${userVolume>0?'':'block'} changed`}>
         <div className='volume-icon'></div>
         <div className='volume-polzik'>
             <div className='volume-polzik-line'>
@@ -21,7 +21,7 @@ export default function Volumebar(){
             </div>
         </div>
         <p>
-            {userSelectVolume}
+            {userVolume}
         </p>
     </div>
 }
