@@ -5,7 +5,7 @@ import { numToTime } from "../../../Utils/numtotime";
 import './style.scss';
 
 export default function ProgressBar(){
-    let lenght = useAppSelector((state:RootState)=>state.pleer.lenght);
+    let {lenght , block} = useAppSelector((state:RootState)=>state.pleer);
     let alllenght = useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
     let dispatch= useAppDispatch();
 
@@ -33,6 +33,8 @@ export default function ProgressBar(){
         polzik!.addEventListener('touchstart',touchhandler);
 
         function mousehandler(event:MouseEvent){
+            if (block) return;
+
             setUserControl(true);
 
             let startX = event.clientX;
@@ -73,6 +75,8 @@ export default function ProgressBar(){
             }
         }
         function touchhandler(event:TouchEvent){
+            if (block) return;
+
             setUserControl(true);
 
             let startX = event.touches[0].clientX;
@@ -173,11 +177,9 @@ export default function ProgressBar(){
 
     return <div ref={polsunok} className="progressBar-box" onMouseMove={mousemove} onTouchMove={touchmove} onMouseLeave={mouseLeave} onTouchEnd={touchend}>
         <span ref={showtime} className="show-time"></span>
-
         <div className='progressBar'>
             <div ref={progress} className='progressline'></div>
         </div>
-
         <span className='timecheck left'>{numToTime(lenght)}</span>
         <span className='timecheck right'>{numToTime(alllenght)}</span>
     </div>

@@ -45,6 +45,7 @@ export function PleerUI(){
     }
 
     function weelhandler(event: React.WheelEvent){
+        if (event.ctrlKey) return;
         if (event.deltaY>=0){
             let Newvolume = userVolume-0.05;
             Newvolume=Math.round(Newvolume*100)/100;

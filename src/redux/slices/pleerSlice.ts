@@ -44,6 +44,7 @@ type pleerState={
     userVolume:number,
     lenght:number,
     pleerlenght:number,
+    block:boolean,
 }
 
 let book : Book={
@@ -63,12 +64,17 @@ export const pleerSlice = createSlice({
     initialState,
     reducers:{
         setplay(state, action:PayloadAction<'pause'|'play'>){
+            if (state.block) return;
+
             state.playpause=action.payload;
         },
         setvolume(state, action:PayloadAction<number>){
+            if (state.block) return;
             state.volume = action.payload;
         },
         setlenght(state, action:PayloadAction<number>){
+            if (state.block) return;
+
             let lenght = 0;
             for(let i=0; i<state.activefragment;i++){
                 lenght+=state.bookMap.bookparts[i].lenght;
@@ -90,6 +96,8 @@ export const pleerSlice = createSlice({
             }
         },
         UserSelectLenght(state, action:PayloadAction<number>){
+            if (state.block) return;
+
             state.lenght=action.payload;
 
             let {src,lenght, activeFragment}= FindFragment(state.bookMap,action.payload);
@@ -99,6 +107,8 @@ export const pleerSlice = createSlice({
             state.pleerlenght=lenght;
         },
         UserSelectVolume(state, action:PayloadAction<number>){
+            if (state.block) return;
+
             state.userVolume = action.payload;
             if (state.playpause==='play') state.volume=action.payload;
         },
@@ -114,6 +124,8 @@ export const setpause = createAsyncThunk(
     async (param:"pause" | "play", thunkApi) => {
         let {dispatch , getState}= thunkApi;
         let state=<RootState> getState();
+
+        if (state.pleer.block) return;
 
         if (param==='play'){
             dispatch(setplay(param));
@@ -166,5 +178,6 @@ function GetInitionPleerstate():pleerState{
         userVolume:0.5,
         lenght:0,
         pleerlenght:0,
+        block: true,
     }
 }

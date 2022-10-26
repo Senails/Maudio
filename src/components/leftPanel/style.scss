@@ -1,19 +1,21 @@
 .left-panel{
     box-sizing: border-box;
     position: absolute;
-    top: 0px;
+    top: calc(50% - 40%);
     left: 0px;
     width: 300px;
     height: 80%;
-    border: 1px solid red;
+    z-index: 20;
+    //border: 1px solid red;
     transition: background-color 0.5s, left 0.5s;
-    padding-top: 10px;
+    padding: 10px 10px 10px 10px;
 
     .contetn-box{
-        margin: 0 auto;
+        position: absolute;
+        top: 10;
+        left: calc(50% - 140px);
         width: 280px;
-        // background-color: rgba(73, 73, 73, 0.738);
-        height: calc(100% - 10px);
+        height: 100%;
         overflow: hidden;
         position: relative;
     }
@@ -21,25 +23,83 @@
         display: none;
         position: absolute;
         width: 40px;
-        height: 40px;
-        background-color: white;
-        top: 10px;
+        height: 30px;
+        top: 15px;
         right: 10px;
+        transition: 0.5s;
+        //border: 1px solid red;
+        >div{
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background-color: white;
+            border-radius: 2px;
+            opacity: 1;
+            transition: 0.5s;
+            &:nth-child(1){
+                top: 0px;
+            }
+            &:nth-child(2){
+                top: 13px;
+            }
+            &:nth-child(3){
+                top: 26px;
+            }
+        }
     }
-
     .left-button{
         display: none;
         position: absolute;
         width: 40px;
         height: 40px;
-        background-color: white;
+        background-image: url('./../../assets/home.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
         top: 10px;
         left: 10px;
+        transition: 0.5s;
     }
 
     @media (max-width: 1200px) {
+        top: 0;
+        left: -400px;
+        width: 400px;
+        height: 100%;
+        .right-button{
+            display: flex;
+            right: -50px;
+        }
+        .left-button{
+            display: block;
+        }
+        &.show{
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0.9);
+            .right-button{
+                display: flex;
+                right: 10px;
+                >div{
+                    &:nth-child(2){
+                        opacity: 0;
+                    }
+                    &:nth-child(1){
+                        position: absolute;
+                        top: 13px;
+                        transform: rotate(45deg);
+                    }
+                    &:nth-child(3){
+                        position: absolute;
+                        top: 13px;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
     }
 
     @media (max-width: 600px) {
+        left: -100%;
+        width: 100%;
     }
 }

@@ -29,7 +29,7 @@ function App() {
       <Book/>
       <PleerUI/>
       <AudioPl/>
-      {/* <LeftPanel/> */}
+      <LeftPanel/>
     </div>
   );
 }

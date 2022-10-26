@@ -11,6 +11,8 @@
         //border: 1px solid red;
         margin-bottom: 10px;
         position: relative;
+        opacity: 0.4;
+        transition: 0.3s;
         p{
             position: absolute;
             right: 0;
@@ -32,21 +34,23 @@
             bottom: 0;
             width: 100%;
             height: 3px;
-            border-radius: 1.5px;
             background: rgba(255, 255, 255, 0.5);
+            overflow: hidden;
             .white-line{
-                width: 30%;
-                height: 3px;
-                border-radius: 1.5px;
+                height: 100%;
                 background-color: white;
             }
         }
-        &.notactive{
-            opacity: 0.6;
+        &.active{
+            opacity: 1;
         }
     }
     .book-box{
+        //border: 1px solid red;
         width: 200px;
         margin-left: auto;
+        overflow: hidden;
+        height:125px;
+        transition:0.3s;
     }
 }

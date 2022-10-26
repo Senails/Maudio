@@ -23,6 +23,12 @@ let seria: Seria  = {
                     booklength: 1 ,
                     bookparts: [],
                 },
+                {
+                    name:'Простые волшебные вещи',
+                    image: ' hgfghf',
+                    booklength: 1 ,
+                    bookparts: [],
+                },
                 
             ]
         },
@@ -30,13 +36,42 @@ let seria: Seria  = {
             name:'Хроники Ехо',
             books:[
                 {
-                    name:'Ворона на мосту',
+                    name:'Чуб земли',
                     image: ' hgfghf',
                     booklength: 1 ,
                     bookparts: [],
                 },
                 {
-                    name:'Безумный рыбник',
+                    name:'Властелин морморы',
+                    image: ' hgfghf',
+                    booklength: 1 ,
+                    bookparts: [],
+                },
+                {
+                    name:'Неуловимый Хабба Хен',
+                    image: ' hgfghf',
+                    booklength: 1 ,
+                    bookparts: [],
+                },
+            ]
+        },
+        {
+            name:'Сновидения Ехо',
+            books:[
+                {
+                    name:'Мастер ветров и закатов',
+                    image: ' hgfghf',
+                    booklength: 1 ,
+                    bookparts: [],
+                },
+                {
+                    name:'Слишком много кошмаров',
+                    image: ' hgfghf',
+                    booklength: 1 ,
+                    bookparts: [],
+                },
+                {
+                    name:'Вся правда о нас',
                     image: ' hgfghf',
                     booklength: 1 ,
                     bookparts: [],
@@ -47,23 +82,24 @@ let seria: Seria  = {
 }
 
 let state = {
+    seria: seria,
     activecollection : 1,
     activebook: 1,
 }
 
 export default function ArrayUI(){
+    let {seria ,activecollection, activebook}=state;
+
+
     let collectionarr = seria.collections.map((elem,i)=>{
-        let activeColl = state.activecollection===i? '':'notactive';
-
-
         return <Collection 
         name={elem.name}
         books={elem.books}
-
-        activeColl={activeColl}
+        activeColl={activecollection}
+        activeBook={activebook}
+        numColl={i}
         key={i}/>
     });
-
 
     return <div className="array-box">
         {collectionarr}
