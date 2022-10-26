@@ -1,4 +1,5 @@
-import { RootState, useAppSelector } from '../../../redux/store';
+import { changebook } from '../../../redux/slices/pleerSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../../../redux/store';
 import './style.scss';
 
 
@@ -16,6 +17,7 @@ type Props = {
 export default function BookPanel({name,isactive,CollAndBook}:Props) {
     let lenght= useAppSelector((state:RootState)=>state.pleer.lenght);
     let Alllenght= useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
+    let dispatch = useAppDispatch();
 
     let { coll, book, activecoll,activeBook }=CollAndBook;
 
@@ -31,7 +33,16 @@ export default function BookPanel({name,isactive,CollAndBook}:Props) {
        return (lenght/Alllenght)*100;
     }
 
-    return <div className={`book-panel-box ${isactive}`}>
+    function onclick(){
+        let payload = {
+            coll:coll,
+            book:book,
+        }
+
+        dispatch(changebook(payload));
+    }
+
+    return <div onClick={onclick} className={`book-panel-box ${isactive}`}>
         <p>{name}</p>
         <div className='line-box'>
             <div className='white-line' style={styleforline}></div>

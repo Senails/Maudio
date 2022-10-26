@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { UserSelectLenght } from "../../../redux/slices/pleerSlice";
 import { RootState, useAppDispatch, useAppSelector } from "../../../redux/store";
-import { numToTime } from "../../../Utils/numtotime";
+import { numToTime } from "../../../Utils/UtilsForPleer/numtotime";
 import './style.scss';
 
+let num = 0.001;
+
 export default function ProgressBar(){
-    let {lenght , block} = useAppSelector((state:RootState)=>state.pleer);
+    let {lenght , block , activebook,activecollection} = useAppSelector((state:RootState)=>state.pleer);
     let alllenght = useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
     let dispatch= useAppDispatch();
 
@@ -22,7 +24,7 @@ export default function ProgressBar(){
         let PercentLenght = lenght/alllenght;
         let NewWidth = Math.floor(PercentLenght*10000)/100;
         line!.style.width= `${NewWidth}%`;
-    },[lenght]);
+    },[lenght,activebook,activecollection]);
 
     //управление ползунком
     useEffect(()=>{
@@ -125,7 +127,12 @@ export default function ProgressBar(){
 
     function ResPolzik(PercetRes:number){
         let needLenght= alllenght*PercetRes;
-        dispatch(UserSelectLenght(needLenght));
+        dispatch(UserSelectLenght(needLenght+num));
+        if (num===0.001){
+            num = 0.002;
+        }else{
+            num = 0.001;
+        }
     }
 
     //подсказка времени

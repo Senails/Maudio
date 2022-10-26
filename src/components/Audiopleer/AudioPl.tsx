@@ -6,7 +6,7 @@ import { RootState } from "../../redux/store"
 let interval:NodeJS.Timer;
 
 export default function AudioPl(){
-    let {playpause,volume,pleerlenght,activeSrc} = useSelector((state:RootState)=>state.pleer);
+    let {playpause,volume,pleerlenght,activeSrc,activebook,activecollection} = useSelector((state:RootState)=>state.pleer);
     let dispatch = useDispatch();
     let audio = useRef<HTMLAudioElement>(null);
 
@@ -14,7 +14,9 @@ export default function AudioPl(){
     useEffect(()=>{
         audio.current!.currentTime=pleerlenght;
         playhandler();
-    },[pleerlenght]);
+    },[pleerlenght,activebook,activecollection]);
+    //,activebook,activecollection
+
 
     useEffect(()=>{
         playhandler();

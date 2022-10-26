@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../../../redux/slices/pleerSlice';
+import { RootState, useAppSelector } from '../../../redux/store';
 import BookPanel from '../bookpanel/BookPanel';
 import './style.scss';
 
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export default function Collection({name , activeColl , books, numColl ,activeBook}:Props){
+    let lenght = useAppSelector((state:RootState)=>state.pleer.lenght);
     let [show,setshow] = useState(activeColl===numColl?true:false);
 
     let arrbooks = books.map((elem,i)=>{
@@ -47,14 +49,28 @@ export default function Collection({name , activeColl , books, numColl ,activeBo
         opacity: `${show?1:0}`,
     }
     let styleforline = {
-        width: `${getneedwidth()}%`,
+        width: `${getwidth()}%`,
     }
 
-    function getneedwidth(){
-        let width=30;
-        let needwidth=activeColl>numColl?100:activeColl<numColl?0:width;
+    function getwidth(){
+        let needwidth=activeColl>numColl?100:activeColl<numColl?0:calculatewidth();
 
         return needwidth;
+        function calculatewidth(){
+            let sumAll=0;
+            let sum=0;
+
+            books.forEach((book,i)=>{
+                sumAll+=book.booklength;
+                if (i<activeBook){
+                    sum+=book.booklength;
+                }else if (i===activeBook){
+                    sum+=lenght;
+                }
+            })
+
+            return sum/sumAll*100
+        }
     }
 
     return <div className={`collection-div`}>
