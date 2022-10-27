@@ -12,7 +12,6 @@
         max-width: 1200px;
         height: 90%;
         max-height: 900px;
-        //border: 1px solid red;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -38,6 +37,9 @@
             justify-content: center;
 
             .play-pause{
+                position: absolute;
+                left: calc(50% - 50px);
+                top: calc(50% - 50px);
                 width: 100px;
                 height: 100px;
                 background-size: contain;
@@ -56,12 +58,40 @@
                 }
             }
         }
+        .prevnext{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top: calc(50% - 25px);
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 1;
+            transition: 0.3s;
+            &.opacity{
+                opacity: 0.5;
+            }
+        }
+        .prevbook{
+            left: 25%;
+            background-image: url('./../../../assets/prevbook.svg');
+        }
+        .nextbook{
+            right: 25%;
+            background-image: url('./../../../assets/nextbook.svg');
+        }
     }
     @media (max-width: 1200px) {
         .pleer_box {
             h1{
                 font-size: 40px;
                 line-height: 40px;
+            }
+            .prevbook{
+                left: 0;
+            }
+            .nextbook{
+                right: 0;
             }
         }
     }

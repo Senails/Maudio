@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { setpause, UserSelectVolume } from '../../../redux/slices/pleerSlice';
-import { RootState, useAppDispatch, useAppSelector } from '../../../redux/store';
+import { changebook, setpause, UserSelectVolume } from '../../../redux/slices/pleerSlice';
+import { RootState, store, useAppDispatch, useAppSelector } from '../../../redux/store';
+
 import { sleep } from '../../../Utils/sleep';
+import { checknextbook, checkprevbook } from '../../../Utils/UtilsForPleer/checkPrevNext';
+import { getnextbook, getprevbook } from '../../../Utils/UtilsForPleer/getNextPrev';
 import ProgressBar from './progressbar/ProgressBar';
-import './style.scss';
 import Volumebar from './volumebar/VolumeBar';
+import './style.scss';
 
 let flag=false;
 
 export function PleerUI(){
-    let {playpause, userVolume} = useAppSelector((state:RootState)=>state.pleer);
+    let {playpause, userVolume, activecollection, activebook, seria} = useAppSelector((state:RootState)=>state.pleer);
     let name = useAppSelector((state:RootState)=>state.pleer.bookMap.name);
     let dispatch = useAppDispatch();
     let [play, setplay] = useState('pause');
@@ -59,6 +62,17 @@ export function PleerUI(){
         }
     }
 
+    function clicknext(){
+        if (!checknextbook()) return;
+        let props = getnextbook(seria,activecollection,activebook);
+        dispatch(changebook(props));
+    }
+    function clickprev(){
+        if (!checkprevbook()) return;
+        let props = getprevbook(seria,activecollection,activebook);
+        dispatch(changebook(props));
+    }
+
     return <div className='pleer_layer'>
         <div className='pleer_box' onWheel={weelhandler}>
             <h1>{name}</h1>
@@ -66,6 +80,8 @@ export function PleerUI(){
                 <div className={`play-pause ${play}`}></div>
             </div>
             <ProgressBar/>
+            <div onClick={clickprev}  className={`prevbook prevnext ${checkprevbook()?'':'opacity'}`}></div>
+            <div onClick={clicknext} className={`nextbook prevnext ${checknextbook()?'':'opacity'}`}></div>
         </div>
         <Volumebar/>
     </div>

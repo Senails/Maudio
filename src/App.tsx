@@ -1,7 +1,6 @@
 import { Fon } from "./components/fon/Fon";
 import AudioPl from "./components/Audiopleer/AudioPl";
 import { useEffect } from "react";
-import { getAudioSize } from "./Utils/getaudiosize";
 import AudioPage from "./pages/AudioPage/AudioPage";
 
 

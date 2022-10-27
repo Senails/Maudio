@@ -219,12 +219,15 @@ export const pleerSlice = createSlice({
                 state.pleerlenght=lenght;
             }
         },
+        setSeriasMap(state,action:PayloadAction<Seria>){
+
+        },
         changebook(state, action:PayloadAction<{coll:number,book:number}>){
             if (state.block) return;
             let {coll , book}=action.payload
             if (state.activecollection===coll && state.activebook===book) return;
-
-            setbook(state,coll,book,'pause');
+            
+            setbook(state,coll,book,state.playpause);
         },
         UserSelectLenght(state, action:PayloadAction<number>){
             if (state.block) return;
@@ -259,7 +262,7 @@ export const pleerSlice = createSlice({
     },
 })
 
-export const {setvolume,setlenght,UserSelectLenght,UserSelectVolume,setplay,changebook} = pleerSlice.actions;
+export const {setvolume,setlenght,UserSelectLenght,UserSelectVolume,setplay,changebook,setSeriasMap} = pleerSlice.actions;
 export default pleerSlice.reducer
 export const setpause = createAsyncThunk(
     'pleer/setpause',
