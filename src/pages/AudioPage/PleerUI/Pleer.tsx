@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { changebook, setpause, UserSelectVolume } from '../../../redux/slices/pleerSlice';
-import { RootState, store, useAppDispatch, useAppSelector } from '../../../redux/store';
-
-import { sleep } from '../../../Utils/sleep';
-import { checknextbook, checkprevbook } from '../../../Utils/UtilsForPleer/checkPrevNext';
-import { getnextbook, getprevbook } from '../../../Utils/UtilsForPleer/getNextPrev';
+import { RootState, useAppDispatch, useAppSelector } from '../../../redux/store';
+import { sleep } from '../../../Utils/other/sleep';
+import { checknextbook, checkprevbook } from '../../../Utils/forPleer/checkPrevNext';
+import { getnextbook, getprevbook } from '../../../Utils/forPleer/getNextPrev';
 import ProgressBar from './progressbar/ProgressBar';
 import Volumebar from './volumebar/VolumeBar';
 import './style.scss';
@@ -12,8 +11,10 @@ import './style.scss';
 let flag=false;
 
 export function PleerUI(){
-    let {playpause, userVolume, activecollection, activebook, seria} = useAppSelector((state:RootState)=>state.pleer);
+    let playpause = useAppSelector((state:RootState)=>state.pleer.playpause);
+    let userVolume = useAppSelector((state:RootState)=>state.pleer.userVolume);
     let name = useAppSelector((state:RootState)=>state.pleer.bookMap.name);
+    
     let dispatch = useAppDispatch();
     let [play, setplay] = useState('pause');
 
@@ -64,12 +65,12 @@ export function PleerUI(){
 
     function clicknext(){
         if (!checknextbook()) return;
-        let props = getnextbook(seria,activecollection,activebook);
+        let props = getnextbook();
         dispatch(changebook(props));
     }
     function clickprev(){
         if (!checkprevbook()) return;
-        let props = getprevbook(seria,activecollection,activebook);
+        let props = getprevbook();
         dispatch(changebook(props));
     }
 

@@ -1,4 +1,4 @@
-import { Book } from "../../redux/slices/pleerSlice";
+import { Book } from "../../types/pleerSlice";
 
 export function FindFragment(bookmap:Book,lenght:number){
     let {bookparts} = bookmap;

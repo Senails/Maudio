@@ -1,6 +1,6 @@
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { setvolume } from "../../redux/slices/pleerSlice";
-import { sleep } from "../sleep";
+import { sleep } from "../other/sleep";
 
 export async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number , dispatch:ThunkDispatch<unknown, unknown, AnyAction>) {
     let frames = Math.floor((ms/1000)*60);

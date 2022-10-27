@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { UserSelectLenght } from "../../../../redux/slices/pleerSlice";
 import { RootState, useAppDispatch, useAppSelector } from "../../../../redux/store";
-import { numToTime } from "../../../../Utils/UtilsForPleer/numtotime";
+import { numToTime } from "../../../../Utils/forPleer/numtotime";
 import './style.scss';
 
 let num = 0.001;

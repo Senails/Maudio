@@ -1,4 +1,4 @@
-import { pleerState } from "../../redux/slices/pleerSlice";
+import { pleerState } from "../../types/pleerSlice";
 
 export function setbook(state:pleerState,coll:number,book:number,status:'play'|'pause'){
 

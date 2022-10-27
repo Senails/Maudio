@@ -1,4 +1,4 @@
-import { pleerState } from "../../redux/slices/pleerSlice";
+import { pleerState } from "../../types/pleerSlice";
 
 export function findnextbook(state:pleerState){
     let activebook = state.activebook;

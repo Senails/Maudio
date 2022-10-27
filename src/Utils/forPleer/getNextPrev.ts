@@ -1,6 +1,8 @@
-import { Seria } from "../../redux/slices/pleerSlice";
+import { store } from "../../redux/store";
 
-export function getnextbook(seria:Seria,activecoll:number,activebook:number){
+export function getnextbook(){
+    let {seria ,activecollection:activecoll,activebook }=store.getState().pleer;
+
     let nextbook = seria.collections[activecoll].books[activebook+1];
     if (nextbook!==undefined) return {
         coll: activecoll,
@@ -11,7 +13,9 @@ export function getnextbook(seria:Seria,activecoll:number,activebook:number){
         book: 0,
     }
 }
-export function getprevbook(seria:Seria,activecoll:number,activebook:number){
+export function getprevbook(){
+    let {seria ,activecollection:activecoll,activebook }=store.getState().pleer;
+
     let prevbook = seria.collections[activecoll].books[activebook-1];
     if (prevbook!==undefined) return {
         coll: activecoll,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Book } from '../../../../redux/slices/pleerSlice'
 import { RootState, useAppSelector } from '../../../../redux/store';
+import { Book } from '../../../../types/pleerSlice';
 import BookPanel from '../bookpanel/BookPanel';
 import './style.scss';
 

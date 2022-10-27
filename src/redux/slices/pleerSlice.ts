@@ -1,49 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { FindFragment } from '../../Utils/UtilsForPleer/findfragment';
+import { FindFragment } from '../../Utils/forPleer/findfragment';
 import { RootState } from '../store';
-import { ChangeVolume } from '../../Utils/UtilsForPleer/changevolum';
-import { findnextbook } from '../../Utils/UtilsForPleer/findnextbook';
-import { setbook } from '../../Utils/UtilsForPleer/setbook';
-
-type bookpart={
-    lenght:number;
-    url:string;
-}
-
-export type Book= {
-    name: string;
-    image:string;
-    booklength: number;
-    bookparts: bookpart[];
-}
-
-export type Collection = {
-    name: string,
-    books: Book[];
-}
-
-export type Seria = {
-    name: string,
-    description: string,
-    authtor: string,
-    collections: Collection[],
-}
-
-export type pleerState={
-    seria: Seria,
-    activecollection : number,
-    activebook: number,
-    bookMap:Book,
-    activeSrc: string,
-    activefragment:number,
-    playpause:'pause'|'play',
-    volume:number,
-    userVolume:number,
-    lenght:number,
-    pleerlenght:number,
-    block:boolean,
-}
+import { ChangeVolume } from '../../Utils/forPleer/changevolum';
+import { findnextbook } from '../../Utils/forPleer/findnextbook';
+import { setbook } from '../../Utils/forPleer/setbook';
+import { Book, pleerState, Seria } from '../../types/pleerSlice';
 
 let seria: Seria  = {
     name:'Сэр Макс из Ехо',

@@ -8,7 +8,7 @@ let flag = false;
 let timoutID:NodeJS.Timeout;
 
 export default function Volumebar(){
-    let {userVolume} = useAppSelector((state:RootState)=>state.pleer);
+    let userVolume = useAppSelector((state:RootState)=>state.pleer.userVolume);
     let dispatch = useDispatch();
 
     let [changed,setchanged]= useState('');
