@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { RootState, useAppSelector } from '../../redux/store';
-import { GetImageSrc } from '../../Utils/getImageSrc';
-import { sleep } from '../../Utils/sleep';
-import { getTimeControl } from '../../Utils/timecontrol';
+import { RootState, useAppSelector } from '../../../redux/store';
+import { GetImageSrc } from '../../../Utils/getImageSrc';
+import { sleep } from '../../../Utils/sleep';
+import { getTimeControl } from '../../../Utils/timecontrol';
 import './style.scss';
 
 

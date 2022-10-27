@@ -1,5 +1,5 @@
-import { changebook } from '../../../redux/slices/pleerSlice';
-import { RootState, useAppDispatch, useAppSelector } from '../../../redux/store';
+import { changebook } from '../../../../redux/slices/pleerSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../../../../redux/store';
 import './style.scss';
 
 

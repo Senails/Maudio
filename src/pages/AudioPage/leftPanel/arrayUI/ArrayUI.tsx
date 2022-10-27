@@ -1,4 +1,4 @@
-import { RootState, useAppSelector } from '../../../redux/store';
+import { RootState, useAppSelector } from '../../../../redux/store';
 import Collection from '../Collection/collectin';
 import './style.scss';
 

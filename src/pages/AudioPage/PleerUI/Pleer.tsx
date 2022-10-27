@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { setpause, UserSelectVolume } from '../../redux/slices/pleerSlice';
-import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
-import { sleep } from '../../Utils/sleep';
+import { setpause, UserSelectVolume } from '../../../redux/slices/pleerSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../../../redux/store';
+import { sleep } from '../../../Utils/sleep';
 import ProgressBar from './progressbar/ProgressBar';
 import './style.scss';
 import Volumebar from './volumebar/VolumeBar';
@@ -66,7 +66,7 @@ export function PleerUI(){
                 <div className={`play-pause ${play}`}></div>
             </div>
             <ProgressBar/>
-            <Volumebar/>
         </div>
+        <Volumebar/>
     </div>
 }

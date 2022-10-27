@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { UserSelectVolume } from '../../../redux/slices/pleerSlice';
-import { RootState, useAppSelector } from '../../../redux/store';
+import { UserSelectVolume } from '../../../../redux/slices/pleerSlice';
+import { RootState, useAppSelector } from '../../../../redux/store';
 import './style.scss';
 
 let flag = false;
