@@ -1,0 +1,58 @@
+.MainPage{
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px 0 50px 0;
+    .main-input{
+        //border: 1px solid red;
+        width: 600px;
+        max-width: 80%;
+        height: 40px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 20px;
+        position: relative;
+        margin-bottom: 30px;
+        .input-icon{
+            position: absolute;
+            right: 15px;
+            top: calc(50% - 10px);
+            width: 20px;
+            height: 20px;
+            background-image: url('./../../assets/inputicon.svg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        input{
+            box-sizing: border-box;
+            height: 100%;
+            width: calc(100% - 40px);
+            outline: none;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            line-height: 40px;
+            // border: 1px solid red;
+            padding-left: 20px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+
+            &::placeholder{
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 20px;
+            }
+        }
+    }
+    .bookcard-box{
+        border: 1px solid red;
+        margin: 0 auto;
+        width: 600px;
+        height: 500px;
+    }
+}

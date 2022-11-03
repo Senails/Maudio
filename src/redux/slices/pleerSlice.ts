@@ -5,106 +5,22 @@ import { RootState } from '../store';
 import { ChangeVolume } from '../../Utils/forPleer/changevolum';
 import { findnextbook } from '../../Utils/forPleer/findnextbook';
 import { setbook } from '../../Utils/forPleer/setbook';
-import { Book, pleerState, Seria } from '../../types/pleerSlice';
+import { pleerState, Seria } from '../../types/pleerSlice';
 
-let seria: Seria  = {
-    name:'Сэр Макс из Ехо',
-    description:'12345',
-    authtor:'Макс Фрай',
+let initialSeria: Seria = {
+    name:'',
+    description:'',
+    authtor:'',
     collections:[
         {
-            name:'Лабиринты Ехо',
+            name:'',
             books:[
                 {
-                    name:'Чужак',
-                    image: "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902",
-                    booklength: 440.816583*2,
+                    name:'',
+                    image: "",
+                    booklength: 0,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Волонтеры вечности',
-                    image: 'https://cdn.book24.ru/v2/ASE000000000701079/COVER/cover3d1.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Простые волшебные вещи',
-                    image: 'https://www.respublica.ru/uploads/00/00/00/51/mu/f2e19ff7a4dcfa0f.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                
-            ]
-        },
-        {
-            name:'Хроники Ехо',
-            books:[
-                {
-                    name:'Чуб земли',
-                    image: 'https://cdn1.ozone.ru/s3/multimedia-r/6096623631.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Властелин морморы',
-                    image: 'https://bigi.by/images/data/catalog/2605/786661b5.1c49.11eb.bd4e.0025909303c3.786661b8.1c49.11eb.bd4e.0025909303c3.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Неуловимый Хабба Хен',
-                    image: 'https://cdn1.ozone.ru/s3/multimedia-0/6009817452.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-            ]
-        },
-        {
-            name:'Сновидения Ехо',
-            books:[
-                {
-                    name:'Мастер ветров и закатов',
-                    image: 'https://cdn1.ozone.ru/multimedia/1012186167.jpg',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Слишком много кошмаров',
-                    image: 'https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
-                ]
-                },
-                {
-                    name:'Вся правда о нас',
-                    image: 'https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902',
-                    booklength: 440.816583*2,
-                    bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:0, url:""},                                   
                 ]
                 },
             ]
@@ -112,22 +28,12 @@ let seria: Seria  = {
     ]
 }
 
-let book : Book={
-    name: 'Чужак',
-    image: "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902",
-    booklength: 440.816583*2,
-    bookparts: [
-        {lenght:440.816583, url:"./1245511.mp3"},
-        {lenght:440.816583, url:"./1245511.mp3"}
-    ],
-}
-
 let initialState:pleerState = {
-    seria:seria,
+    seria:initialSeria,
     activecollection : 0,
     activebook: 0,
-    bookMap: book,
-    activeSrc:"./1245511.mp3",
+    bookMap: initialSeria.collections[0].books[0],
+    activeSrc:"",
     activefragment:0,
     playpause: 'pause',
     volume: 0.5,
@@ -142,16 +48,12 @@ export const pleerSlice = createSlice({
     initialState,
     reducers:{
         setplay(state, action:PayloadAction<'pause'|'play'>){
-            if (state.block) return;
-
             state.playpause=action.payload;
         },
         setvolume(state, action:PayloadAction<number>){
-            if (state.block) return;
             state.volume = action.payload;
         },
         setlenght(state, action:PayloadAction<number>){
-            if (state.block) return;
             let lenght = 0;
             for(let i=0; i<state.activefragment;i++){
                 lenght+=state.bookMap.bookparts[i].lenght;
@@ -181,19 +83,28 @@ export const pleerSlice = createSlice({
                 state.pleerlenght=lenght;
             }
         },
-        setSeriasMap(state,action:PayloadAction<Seria>){
+        setAllState(state,action:PayloadAction<Seria>){
+            let seria = action.payload;
 
+            state.seria=seria;
+            state.activecollection=0;
+            state.activebook=0;
+            state.bookMap=seria.collections[0].books[0];
+            state.activeSrc=seria.collections[0].books[0].bookparts[0].url;
+            state.activefragment=0;
+            state.playpause='pause';
+            state.volume=0.5;
+            state.userVolume=0.5;
+            state.lenght=0;
+            state.pleerlenght=0;
         },
         changebook(state, action:PayloadAction<{coll:number,book:number}>){
-            if (state.block) return;
             let {coll , book}=action.payload
             if (state.activecollection===coll && state.activebook===book) return;
             
             setbook(state,coll,book,state.playpause);
         },
         UserSelectLenght(state, action:PayloadAction<number>){
-            if (state.block) return;
-
             state.lenght=action.payload;
 
             if (action.payload>=state.bookMap.booklength){
@@ -216,15 +127,13 @@ export const pleerSlice = createSlice({
             state.pleerlenght=lenght;
         },
         UserSelectVolume(state, action:PayloadAction<number>){
-            if (state.block) return;
-
             state.userVolume = action.payload;
             if (state.playpause==='play') state.volume=action.payload;
         },
     },
 })
 
-export const {setvolume,setlenght,UserSelectLenght,UserSelectVolume,setplay,changebook,setSeriasMap} = pleerSlice.actions;
+export const {setvolume,setlenght,UserSelectLenght,UserSelectVolume,setplay,changebook,setAllState} = pleerSlice.actions;
 export default pleerSlice.reducer
 export const setpause = createAsyncThunk(
     'pleer/setpause',

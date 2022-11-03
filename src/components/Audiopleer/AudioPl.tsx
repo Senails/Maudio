@@ -42,5 +42,9 @@ export default function AudioPl(){
         }
     }
 
-    return <audio ref={audio} src={activeSrc}></audio>
+    function onerror(){
+        console.log('pleer error')
+    }
+
+    return <audio ref={audio} src={activeSrc} onError={onerror} ></audio>
 }
