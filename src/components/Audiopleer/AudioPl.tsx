@@ -14,6 +14,8 @@ export default function AudioPl(){
     useEffect(()=>{
         audio.current!.currentTime=pleerlenght;
         playhandler();
+
+        // console.log(pleerlenght);
     },[pleerlenght,activebook,activecollection]);
     //,activebook,activecollection
 

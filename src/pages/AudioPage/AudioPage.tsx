@@ -115,7 +115,6 @@ export default function AudioPage(){
     let dispatch = useAppDispatch()
 
 
-    let openRequest = indexedDB.open('name', 1);
 
 
     useEffect(()=>{

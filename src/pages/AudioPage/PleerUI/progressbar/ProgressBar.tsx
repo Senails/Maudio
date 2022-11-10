@@ -7,8 +7,8 @@ import './style.scss';
 let num = 0.001;
 
 export default function ProgressBar(){
-    let {lenght , block , activebook,activecollection} = useAppSelector((state:RootState)=>state.pleer);
-    let alllenght = useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
+    let {lenght , block , activebook,activecollection, bookMap} = useAppSelector((state:RootState)=>state.pleer);
+    let alllenght = bookMap.booklength;
     let dispatch= useAppDispatch();
 
     let [UserControl,setUserControl]=useState(false);
@@ -24,7 +24,7 @@ export default function ProgressBar(){
         let PercentLenght = lenght/alllenght;
         let NewWidth = Math.floor(PercentLenght*10000)/100;
         line!.style.width= `${NewWidth}%`;
-    },[lenght,activebook,activecollection]);
+    },[lenght,activebook,activecollection,bookMap]);
 
     //управление ползунком
     useEffect(()=>{
@@ -123,7 +123,7 @@ export default function ProgressBar(){
             polsunok.current!.removeEventListener('mousedown',mousehandler);
             polsunok.current!.removeEventListener('touchstart',touchhandler);
         }
-    },[])
+    },[bookMap])
 
     function ResPolzik(PercetRes:number){
         let needLenght= alllenght*PercetRes;

@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { sleep } from "../Utils/sleep";
-import pleerReducer, { setlenght, UserSelectLenght } from './slices/pleerSlice';
+import pleerReducer from './slices/pleerSlice';
 
 export const store = configureStore({
     reducer: {
