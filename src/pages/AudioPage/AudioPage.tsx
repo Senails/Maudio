@@ -114,9 +114,6 @@ let seria: Seria  = {
 export default function AudioPage(){
     let dispatch = useAppDispatch()
 
-
-
-
     useEffect(()=>{
         dispatch(setAllState(seria));
     },[]);

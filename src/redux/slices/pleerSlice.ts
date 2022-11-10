@@ -6,6 +6,7 @@ import { ChangeVolume } from '../../Utils/forPleer/changevolum';
 import { findnextbook } from '../../Utils/forPleer/findnextbook';
 import { setbook } from '../../Utils/forPleer/setbook';
 import { pleerState, Seria } from '../../types/pleerSlice';
+import { getvolume, savevolume } from '../../Utils/forPleer/savevolume';
 
 let initialSeria: Seria = {
     name:'',
@@ -36,8 +37,8 @@ let initialState:pleerState = {
     activeSrc:"",
     activefragment:0,
     playpause: 'pause',
-    volume: 0.5,
-    userVolume:0.5,
+    volume: getvolume(),
+    userVolume:getvolume(),
     lenght:0,
     pleerlenght:0,
     block: false,
@@ -93,8 +94,6 @@ export const pleerSlice = createSlice({
             state.activeSrc=seria.collections[0].books[0].bookparts[0].url;
             state.activefragment=0;
             state.playpause='pause';
-            state.volume=0.5;
-            state.userVolume=0.5;
             state.lenght=0;
             state.pleerlenght=0;
         },
@@ -129,6 +128,7 @@ export const pleerSlice = createSlice({
         UserSelectVolume(state, action:PayloadAction<number>){
             state.userVolume = action.payload;
             if (state.playpause==='play') state.volume=action.payload;
+            savevolume(action.payload);
         },
     },
 })
