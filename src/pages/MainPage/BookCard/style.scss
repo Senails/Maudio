@@ -1,0 +1,102 @@
+.book-card{
+    box-sizing: border-box;
+    width: 350px;
+    height: 150px;
+    // border: 1px solid red;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    background: #1c1c1c;
+    transition: 0.3s;
+    // box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+    position: relative;
+    padding-left: 115px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+    &:nth-child(3n){
+        margin-right: 0;
+    }
+    &:hover{
+        transform: scale(1.05);
+    }
+
+    .book-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100%;
+        // border: 1px solid red;
+        border-radius: 10px 0 0 10px;
+        background-image: url('./../../../assets/img1.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .serias-name{
+        // border: 1px solid red;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 30px;
+        color: white;
+        height: 90px;
+
+        overflow: hidden;
+        word-break: break-all;
+        hyphens: auto;
+        text-overflow: ellipsis;
+        white-space: pre-line;
+    }
+
+    .authtor-name{
+        width: 150px;
+        // border: 1px solid red;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 20px;
+        color: white;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .book-count{
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        // border: 1px solid red;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+
+        .book-icon{
+            margin-left: 3px;
+            width: 20px;
+            height: 20px;
+            // border: 1px solid red;
+
+            background-image: url('./../../../assets/book-icon.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    }
+}
