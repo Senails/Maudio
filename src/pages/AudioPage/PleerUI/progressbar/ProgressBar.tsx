@@ -26,105 +26,98 @@ export default function ProgressBar(){
         line!.style.width= `${NewWidth}%`;
     },[lenght,activebook,activecollection,bookMap]);
 
-    //управление ползунком
-    useEffect(()=>{
+
+
+    function mousehandler(event:React.MouseEvent){
         let polzik = polsunok.current;
         let line = progress.current;
 
-        polzik!.addEventListener('mousedown',mousehandler);
-        polzik!.addEventListener('touchstart',touchhandler);
+        if (block) return;
 
-        function mousehandler(event:MouseEvent){
-            if (block) return;
+        setUserControl(true);
 
-            setUserControl(true);
+        let startX = event.clientX;
+        let {left} = polzik!.getBoundingClientRect();
 
-            let startX = event.clientX;
-            let {left} = polzik!.getBoundingClientRect();
+        let allWhidth = polzik?.offsetWidth;
+        let WidthLine = startX-left;
+        let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
 
-            let allWhidth = polzik?.offsetWidth;
-            let WidthLine = startX-left;
-            let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
+        // let line:HTMLDivElement = polzik!.querySelector('.progressline')!;
+        line!.style.width=percentWhidth+'%';
 
-            // let line:HTMLDivElement = polzik!.querySelector('.progressline')!;
-            line!.style.width=percentWhidth+'%';
+        document.addEventListener('mouseup',mouseup);
+        document.addEventListener('mousemove',mousemove);
+        function mousemove(e:MouseEvent){
+            e.preventDefault()
 
-            document.addEventListener('mouseup',mouseup);
-            document.addEventListener('mousemove',mousemove);
-            function mousemove(e:MouseEvent){
-                e.preventDefault()
+            let nowX=e.clientX;
+            let delta = nowX-startX;
 
-                let nowX=e.clientX;
-                let delta = nowX-startX;
+            let resultWidth = WidthLine+delta;
 
-                let resultWidth = WidthLine+delta;
+            if (resultWidth<=0) resultWidth=0;
+            if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
 
-                if (resultWidth<=0) resultWidth=0;
-                if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
+            let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
 
-                let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
-
-                line!.style.width=percent;
-            }
-
-            function mouseup(){
-                let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
-                ResPolzik(percentvalue);
-
-                document.removeEventListener('mousemove',mousemove);
-                document.removeEventListener('mouseup',mouseup);
-                setUserControl(false);
-            }
-        }
-        function touchhandler(event:TouchEvent){
-            if (block) return;
-
-            setUserControl(true);
-
-            let startX = event.touches[0].clientX;
-            let {left} = polzik!.getBoundingClientRect();
-
-            let allWhidth = polzik?.offsetWidth;
-            let WidthLine = startX-left;
-            let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
-
-
-            line!.style.width=percentWhidth+'%';
-
-            document.addEventListener('touchend',touchend);
-            document.addEventListener('touchmove',touchmove);
-
-            function touchmove(e:TouchEvent){
-                let nowX=e.touches[0].clientX;
-                let delta = nowX-startX;
-
-                let resultWidth = WidthLine+delta;
-
-                if (resultWidth<=0) resultWidth=0;
-                if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
-
-                let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
-
-                line!.style.width=percent;
-            }
-
-            function touchend(){
-                let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
-                ResPolzik(percentvalue);
-
-                document.removeEventListener('touchmove',touchmove);
-                document.removeEventListener('touchend',touchend);
-
-                setUserControl(false);
-            }
+            line!.style.width=percent;
         }
 
-        return ()=>{
-            polsunok.current!.removeEventListener('mousedown',mousehandler);
-            polsunok.current!.removeEventListener('touchstart',touchhandler);
-        }
-    },[bookMap])
+        function mouseup(){
+            let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
+            ResPolzik(percentvalue);
 
+            document.removeEventListener('mousemove',mousemove);
+            document.removeEventListener('mouseup',mouseup);
+            setUserControl(false);
+        }
+    }
+    function touchhandler(event:React.TouchEvent){
+        let polzik = polsunok.current;
+        let line = progress.current;
+
+        if (block) return;
+
+        setUserControl(true);
+
+        let startX = event.touches[0].clientX;
+        let {left} = polzik!.getBoundingClientRect();
+
+        let allWhidth = polzik?.offsetWidth;
+        let WidthLine = startX-left;
+        let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
+
+
+        line!.style.width=percentWhidth+'%';
+
+        document.addEventListener('touchend',touchend);
+        document.addEventListener('touchmove',touchmove);
+
+        function touchmove(e:TouchEvent){
+            let nowX=e.touches[0].clientX;
+            let delta = nowX-startX;
+
+            let resultWidth = WidthLine+delta;
+
+            if (resultWidth<=0) resultWidth=0;
+            if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
+
+            let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
+
+            line!.style.width=percent;
+        }
+
+        function touchend(){
+            let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
+            ResPolzik(percentvalue);
+
+            document.removeEventListener('touchmove',touchmove);
+            document.removeEventListener('touchend',touchend);
+
+            setUserControl(false);
+        }
+    }
     function ResPolzik(PercetRes:number){
         let needLenght= alllenght*PercetRes;
         dispatch(UserSelectLenght(needLenght+num));
@@ -182,7 +175,14 @@ export default function ProgressBar(){
         showtime.current!.classList.remove('active');
     }
 
-    return <div ref={polsunok} className="progressBar-box" onMouseMove={mousemove} onTouchMove={touchmove} onMouseLeave={mouseLeave} onTouchEnd={touchend}>
+    return <div ref={polsunok} className="progressBar-box"
+        onTouchStart={touchhandler} 
+        onMouseDown={mousehandler}  
+        onMouseMove={mousemove} 
+        onTouchMove={touchmove} 
+        onMouseLeave={mouseLeave} 
+        onTouchEnd={touchend}>
+
         <span ref={showtime} className="show-time"></span>
         <div className='progressBar'>
             <div ref={progress} className='progressline'></div>

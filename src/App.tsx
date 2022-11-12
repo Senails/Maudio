@@ -5,6 +5,7 @@ import AudioPage from "./pages/AudioPage/AudioPage";
 import {Route, Routes} from 'react-router-dom'
 import MainPage from "./pages/MainPage/MainPage";
 import { NoPage } from "./pages/Nopage/NoPage";
+import { MainLayouts } from "./layouts/MainLayouts";
 
 
 
@@ -23,13 +24,13 @@ function App() {
 
   return (
     <div className="App">
-      <Fon/>
-      {/* <AudioPage/> */}
-      <Routes>
-        <Route path="/" element={<MainPage/>}/>
-        <Route path="*" element={<NoPage/>}/>
-      </Routes>
-      <AudioPl/>
+      <MainLayouts>
+        <Routes>
+          <Route path="/" element={<MainPage/>}/>
+          <Route path="/listen/:bookname" element={<AudioPage/>}/>
+          <Route path="*" element={<NoPage/>}/>
+        </Routes>
+      </MainLayouts>
     </div>
   );
 }

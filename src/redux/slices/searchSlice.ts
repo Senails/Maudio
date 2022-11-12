@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 export type BookCardtype = {
+    href:string;
     img:string;
     bookcount:number;
     authtor:string;
@@ -15,16 +16,17 @@ type searchState = {
 }
 
 let book: BookCardtype = {
+    href:'/listen/MaxFrei',
     img: './img1.jpg',
     bookcount: 12,
     authtor:'Макс Фрай',
     name:'Сэр Макс из Ехо',
 }
 
-
+let books = [book,book,book,book,book,book];
 
 let initialState:searchState = {
-    arrayCard:[book,book,book,book,book,book],
+    arrayCard:books,
     searchString:'',
 };
 
@@ -34,10 +36,13 @@ export const searchSlise = createSlice({
     reducers:{
         setsearch(state, action: PayloadAction<string>){
             state.searchString = action.payload;
+        },
+        loadmore(state){
+            state.arrayCard=[...books,...books];
         }
     },
 });
 
 
-export const {setsearch} = searchSlise.actions;
+export const {setsearch,loadmore} = searchSlise.actions;
 export default searchSlise.reducer

@@ -13,7 +13,6 @@ export default function Volumebar(){
 
     let [changed,setchanged]= useState('');
     let [usercontrol,setusercontrol] = useState(false);
-    let polzik = useRef<HTMLDivElement>(null);
     let line = useRef<HTMLDivElement>(null);
 
 
@@ -30,95 +29,85 @@ export default function Volumebar(){
         }
     },[userVolume]);
 
-    useEffect(()=>{
-        flag=true;
-
+    function muosedown(event:React.MouseEvent){
         let volumeline = line.current!;
 
-        polzik.current!.addEventListener('mousedown',muosedown);
-        polzik.current!.addEventListener('touchstart',touchstart);
+        setusercontrol(true);
+        let {top} = volumeline.parentElement!.getBoundingClientRect();
+        let lineStart = Math.floor(top);
+        let lineEnd = Math.floor(top)+volumeline.parentElement!.clientHeight;
+        let delta = lineEnd - lineStart;
+        setline(event);
 
-        function muosedown(event:MouseEvent){
-            setusercontrol(true);
-            let {top} = volumeline.parentElement!.getBoundingClientRect();
-            let lineStart = Math.floor(top);
-            let lineEnd = Math.floor(top)+volumeline.parentElement!.clientHeight;
-            let delta = lineEnd - lineStart;
+        document.addEventListener('mousemove',mousemove);
+        document.addEventListener('mouseup',mouseup);
+
+        function mousemove(event:MouseEvent){
             setline(event);
-
-            document.addEventListener('mousemove',mousemove);
-            document.addEventListener('mouseup',mouseup);
-
-            function mousemove(event:MouseEvent){
-                setline(event);
-            }
-
-            function mouseup(e:MouseEvent){
-                let res = volumeline.clientHeight/volumeline.parentElement!.clientHeight;
-                resultUsing(res);
-
-                document.removeEventListener('mousemove',mousemove);
-                document.removeEventListener('mouseup',mouseup);
-                setusercontrol(false);
-            }
-
-            function setline(e:MouseEvent){
-                let startY = e.clientY;
-                let needHeight=delta-(startY-lineStart);
-                needHeight = needHeight<=0?0:needHeight>=delta?delta:needHeight;
-                needHeight = +(needHeight/delta*100).toFixed(2);
-                volumeline.style.height=needHeight+'%';
-            }
         }
 
-        function touchstart(event:TouchEvent){
-            setusercontrol(true);
-            let {top} = volumeline.parentElement!.getBoundingClientRect();
-            let lineStart = Math.floor(top);
-            let lineEnd = Math.floor(top)+volumeline.parentElement!.clientHeight;
-            let delta = lineEnd - lineStart;
+        function mouseup(e:MouseEvent){
+            let res = volumeline.clientHeight/volumeline.parentElement!.clientHeight;
+            resultUsing(res);
+
+            document.removeEventListener('mousemove',mousemove);
+            document.removeEventListener('mouseup',mouseup);
+            setusercontrol(false);
+        }
+
+        function setline(e:React.MouseEvent|MouseEvent){
+            let startY = e.clientY;
+            let needHeight=delta-(startY-lineStart);
+            needHeight = needHeight<=0?0:needHeight>=delta?delta:needHeight;
+            needHeight = +(needHeight/delta*100).toFixed(2);
+            volumeline.style.height=needHeight+'%';
+        }
+    }
+    function touchstart(event:React.TouchEvent){
+        let volumeline = line.current!;
+
+        setusercontrol(true);
+        let {top} = volumeline.parentElement!.getBoundingClientRect();
+        let lineStart = Math.floor(top);
+        let lineEnd = Math.floor(top)+volumeline.parentElement!.clientHeight;
+        let delta = lineEnd - lineStart;
+        setline(event);
+
+        document.addEventListener('touchmove',touchmove);
+        document.addEventListener('touchend',touchend);
+
+        function touchmove(event:TouchEvent){
             setline(event);
-
-            document.addEventListener('touchmove',touchmove);
-            document.addEventListener('touchend',touchend);
-
-            function touchmove(event:TouchEvent){
-                setline(event);
-            }
-
-            function touchend(){
-                let res = volumeline.clientHeight/volumeline.parentElement!.clientHeight;
-                resultUsing(res);
-
-                document.removeEventListener('touchmove',touchmove);
-                document.removeEventListener('touchend',touchend);
-                setusercontrol(false);
-            }
-
-            function setline(e:TouchEvent){
-                let startY = e.touches[0].clientY;
-                let needHeight=delta-(startY-lineStart);
-                needHeight = needHeight<=0?0:needHeight>=delta?delta:needHeight;
-                needHeight = +(needHeight/delta*100).toFixed(2);
-                volumeline.style.height=needHeight+'%';
-            }
         }
 
-        function resultUsing(res:number){
-            dispatch(UserSelectVolume(res));
+        function touchend(){
+            let res = volumeline.clientHeight/volumeline.parentElement!.clientHeight;
+            resultUsing(res);
+
+            document.removeEventListener('touchmove',touchmove);
+            document.removeEventListener('touchend',touchend);
+            setusercontrol(false);
         }
 
-        return ()=>{
-            polzik.current!.removeEventListener('mousedown',muosedown);
-            polzik.current!.removeEventListener('touchstart',touchstart);
+        function setline(e:React.TouchEvent|TouchEvent){
+            let startY = e.touches[0].clientY;
+            let needHeight=delta-(startY-lineStart);
+            needHeight = needHeight<=0?0:needHeight>=delta?delta:needHeight;
+            needHeight = +(needHeight/delta*100).toFixed(2);
+            volumeline.style.height=needHeight+'%';
         }
-    },[]);
+    }
+    function resultUsing(res:number){
+        dispatch(UserSelectVolume(res));
+    }
 
-    
     return <div className={`volume-box ${userVolume>0?'':'block'} ${changed} ch1anged`}>
         <div className='volume-icon'></div>
-        <div ref={polzik} className='volume-polzik'>
-            <div className='volume-polzik-line'>
+        <div className='volume-polzik'>
+            <div className='volume-polzik-line'
+                onMouseDown={muosedown}
+                onTouchStart={touchstart}
+                >
                 <div ref={line} className='volume-line'>
                     <div className='circle'></div>
                 </div>

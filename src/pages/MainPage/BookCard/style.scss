@@ -7,7 +7,7 @@
     margin-bottom: 25px;
     margin-right: 25px;
     background: #1c1c1c;
-    transition: 0.3s;
+    transition: 0.3s transform;
     // box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
     position: relative;
     padding-left: 115px;
@@ -19,10 +19,6 @@
     flex-direction: column;
     justify-content: space-between;
 
-
-    &:nth-child(3n){
-        margin-right: 0;
-    }
     &:hover{
         transform: scale(1.05);
     }
@@ -98,5 +94,15 @@
             background-size: contain;
             background-repeat: no-repeat;
         }
+    }
+    a{
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 1px solid red;
     }
 }

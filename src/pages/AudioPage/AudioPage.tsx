@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { setAllState } from "../../redux/slices/pleerSlice";
 import { useAppDispatch } from "../../redux/store";
 import { Seria } from "../../types/pleerSlice";
@@ -19,8 +20,8 @@ let seria: Seria  = {
                     image: "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902",
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'},
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'}
                 ]
                 },
                 {
@@ -28,8 +29,8 @@ let seria: Seria  = {
                     image: 'https://cdn.book24.ru/v2/ASE000000000701079/COVER/cover3d1.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'},
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'}
                 ]
                 },
                 {
@@ -37,8 +38,8 @@ let seria: Seria  = {
                     image: 'https://www.respublica.ru/uploads/00/00/00/51/mu/f2e19ff7a4dcfa0f.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'},
+                    {lenght:440.816583, url:'http://localhost:3000/1245511.mp3'}
                 ]
                 },
                 
@@ -113,6 +114,8 @@ let seria: Seria  = {
 
 export default function AudioPage(){
     let dispatch = useAppDispatch()
+
+    // console.log(useParams().bookname)
 
     useEffect(()=>{
         dispatch(setAllState(seria));

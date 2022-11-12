@@ -1,7 +1,8 @@
 import './style.scss';
-
+import {Link} from 'react-router-dom';
  
 type props = {
+    href:string;
     img:string;
     bookcount:number;
     authtor:string;
@@ -9,7 +10,7 @@ type props = {
 }
 
 
-export function BookCard({img,bookcount,authtor,name}:props){
+export function BookCard({img,bookcount,authtor,name,href}:props){
     const divStyle = {
         backgroundImage: `url(${img}')`,
     };
@@ -22,5 +23,6 @@ export function BookCard({img,bookcount,authtor,name}:props){
             {bookcount} 
             <div className='book-icon'></div>
         </span>
+        <Link to={href}></Link>
     </div>
 }

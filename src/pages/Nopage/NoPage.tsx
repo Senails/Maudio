@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import './style.scss';
 
 export function NoPage(){
+
     return <div className="nopage">
         <span className='nopage-massage'>
             <span>Этой страницы не существует {':('}</span>
