@@ -18,15 +18,13 @@ export default function Volumebar(){
 
     useEffect(()=>{
         if (usercontrol) return;
-
         line.current!.style.height=userVolume*100+'%';
-        if (flag){
-            setchanged("changed");
-            if (timoutID) clearTimeout(timoutID);
-            timoutID = setTimeout(()=>{
-                setchanged("");
-            },2000);
-        }
+
+        setchanged("changed");
+        if (timoutID) clearTimeout(timoutID);
+        timoutID = setTimeout(()=>{
+            setchanged("");
+        },2000);
     },[userVolume]);
 
     function muosedown(event:React.MouseEvent){
@@ -113,8 +111,8 @@ export default function Volumebar(){
                 </div>
             </div>
         </div>
-        {/* <p>
+        <p>
             {userVolume}
-        </p> */}
+        </p>
     </div>
 }
