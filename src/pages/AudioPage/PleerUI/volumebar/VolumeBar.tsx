@@ -4,7 +4,6 @@ import { UserSelectVolume } from '../../../../redux/slices/pleerSlice';
 import { RootState, useAppSelector } from '../../../../redux/store';
 import './style.scss';
 
-let flag = false;
 let timoutID:NodeJS.Timeout;
 
 export default function Volumebar(){

@@ -1,11 +1,11 @@
 .volume-box{
     position: absolute;
-    top: 10px;
-    right: -20px;
+    top: 100px;
+    right: 0px;
     box-sizing: border-box;
     width: 100px;
     height: 200px;
-    //border: 1px solid red;
+    // border: 1px solid red;
     overflow: hidden;
     user-select: none;
     .volume-icon{
@@ -77,7 +77,7 @@
         left: 0;
         bottom: 0;
     }
-    @media (min-width: 1200px) {
+    @media (max-width: 1200px) {
         top: 5%;
         right: 0px;
     }

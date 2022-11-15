@@ -20,7 +20,7 @@ let book: BookCardtype = {
     img: './img1.jpg',
     bookcount: 12,
     authtor:'Макс Фрай',
-    name:'Сэр Макс из Ехо',
+    name:'Сэр Макс из Ехо1',
 }
 
 let books = [book,book,book,book,book,book];

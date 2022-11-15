@@ -1,11 +1,10 @@
-import { Fon } from "./components/fon/Fon";
-import AudioPl from "./components/Audiopleer/AudioPl";
 import { useEffect } from "react";
 import AudioPage from "./pages/AudioPage/AudioPage";
 import {Route, Routes} from 'react-router-dom'
 import MainPage from "./pages/MainPage/MainPage";
 import { NoPage } from "./pages/Nopage/NoPage";
 import { MainLayouts } from "./layouts/MainLayouts";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
 
 
 
@@ -28,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/listen/:bookname" element={<AudioPage/>}/>
+          <Route path="/admin" element={<LoginPage/>}/>
           <Route path="*" element={<NoPage/>}/>
         </Routes>
       </MainLayouts>
