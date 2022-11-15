@@ -111,8 +111,8 @@ export default function Volumebar(){
                 </div>
             </div>
         </div>
-        <p>
+        {/* <p>
             {userVolume}
-        </p>
+        </p> */}
     </div>
 }
