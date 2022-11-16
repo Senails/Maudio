@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { setAllState } from "../../redux/slices/pleerSlice";
 import { useAppDispatch } from "../../redux/store";
 import { Seria } from "../../types/pleerSlice";
 import { Book } from "./book/Book";
 import LeftPanel from "./leftPanel/LeftPanel";
 import { PleerUI } from "./PleerUI/Pleer";
+import './style.scss';
+
 
 let seria: Seria  = {
     name:'Сэр Макс из Ехо',
@@ -121,7 +123,10 @@ export default function AudioPage(){
         dispatch(setAllState(seria));
     },[]);
 
-    return <div className=".AudioPage">
+    return <div className="AudioPage">
+        <span className="audiobooks-audiopage">
+            <Link to={'/'}>AudioBooks</Link>
+        </span>
         <Book/>
         <PleerUI/>
         <LeftPanel/>

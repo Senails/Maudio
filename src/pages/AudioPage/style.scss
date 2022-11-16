@@ -2,5 +2,33 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
-    position: relative;
+    position: absolute;
+
+    .audiobooks-audiopage{
+        position: absolute;
+        z-index: 5;
+        top: 30px;
+        left: 30px;
+
+        // width: 200px;
+        height: 40px;
+        // border:1px solid red;
+
+        a{
+            text-decoration: none;
+            color: white;
+
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 40px;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .audiobooks-audiopage{
+            display: none;
+        }
+    }
 }
