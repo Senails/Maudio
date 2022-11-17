@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader } from '../../components/Loader/Loader';
 import './style.scss';
 
 export function BookInfoPage(){
 
-    let loadend = false
+    let[loadend,setloadend]= useState(true);
 
     let styleImage = {
         backgroundImage: `url(${'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg'})`,
