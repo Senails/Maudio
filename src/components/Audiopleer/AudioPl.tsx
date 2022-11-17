@@ -13,6 +13,7 @@ export default function AudioPl(){
 
 
     useEffect(()=>{
+        console.log(pleerlenght);
         audio.current!.currentTime=pleerlenght;
         playhandler();
 

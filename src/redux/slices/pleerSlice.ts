@@ -7,6 +7,7 @@ import { findnextbook } from '../../Utils/forPleer/findnextbook';
 import { setbook } from '../../Utils/forPleer/setbook';
 import { pleerState, Seria } from '../../types/pleerSlice';
 import { getvolume, savevolume } from '../../Utils/forPleer/savevolume';
+import { SmallNumber } from '../../Utils/forPleer/SmallNumber';
 
 let initialSeria: Seria = {
     name:'',
@@ -95,7 +96,7 @@ export const pleerSlice = createSlice({
             state.activefragment=0;
             state.playpause='pause';
             state.lenght=0;
-            state.pleerlenght=0;
+            state.pleerlenght=0+SmallNumber();
         },
         changebook(state, action:PayloadAction<{coll:number,book:number}>){
             let {coll , book}=action.payload
@@ -123,7 +124,7 @@ export const pleerSlice = createSlice({
             let {src,lenght, activeFragment}= FindFragment(state.bookMap,action.payload);
             state.activefragment=activeFragment;
             state.activeSrc = src;
-            state.pleerlenght=lenght;
+            state.pleerlenght=lenght+SmallNumber();
         },
         UserSelectVolume(state, action:PayloadAction<number>){
             state.userVolume = action.payload;

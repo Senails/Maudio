@@ -16,7 +16,7 @@ type searchState = {
 }
 
 let book: BookCardtype = {
-    href:'/listen/MaxFrei',
+    href:'/bookInfo/MaxFrei',
     img: './img1.jpg',
     bookcount: 12,
     authtor:'Макс Фрай',
