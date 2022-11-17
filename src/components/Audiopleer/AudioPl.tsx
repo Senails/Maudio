@@ -4,7 +4,6 @@ import { setlenght} from "../../redux/slices/pleerSlice";
 import { RootState } from "../../redux/store"
 
 let interval:NodeJS.Timer;
-let flag = false;
 
 export default function AudioPl(){
     let {playpause,volume,pleerlenght,activeSrc,activebook,activecollection} = useSelector((state:RootState)=>state.pleer);
@@ -13,7 +12,7 @@ export default function AudioPl(){
 
 
     useEffect(()=>{
-        console.log(pleerlenght);
+        // console.log(pleerlenght);
         audio.current!.currentTime=pleerlenght;
         playhandler();
 

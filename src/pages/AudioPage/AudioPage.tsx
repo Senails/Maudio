@@ -55,8 +55,8 @@ let seria: Seria  = {
                     image: 'https://cdn1.ozone.ru/s3/multimedia-r/6096623631.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
                 {
@@ -64,8 +64,8 @@ let seria: Seria  = {
                     image: 'https://bigi.by/images/data/catalog/2605/786661b5.1c49.11eb.bd4e.0025909303c3.786661b8.1c49.11eb.bd4e.0025909303c3.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
                 {
@@ -73,8 +73,8 @@ let seria: Seria  = {
                     image: 'https://cdn1.ozone.ru/s3/multimedia-0/6009817452.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
             ]
@@ -87,8 +87,8 @@ let seria: Seria  = {
                     image: 'https://cdn1.ozone.ru/multimedia/1012186167.jpg',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
                 {
@@ -96,8 +96,8 @@ let seria: Seria  = {
                     image: 'https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
                 {
@@ -105,8 +105,8 @@ let seria: Seria  = {
                     image: 'https://lh3.googleusercontent.com/drive-viewer/AJc5JmRCia7uc-NhYKl6xiMwdjLB9mIyAua4xYhH4co8b-bHJ0PcCGyhiulzHmJ6IdTsVmJSSoSbjm8=w1920-h902',
                     booklength: 440.816583*2,
                     bookparts: [
-                    {lenght:440.816583, url:"./1245511.mp3"},
-                    {lenght:440.816583, url:"./1245511.mp3"}
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"},
+                    {lenght:440.816583, url:"http://localhost:3000/1245511.mp3"}
                 ]
                 },
             ]
