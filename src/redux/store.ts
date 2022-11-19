@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import pleerReducer from './slices/pleerSlice';
 import searchReducer from './slices/searchSlice';
 import userReducer from './slices/userSlice';
+import editReducer from './slices/EditSlice';
 
 export const store = configureStore({
     reducer: {
         pleer: pleerReducer,
         search: searchReducer,
         user: userReducer,
+        edit: editReducer,
     },
 })
 
