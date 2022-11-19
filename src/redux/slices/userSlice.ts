@@ -8,7 +8,7 @@ type UserState = {
 
 let initialState:UserState ={
     isAuth:false,
-    userstatus:'user',
+    userstatus:'editor',
 }
 
 let userSlice = createSlice({

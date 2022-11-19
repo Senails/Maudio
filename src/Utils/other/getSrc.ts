@@ -1,6 +1,6 @@
 //готовит src для кортинок
 //что бы избежать мигания пока картинка не загрузилась
-export async function GetImageSrc(url:string) {
+export async function getSrcFromURL(url:string) {
     return new Promise(async(res,rej)=>{
         try{
             let response = await fetch(url);
@@ -8,15 +8,20 @@ export async function GetImageSrc(url:string) {
 
 
             let src = URL.createObjectURL(blob);
-            res(src);
-
-            // let reader = new FileReader();
-            // reader.readAsDataURL(blob)
-            // reader.addEventListener('loadend',()=>{
-            //     res(reader.result);
-            // })
+            res(src);  
         }catch{
             res('');
         }
     });
+}
+
+export async function getSrcFromFile(file:File):Promise<string> {
+    return new Promise((res,rej)=>{
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.addEventListener('loadend',()=>{
+            let rez =<string> reader.result;
+            res(rez);
+        })
+    })
 }

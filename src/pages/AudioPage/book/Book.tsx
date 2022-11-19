@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { RootState, useAppSelector } from '../../../redux/store';
-import { GetImageSrc } from '../../../Utils/other/getImageSrc';
 import { sleep } from '../../../Utils/other/sleep';
 import { getTimeControl } from '../../../Utils/other/timecontrol';
 import './style.scss';

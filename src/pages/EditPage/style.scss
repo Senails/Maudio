@@ -1,0 +1,180 @@
+.edit-page{
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 120px;
+    padding-bottom: 150px;
+
+    .edit-conteiner{
+        width: 1200px;
+        margin: 0 auto;
+        min-height: 300px;
+        display: flex;
+        justify-content: space-between;
+
+        .book-image{
+            position: relative;
+            width: 420px;
+            height: 650px;
+
+            border-radius: 10px;
+            // border: 1px solid red;
+
+            background-image: url('./../../assets/imageback.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+
+            .activeimage{
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                &:hover{
+                    opacity: 0.5;
+                }
+            }
+
+            input{
+                position: absolute;
+                display: block;
+                top: 0;
+                left: 0;
+
+                border-radius: 10px;
+                opacity: 0;
+
+                width: 100%;
+                height: 100%;
+
+            }
+        }
+        .right-collomn{
+            width: 720px;
+            input.text{
+                box-sizing: border-box;
+                display: flex;
+                width: 100%;
+                height: 50px;
+
+                background-color: #1A1A1A;
+                margin-bottom: 10px;
+                outline: none;
+                border: none;
+                border-radius: 10px;
+                padding-left: 15px;
+
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                color: white;
+
+                &.serias-name{
+                    font-size: 32px;
+                }
+                &.authtor-name{
+                    font-size: 28px;
+                }
+            }
+            textarea{
+                box-sizing: border-box;
+
+                width: 100% !important;
+                border-radius: 10px;
+                height: 300px !important;
+                background-color: #1A1A1A;
+                margin-bottom: 10px;
+                outline: none;
+                border: none;
+                padding: 15px;
+
+                overflow-y: scroll;
+
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 22px;
+                color: white;
+
+                &::-webkit-scrollbar {
+                    width: 0px;               /* ширина scrollbar */
+                }
+                scrollbar-width: thin;          /* "auto" или "thin"  */
+                scrollbar-color: rgba(0, 0, 255, 0) rgba(255, 166, 0, 0);
+            }
+            .buttons-group{
+                width: 100%;
+                height: 50px;
+                // border: 1px solid red;
+                margin-bottom: 10px;
+
+                display: flex;
+                justify-content: space-between;
+
+                div{
+                    user-select: none;
+                    border-radius: 10px;
+                    width: 230px;
+                    height: 50px;
+                    text-align: center;
+
+                    background-color: #0A0A0A;
+                    line-height: 50px;
+                    font-family: 'Inter';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 30px;
+
+                    transition: 0.2s;
+                    &:hover{
+                        background-color: #191919;
+                    }
+                    &:nth-child(1){
+                        color: #B5FF57;
+                    }
+                    &:nth-child(2){
+                        color: #FFDB5E;
+                    }
+                    &:nth-child(3){
+                        color: #FF5757;
+                    }
+                }
+            }
+            .books-group{
+                box-sizing: border-box;
+                padding: 15px;
+                width: 100%;
+                min-height: 115px;
+                border-radius: 10px;
+                background-color: #0A0A0A;
+                // border: 1px solid red;
+                margin-bottom: 10px;
+
+                .box-editor-fragments{
+                    width: 100%;
+                    min-height: 85px;
+                }
+            }
+            .borderRed{
+                border: 1px solid rgb(247, 39, 39) !important;
+            }
+        }
+    }
+
+    &.ongrag{
+        .activeimage{
+            opacity: 0.5;
+        }
+    }
+    &:not(.ongrag){
+        .activeimage{
+            // transition: 0.01s 0.01s;
+        }
+    }
+
+}
