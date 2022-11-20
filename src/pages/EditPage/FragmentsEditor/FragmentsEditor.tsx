@@ -8,13 +8,13 @@ export function FragmentsEditor(){
     let collections = useAppSelector((state:RootState)=>state.edit.collections);
     let dispatch = useAppDispatch();
 
-    let arrColls = collections.map((elem,i)=>{
+    let arrColls = collections.map((elem,index)=>{
         return <CollLine
 
         books={elem.books}
         name={elem.name}
-        num={i}
-        key={i}
+        num={index}
+        key={index}
         />
     })
 

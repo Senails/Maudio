@@ -7,6 +7,7 @@ import './style.scss';
 
 export function EditPage(){
     let {collName,authtorName,description,bookImage} = useAppSelector((state:RootState)=>state.edit);
+
     let dispatch = useAppDispatch();
 
     let [ondrag,setondrag]= useState(false);

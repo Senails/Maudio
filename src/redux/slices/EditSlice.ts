@@ -12,7 +12,7 @@ type EditState = {
 
 let initialState:EditState ={
     collName:'New Coll',
-    authtorName:'hz authtor',
+    authtorName:'None authtor',
     description:'none description',
     bookImage:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',
     collections: [],
@@ -58,6 +58,42 @@ let EditSlice = createSlice({
             let {num,name}=action.payload;
             state.collections[num].name=name;
         },
+        addbook(state,action:PayloadAction<number>){
+            let collnum = action.payload;
+            let arr = state.collections;
+
+            arr[collnum].books.push({
+                name:'NBook'+arr[collnum].books.length,
+                image:'',
+                bookparts:[],
+                booklength:0,
+            })
+            state.collections=arr;
+        },
+        removebook(state,action:PayloadAction<{Collnum:number, Booknum:number}>){
+            let {Collnum,Booknum} = action.payload;
+            let colls = state.collections;
+            let books = state.collections[Collnum].books;
+
+            colls[Collnum].books=books.filter((elem,index)=>Booknum===index?false:true);
+            state.collections=colls;
+        },
+        changebookname(state,action:PayloadAction<{Collnum:number, Booknum:number, newName: string}>){
+            let {Collnum,Booknum,newName} = action.payload;
+            let colls = state.collections;
+            let books = state.collections[Collnum].books;
+
+            colls[Collnum].books=books.map((elem,index)=>{
+                if (Booknum!==index) return elem;
+                return{
+                    booklength:elem.booklength,
+                    bookparts:elem.bookparts,
+                    image:elem.image,
+                    name:newName,
+                }
+            });
+            state.collections=colls;
+        }
     },
 })
 
@@ -69,5 +105,8 @@ export const {
     addcoll,
     removecoll,
     changecollname,
+    addbook,
+    removebook,
+    changebookname,
 } = EditSlice.actions;
 export default EditSlice.reducer
