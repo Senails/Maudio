@@ -4,6 +4,10 @@
     height: 100%;
     position: absolute;
 
+    &.loading{
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
     .audiobooks-audiopage{
         position: absolute;
         z-index: 5;

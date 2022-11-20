@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { BookCardtype, loadmore, setsearch,  } from '../../redux/slices/searchSlice';
 import { useAppSelector,RootState, dispatch} from '../../redux/store';
 import { checkLoadMore } from '../../Utils/forMainPage/checkLoadMore';
@@ -8,24 +9,30 @@ import './style.scss';
 
 export default function MainPage(){
     let {arrayCard , searchString } = useAppSelector((state:RootState)=>state.search);
+    let status = useAppSelector((state:RootState)=>state.user.userstatus);
     let bookCardBox = useRef<HTMLDivElement>(null);
 
-
     useEffect(()=>{
-        if (checkLoadMore(bookCardBox)){
-            dispatch(loadmore())
-        }
+        // if (checkLoadMore(bookCardBox)){
+        //     dispatch(loadmore())
+        // }
 
         return ()=>{
 
         }
     },[]);
 
-
     return <div className="MainPage">
-        <div className='main-input'>
-            <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название книги или автора'/>
-            <div className='input-icon'></div>
+        <div className='main-top-line'>
+            <div className='main-input'>
+                <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название книги или автора'/>
+                <div className='input-icon'></div>
+            </div>
+            <div className='addbook-icon'>
+                <div></div>
+                <div></div>
+                {status!=='user'?<Link to={'/edit/newcollection'}></Link>:<></>}
+            </div>
         </div>
         <div ref={bookCardBox} className='bookcard-box'>
             {arrayCard.map((book:BookCardtype,index:number)=>{

@@ -11,9 +11,9 @@ type EditState = {
 }
 
 let initialState:EditState ={
-    collName:'New Coll',
-    authtorName:'None authtor',
-    description:'none description',
+    collName:'Name Collection',
+    authtorName:'Name authtor',
+    description:'description of collection',
     bookImage:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',
     collections: [],
 }
@@ -38,7 +38,7 @@ let EditSlice = createSlice({
             let arr = state.collections;
             let len = arr.length;
 
-            let name:string = 'NColl'+len;
+            let name:string = 'Collection '+len;
 
             arr.push({
                 name,
@@ -63,7 +63,7 @@ let EditSlice = createSlice({
             let arr = state.collections;
 
             arr[collnum].books.push({
-                name:'NBook'+arr[collnum].books.length,
+                name:'Book '+arr[collnum].books.length,
                 image:'',
                 bookparts:[],
                 booklength:0,
