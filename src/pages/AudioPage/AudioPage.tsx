@@ -21,7 +21,7 @@ export default function AudioPage(){
             try{
                 let data = await getBookMap(bookname!);
                 if (data!=='error'){
-                    dispatch(setAllState(data));
+                    dispatch(setAllState({seria:data, hrefparam: bookname!}));
                     setloadend(true);
                 }else{
                     navigate('/404page');

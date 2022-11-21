@@ -31,6 +31,7 @@ let initialSeria: Seria = {
 }
 
 let initialState:pleerState = {
+    hrefparam:'',
     seria:initialSeria,
     activecollection : 0,
     activebook: 0,
@@ -83,11 +84,15 @@ export const pleerSlice = createSlice({
                 state.activefragment=activeFragment;
                 state.activeSrc = src;
                 state.pleerlenght=lenght;
+                state.playpause='play';
             }
         },
-        setAllState(state,action:PayloadAction<Seria>){
-            let seria = action.payload;
+        setAllState(state,action:PayloadAction<{seria:Seria, hrefparam:string}>){
+            let {seria, hrefparam} = action.payload;
 
+            if (hrefparam===state.hrefparam) return;
+
+            state.hrefparam=hrefparam;
             state.seria=seria;
             state.activecollection=0;
             state.activebook=0;

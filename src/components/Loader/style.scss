@@ -1,6 +1,5 @@
 .loader{
     box-sizing: border-box;
-
     position: absolute;
     top: 0;
     left: 0;
@@ -48,6 +47,10 @@
                 transform: rotate(0deg);
             }
         }
+    }
+
+    &.shadow{
+        background-color: rgba(0, 0, 0, 0.700);
     }
 }
 

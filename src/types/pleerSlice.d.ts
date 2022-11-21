@@ -23,6 +23,7 @@ export type Seria = {
 }
 
 export type pleerState={
+    hrefparam:string,
     seria: Seria,
     activecollection : number,
     activebook: number,

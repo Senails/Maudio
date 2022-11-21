@@ -4,6 +4,7 @@ import { sleep } from "../Utils/other/sleep";
 export async function getBookMap(bookname:string):Promise<Seria|'error'>{
     await sleep(300);
 
+    //тут выполнить запрос
     let seria: Seria  = {
         name:'Сэр Макс из Ехо',
         description:'12345',
@@ -108,6 +109,7 @@ export async function getBookMap(bookname:string):Promise<Seria|'error'>{
             },
         ]
     }
+    //
 
     return seria;
 }

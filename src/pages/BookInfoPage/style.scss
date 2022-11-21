@@ -30,12 +30,10 @@
     }
     .info-conteiner{
         margin: 0 auto;
-        // border: 1px solid red;
         display: inline-flex;
-        // flex-direction: column;
 
         .book-image{
-            width: 423px;
+            width: 410px;
             height: 650px;
             // border: 1px solid red;
             border-radius: 20px;
@@ -137,10 +135,8 @@
 
     @media (max-width: 1100px) {
         .info-conteiner{
-            // flex-direction: column;
-
             .book-image{
-                width: 308.79px;
+                width: 300px;
                 height: 478.15px;
             }
 
