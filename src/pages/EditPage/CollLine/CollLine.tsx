@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { addbook, changecollname, removecoll } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
 import { Book } from '../../../types/pleerSlice';
@@ -23,12 +23,28 @@ export function CollLine({num,name,books}:props){
         name={elem.name}
         numcoll={num}
         numbook={index}
+        showB={elem.show!}
         key={index}
         />
     });
 
+    let Height = useMemo(getheight,[books]);
     let arrayBooksStyle={
-        height:`${(arraybooks.length+1)*45}px`,
+        height: Height,
+    }
+
+    function getheight(){
+        let sum = 45;
+
+        books.forEach((elem)=>{
+            if (elem.show){
+                sum+=(90+elem.bookparts.length*45);
+            }else{
+                sum+=45;
+            }
+        })
+
+        return sum+'px';
     }
 
     return <div className={`edit-collection-line ${show?'show':''}`}>

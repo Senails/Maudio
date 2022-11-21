@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Collection } from "../../types/pleerSlice";
+import { bookpart, Collection } from "../../types/pleerSlice";
 
 
 type EditState = {
@@ -31,7 +31,7 @@ let EditSlice = createSlice({
         setdescription(state,action:PayloadAction<string>){
             state.description=action.payload;
         },
-        setbookImage(state,action:PayloadAction<string>){
+        setSeriasImage(state,action:PayloadAction<string>){
             state.bookImage=action.payload;
         },
         addcoll(state){
@@ -67,6 +67,7 @@ let EditSlice = createSlice({
                 image:'',
                 bookparts:[],
                 booklength:0,
+                show:false,
             })
             state.collections=arr;
         },
@@ -93,6 +94,33 @@ let EditSlice = createSlice({
                 }
             });
             state.collections=colls;
+        },
+        setBookImage(state,action:PayloadAction<{imgSrc:string,numColl:number,nummBook:number}>){
+            let {imgSrc, numColl, nummBook} = action.payload;
+
+            let arr = state.collections;
+            arr[numColl].books[nummBook].image=imgSrc;
+        },
+        ShowHideBook(state,action:PayloadAction<{numColl:number,nummBook:number}>){
+            let {numColl , nummBook} = action.payload;
+
+            let colls = state.collections;
+            colls[numColl].books[nummBook].show= !colls[numColl].books[nummBook].show;
+            state.collections=colls;
+        },
+        addFragment(state,action:PayloadAction<{numColl:number,nummBook:number}>){
+            let {numColl,nummBook} = action.payload;
+
+            let colls = state.collections;
+
+            let newFragment:bookpart = {
+                url:'',
+                lenght:0,
+                status:'loading',
+            }
+
+            colls[numColl].books[nummBook].bookparts.push(newFragment);
+
         }
     },
 })
@@ -101,12 +129,15 @@ export const {
     setcollname,
     setauthtorname,
     setdescription,
-    setbookImage,
+    setSeriasImage,
     addcoll,
     removecoll,
     changecollname,
     addbook,
     removebook,
     changebookname,
+    setBookImage,
+    ShowHideBook,
+    addFragment,
 } = EditSlice.actions;
 export default EditSlice.reducer

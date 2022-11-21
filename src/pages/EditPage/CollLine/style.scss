@@ -78,7 +78,7 @@
         width: calc(100% - 70px);
         margin-left: auto;
         // border: 1px solid red;
-        overflow: hidden;
+        // overflow: hidden;
         opacity: 0;
         transition: 0.3s;
     }
@@ -96,6 +96,7 @@
     &:not(.show){
         .array-books{
             height: 0 !important;
+            overflow: hidden;
         }
     }
 }

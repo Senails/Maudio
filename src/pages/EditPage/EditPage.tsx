@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { setauthtorname, setbookImage, setcollname, setdescription } from '../../redux/slices/EditSlice';
+import { setauthtorname, setSeriasImage, setcollname, setdescription } from '../../redux/slices/EditSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { getSrcFromFile } from '../../Utils/other/getSrc';
 import { FragmentsEditor } from './FragmentsEditor/FragmentsEditor';
@@ -7,27 +7,20 @@ import './style.scss';
 
 export function EditPage(){
     let {collName,authtorName,description,bookImage} = useAppSelector((state:RootState)=>state.edit);
-
     let dispatch = useAppDispatch();
-
-    let [ondrag,setondrag]= useState(false);
 
     async function onchange(event: React.ChangeEvent<HTMLInputElement>){
         let file = event.target.files![0];
         let src =await getSrcFromFile(file);
-        dispatch(setbookImage(src));
-        setondrag(false);
-    }
-
-    function onMouseover(event:React.MouseEvent){
-        // console.log(event);
-        // console.log();
+        dispatch(setSeriasImage(src));
+        event.target.value='';
     }
 
     let activeimageStyle = {
         backgroundImage:`url(${bookImage})`,
     }
-    return <div className={`edit-page `+(ondrag?'ongrag':'')} onMouseOver={onMouseover}>    
+
+    return <div className={`edit-page `+(ondrag?'ongrag':'')}>    
         <div className='edit-conteiner'>
             <div className='book-image'>
                 <div className='activeimage' style={activeimageStyle}>

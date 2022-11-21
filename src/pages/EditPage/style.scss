@@ -16,6 +16,7 @@
         justify-content: space-between;
 
         .book-image{
+            box-sizing: border-box;
             position: relative;
             width: 420px;
             height: 650px;
@@ -29,12 +30,15 @@
             background-repeat: no-repeat;
 
             .activeimage{
+                box-sizing: border-box;
                 width: 100%;
                 height: 100%;
-                border-radius: 10px;
+                // border-radius: 10px;
+
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
+
                 &:hover{
                     opacity: 0.5;
                 }
