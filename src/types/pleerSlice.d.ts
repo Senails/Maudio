@@ -1,9 +1,6 @@
 type bookpart={
     lenght:number;
     url:string;
-    googleid?:string;
-    size?:number;
-    status?:'loadend'|'loading'|'error',
 }
 
 export type Book= {

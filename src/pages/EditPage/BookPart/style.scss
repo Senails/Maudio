@@ -6,4 +6,74 @@
 
     margin-left: auto;
     margin-bottom: 5px;
+    position: relative;
+    text-align: center;
+
+    .loader-for-part{
+        position: absolute;
+        top: 0;
+        left: calc(50% - 20px);
+
+        width: 40px;
+        height: 40px;
+    }
+    >.delete{
+        position: absolute;
+        top: calc(50% - 12px);
+        right: 10px;
+        // border: 1px solid red;
+        width: 24px;
+        height: 24px;
+        >div.try{
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 2px);
+            background-color: white;
+            border-radius: 2px;
+
+            width: 4px;
+            height: 30px;
+            transition: 0.1s;
+
+            &:nth-child(1){
+                transform: rotate(45deg);
+            }
+            &:nth-child(2){
+                transform: rotate(-45deg);
+            }
+        }
+        &:hover{
+            >div.try{
+                background-color: rgb(255, 74, 74);
+            }
+        }
+    }
+    >.error{
+        color:  rgb(255, 255, 255);
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 40px;
+    }
+    .fragment-data-block{
+        position: absolute;
+        top: 0;
+        left: 20px;
+
+        width: 480px;
+        height: 40px;
+        // border: 1px solid red;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span{
+            color: white;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+        }
+    }
 }

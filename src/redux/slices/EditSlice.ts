@@ -1,21 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { bookpart, Collection } from "../../types/pleerSlice";
-
-
-type EditState = {
-    collName:string,
-    authtorName:string,
-    description:string,
-    bookImage:string,
-    collections: Collection[],
-}
+import { Editbookpart, EditState } from "../../types/editSlice";
 
 let initialState:EditState ={
     collName:'Name Collection',
     authtorName:'Name authtor',
     description:'description of collection',
-    bookImage:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',
+    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:''},
     collections: [],
+    removeOnCancel:[],
+    removeOnSave:[],
 }
 
 let EditSlice = createSlice({
@@ -32,7 +25,10 @@ let EditSlice = createSlice({
             state.description=action.payload;
         },
         setSeriasImage(state,action:PayloadAction<string>){
-            state.bookImage=action.payload;
+            state.bookImage={
+                url:action.payload,
+                googleid:'',
+            };
         },
         addcoll(state){
             let arr = state.collections;
@@ -64,7 +60,7 @@ let EditSlice = createSlice({
 
             arr[collnum].books.push({
                 name:'Book '+arr[collnum].books.length,
-                image:'',
+                image:{url:'',googleid:''},
                 bookparts:[],
                 booklength:0,
                 show:false,
@@ -99,7 +95,10 @@ let EditSlice = createSlice({
             let {imgSrc, numColl, nummBook} = action.payload;
 
             let arr = state.collections;
-            arr[numColl].books[nummBook].image=imgSrc;
+            arr[numColl].books[nummBook].image={
+                url:imgSrc,
+                googleid:'',
+            };
         },
         ShowHideBook(state,action:PayloadAction<{numColl:number,nummBook:number}>){
             let {numColl , nummBook} = action.payload;
@@ -113,14 +112,25 @@ let EditSlice = createSlice({
 
             let colls = state.collections;
 
-            let newFragment:bookpart = {
+            let newFragment:Editbookpart = {
                 url:'',
-                lenght:0,
-                status:'loading',
+                lenght:100,
+                size:1234752,
+                status:'loadend',
+                googleid:'23131',
             }
 
             colls[numColl].books[nummBook].bookparts.push(newFragment);
 
+        },
+        removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,numFragment:number}>){
+            let {numCol, numBook, numFragment} = action.payload;
+
+            let coll = state.collections;
+            coll[numCol].books[numBook].bookparts=coll[numCol]
+            .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
+
+            state.collections=coll;
         }
     },
 })
@@ -139,5 +149,6 @@ export const {
     setBookImage,
     ShowHideBook,
     addFragment,
+    removeFragment,
 } = EditSlice.actions;
 export default EditSlice.reducer

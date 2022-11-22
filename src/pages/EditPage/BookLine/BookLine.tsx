@@ -1,5 +1,6 @@
 import { addFragment, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
+import { Editbookpart } from '../../../types/editSlice';
 import { bookpart } from '../../../types/pleerSlice';
 import { getSrcFromFile } from '../../../Utils/other/getSrc';
 import { BookPart } from '../BookPart/BookPart';
@@ -10,7 +11,7 @@ type props = {
     numbook:number,
     name:string,
     image:string,
-    bookparts: bookpart[],
+    bookparts: Editbookpart[],
     showB:boolean,
 }
 
@@ -44,15 +45,17 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         let files = event.target.files;
         if (!files) return;
         for(let i=0; i<files.length;i++){
-
             dispatch(addFragment({numColl:numcoll,nummBook:numbook}))
-            console.log(files[i]);
+            // console.log(files[i]);
         }
         event.target.value='';
     }
 
     let bookPartsBlocks = bookparts.map((elem,index)=>{
         return <BookPart
+        numBook={numbook}
+        numCol={numcoll}
+        numFragment={index}
         part={elem}
         key={index}
         />

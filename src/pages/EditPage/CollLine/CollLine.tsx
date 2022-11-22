@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { addbook, changecollname, removecoll } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
-import { Book } from '../../../types/pleerSlice';
+import { EditBook } from '../../../types/editSlice';
 import { AddFragment } from '../AddFragment/AddFragment';
 import { Bookline } from '../BookLine/BookLine';
 import './style.scss';
@@ -9,7 +9,7 @@ import './style.scss';
 type props = {
     num: number,
     name:string,
-    books: Book[],
+    books: EditBook[],
 }
 
 export function CollLine({num,name,books}:props){
@@ -18,7 +18,7 @@ export function CollLine({num,name,books}:props){
 
     let arraybooks = books.map((elem,index)=>{
         return <Bookline
-        image={elem.image}
+        image={elem.image.url}
         bookparts={elem.bookparts}
         name={elem.name}
         numcoll={num}

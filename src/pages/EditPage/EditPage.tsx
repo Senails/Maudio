@@ -17,7 +17,7 @@ export function EditPage(){
     }
 
     let activeimageStyle = {
-        backgroundImage:`url(${bookImage})`,
+        backgroundImage:`url(${bookImage.url})`,
     }
 
     return <div className={`edit-page `+(ondrag?'ongrag':'')}>    
