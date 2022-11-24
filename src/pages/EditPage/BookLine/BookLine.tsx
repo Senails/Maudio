@@ -1,5 +1,5 @@
 import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
-import { addFragment, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
+import { addFragment, asyncSetBookImage, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
 import { Editbookpart, EditImage } from '../../../types/editSlice';
 import { bookpart } from '../../../types/pleerSlice';
@@ -26,14 +26,14 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         height:`${(bookparts.length+1)*45}px`,
     }
     async function ImageInputOnChange(event: React.ChangeEvent<HTMLInputElement>){
+        if (event.target.files===null) return;
         let file = event.target.files![0];
-        let src =await getSrcFromFile(file);
         let payload = {
-            imgSrc:src,
-            numColl:numcoll, 
-            nummBook:numbook,
-        }
-        dispatch(setBookImage(payload));
+            img: file,
+            numColl: numcoll,
+            nummBook: numbook,
+        };
+        dispatch(asyncSetBookImage(payload));
         event.target.value='';
     }
     function showhide(){

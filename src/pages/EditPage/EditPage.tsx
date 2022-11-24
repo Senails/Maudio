@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Loader } from '../../components/Loader/Loader';
-import { setauthtorname, setSeriasImage, setcollname, setdescription } from '../../redux/slices/EditSlice';
+import { setauthtorname, setcollname, setdescription, asyncSetMainImage } from '../../redux/slices/EditSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
-import { getSrcFromFile } from '../../Utils/other/getSrc';
 import { FragmentsEditor } from './FragmentsEditor/FragmentsEditor';
 import './style.scss';
 
@@ -12,10 +11,8 @@ export function EditPage(){
 
     async function onchange(event: React.ChangeEvent<HTMLInputElement>){
         if (event.target.files===null) return;
-        
         let file = event.target.files![0];
-        let src =await getSrcFromFile(file);
-        dispatch(setSeriasImage(src));
+        dispatch(asyncSetMainImage(file));
         event.target.value='';
     }
 
@@ -27,7 +24,7 @@ export function EditPage(){
         <div className='edit-conteiner'>
             <div className={`book-image ${bookImage.status==='loadend'?"haveimage":''}`}>
                 <div className='activeimage' style={bookImage.status==='loadend'?activeimageStyle:{}}>
-                    {bookImage.status==='loading'?<Loader shadow={true}/>:<></>}
+                    {bookImage.status==='loading'?<Loader/>:<></>}
                     {bookImage.status==='error'?<>
                     <span>Ошибка</span>
                     <span>загрузите сного</span>

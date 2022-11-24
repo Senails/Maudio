@@ -94,12 +94,12 @@
             font-weight: 400;
             user-select: none;
 
+            .image-previe{
+                display: none;
+            }
+
             &.haveimage{
                 border: 1px solid #8dff82;
-
-                .image-previe{
-                    display: none;
-                }
 
                 &:hover{
                     .image-previe{

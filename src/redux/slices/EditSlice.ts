@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { sendFileToBackend } from "../../api/sendFileToBackend";
 import { Editbookpart, EditState } from "../../types/editSlice";
 
 let initialState:EditState ={
@@ -10,7 +11,7 @@ let initialState:EditState ={
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
-}
+};
 
 let EditSlice = createSlice({
     name:'edit',
@@ -25,11 +26,13 @@ let EditSlice = createSlice({
         setdescription(state,action:PayloadAction<string>){
             state.description=action.payload;
         },
-        setSeriasImage(state,action:PayloadAction<string>){
+        setSeriasImage(state,action:PayloadAction<{url:string,googleid:string,status:'loadend'|'loading'|'error',}>){
+            let {url,googleid,status}=action.payload;
+
             state.bookImage={
-                url:action.payload,
-                googleid:'',
-                status:'loadend',
+                url,
+                googleid,
+                status,
             };
         },
         addcoll(state){
@@ -93,14 +96,14 @@ let EditSlice = createSlice({
             });
             state.collections=colls;
         },
-        setBookImage(state,action:PayloadAction<{imgSrc:string,numColl:number,nummBook:number}>){
-            let {imgSrc, numColl, nummBook} = action.payload;
+        setBookImage(state,action:PayloadAction<{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'}>){
+            let {url, numColl, nummBook, status, googleid} = action.payload;
 
             let arr = state.collections;
             arr[numColl].books[nummBook].image={
-                url:imgSrc,
-                googleid:'',
-                status:'loadend',
+                url,
+                googleid,
+                status,
             };
         },
         ShowHideBook(state,action:PayloadAction<{numColl:number,nummBook:number}>){
@@ -154,21 +157,72 @@ export const {
     addFragment,
     removeFragment,
 } = EditSlice.actions;
-export default EditSlice.reducer
-
+export default EditSlice.reducer;
 export const asyncSetMainImage = createAsyncThunk(
     'edit/asyncSetMainImage',
-    async (params, thunkApi) => {
+    async (param:File, thunkApi) => {
+        let {dispatch}= thunkApi;
+        let payload:{url:string,googleid:string,status:'loadend'|'loading'|'error',} = {
+            url:'',
+            googleid: '',
+            status:'loading',
+        };
+        dispatch(setSeriasImage(payload));
+        let res = await sendFileToBackend(param);
 
-    return;}
-)
-
+        if (res==='error'){
+            let payload:{url:string,googleid:string,status:'loadend'|'loading'|'error',} = {
+                url:'',
+                googleid: '',
+                status:'error',
+            };
+            dispatch(setSeriasImage(payload));
+        }else{
+            let payload:{url:string,googleid:string,status:'loadend'|'loading'|'error',} = {
+                url:res.url,
+                googleid:res.googleid,
+                status:'loadend',
+            };
+            dispatch(setSeriasImage(payload));
+        }
+    }
+);
 export const asyncSetBookImage = createAsyncThunk(
     'edit/asyncSetBookImage',
-    async (params, thunkApi) => {
+    async (params:{img:File,numColl:number,nummBook:number}, thunkApi) => {
+        let {img,numColl,nummBook} = params;
+        let {dispatch}= thunkApi;
+        let payload:{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'} = {
+            numColl,
+            nummBook,
+            url:'wait',
+            googleid: '',
+            status:'loading',
+        };
+        dispatch(setBookImage(payload));
+        let res = await sendFileToBackend(img);
 
-    return;}
-)
+        if (res==='error'){
+            let payload:{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'} = {
+                numColl,
+                nummBook,
+                url:'error',
+                googleid: '',
+                status:'error',
+            };
+            dispatch(setBookImage(payload));
+        }else{
+            let payload:{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'} = {
+                numColl,
+                nummBook,
+                url: res.url,
+                googleid: res.googleid,
+                status: 'loadend',
+            };
+            dispatch(setBookImage(payload));
+        }
+    }
+);
 
 export const asyncAddBookFrahment = createAsyncThunk(
     'edit/asyncAddBookFrahment',
