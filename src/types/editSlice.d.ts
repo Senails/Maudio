@@ -1,6 +1,7 @@
 export type EditImage = {
     url: string,
-    googleid:string;
+    googleid:string,
+    status:'loadend'|'loading'|'error',
 }
 
 export type Editbookpart={

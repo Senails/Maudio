@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Loader } from '../../components/Loader/Loader';
 import { setauthtorname, setSeriasImage, setcollname, setdescription } from '../../redux/slices/EditSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { getSrcFromFile } from '../../Utils/other/getSrc';
@@ -22,9 +23,14 @@ export function EditPage(){
 
     return <div className={`edit-page `+(ondrag?'ongrag':'')}>    
         <div className='edit-conteiner'>
-            <div className='book-image'>
-                <div className='activeimage' style={activeimageStyle}>
-                    <input type="file" onInput={onchange}/>
+            <div className={`book-image ${bookImage.status==='loadend'?"haveimage":''}`}>
+                <div className='activeimage' style={bookImage.status==='loadend'?activeimageStyle:{}}>
+                    {bookImage.status==='loading'?<Loader shadow={true}/>:<></>}
+                    {bookImage.status==='error'?<>
+                    <span>Ошибка</span>
+                    <span>загрузите сного</span>
+                    </>:<></>}
+                    {bookImage.status!=='loading'?<input type="file" onInput={onchange}/>:<></>}
                 </div>
             </div>
             <div className='right-collomn'>

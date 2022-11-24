@@ -1,6 +1,7 @@
+import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
 import { addFragment, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
-import { Editbookpart } from '../../../types/editSlice';
+import { Editbookpart, EditImage } from '../../../types/editSlice';
 import { bookpart } from '../../../types/pleerSlice';
 import { getSrcFromFile } from '../../../Utils/other/getSrc';
 import { BookPart } from '../BookPart/BookPart';
@@ -10,7 +11,7 @@ type props = {
     numcoll: number,
     numbook:number,
     name:string,
-    image:string,
+    image:EditImage,
     bookparts: Editbookpart[],
     showB:boolean,
 }
@@ -19,7 +20,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
     let dispatch = useAppDispatch();
         
     let imagePrevieStyle = {
-        backgroundImage:`url(${image})`,
+        backgroundImage:`url(${image.url})`,
     }
     let arrayFragmentsStyle={
         height:`${(bookparts.length+1)*45}px`,
@@ -69,8 +70,12 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
                 <div className='try'></div>
                 <div className='try'></div>
             </div>
-            <div className={`add-imageforbook ${image?'haveimage':''}`}>
-                <div className='image-previe' style={imagePrevieStyle}></div>
+            <div className={`add-imageforbook ${image.url?'haveimage':''} ${image.status==='error'?'error':''}`}>
+                <div className='image-previe' style={image.status==='loadend'?imagePrevieStyle:{}}>
+                    {image.status==='loading'?<MiniLoader/>:<></>}
+                    {image.status==='error'?
+                    <span>Ошибка</span>:<></>}
+                </div>
                 <span>загрузить картинку</span>
                 <input type="file" onChange={ImageInputOnChange}/>
             </div>

@@ -5,7 +5,7 @@ let initialState:EditState ={
     collName:'Name Collection',
     authtorName:'Name authtor',
     description:'description of collection',
-    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:''},
+    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:'',status:'error'},
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
@@ -28,6 +28,7 @@ let EditSlice = createSlice({
             state.bookImage={
                 url:action.payload,
                 googleid:'',
+                status:'loadend',
             };
         },
         addcoll(state){
@@ -60,7 +61,7 @@ let EditSlice = createSlice({
 
             arr[collnum].books.push({
                 name:'Book '+arr[collnum].books.length,
-                image:{url:'',googleid:''},
+                image:{url:'',googleid:'',status:'loadend'},
                 bookparts:[],
                 booklength:0,
                 show:false,
@@ -98,6 +99,7 @@ let EditSlice = createSlice({
             arr[numColl].books[nummBook].image={
                 url:imgSrc,
                 googleid:'',
+                status:'loadend',
             };
         },
         ShowHideBook(state,action:PayloadAction<{numColl:number,nummBook:number}>){

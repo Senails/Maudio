@@ -18,7 +18,7 @@ export function CollLine({num,name,books}:props){
 
     let arraybooks = books.map((elem,index)=>{
         return <Bookline
-        image={elem.image.url}
+        image={elem.image}
         bookparts={elem.bookparts}
         name={elem.name}
         numcoll={num}

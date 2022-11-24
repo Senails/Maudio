@@ -76,7 +76,7 @@
         }
         >.add-imageforbook{
             position: absolute;
-            top: calc(50% - 12px);
+            top: calc(50% - 13px);
             right: 50px;
 
             text-align: center;
@@ -97,8 +97,14 @@
             &.haveimage{
                 border: 1px solid #8dff82;
 
+                .image-previe{
+                    display: none;
+                }
+
                 &:hover{
                     .image-previe{
+                        display: block;
+
                         position: absolute;
                         width: 96px;
                         height: 150px;
@@ -110,6 +116,28 @@
     
                         left: calc(50% - 48px);
                         bottom: 30px;
+                    }
+                }
+
+                &.error{
+                    border:1px solid #fd6969;
+                    
+                    &:hover{
+                        .image-previe{
+                            display: flex;
+    
+                            position: absolute;
+                            width: 96px;
+                            height: 150px;
+                            background-color: #1d1d1d;
+                            left: calc(50% - 48px);
+                            bottom: 30px;
+
+                            justify-content: center;
+                            align-items: center;
+
+                            color: rgb(253, 86, 86);
+                        }
                     }
                 }
             }

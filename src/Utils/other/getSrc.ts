@@ -5,8 +5,7 @@ export async function getSrcFromURL(url:string) {
         try{
             let response = await fetch(url);
             let blob = await response.blob();
-
-
+            
             let src = URL.createObjectURL(blob);
             res(src);  
         }catch{
