@@ -11,6 +11,8 @@ export function EditPage(){
     let dispatch = useAppDispatch();
 
     async function onchange(event: React.ChangeEvent<HTMLInputElement>){
+        if (event.target.files===null) return;
+        
         let file = event.target.files![0];
         let src =await getSrcFromFile(file);
         dispatch(setSeriasImage(src));

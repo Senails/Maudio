@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Editbookpart, EditState } from "../../types/editSlice";
 
 let initialState:EditState ={
+    href:'',
     collName:'Name Collection',
     authtorName:'Name authtor',
     description:'description of collection',
-    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:'',status:'error'},
+    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:'',status:'loadend'},
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
@@ -154,3 +155,24 @@ export const {
     removeFragment,
 } = EditSlice.actions;
 export default EditSlice.reducer
+
+export const asyncSetMainImage = createAsyncThunk(
+    'edit/asyncSetMainImage',
+    async (params, thunkApi) => {
+
+    return;}
+)
+
+export const asyncSetBookImage = createAsyncThunk(
+    'edit/asyncSetBookImage',
+    async (params, thunkApi) => {
+
+    return;}
+)
+
+export const asyncAddBookFrahment = createAsyncThunk(
+    'edit/asyncAddBookFrahment',
+    async (params, thunkApi) => {
+
+    return;}
+)

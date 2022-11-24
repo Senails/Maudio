@@ -26,6 +26,7 @@ export type EditCollection = {
 }
 
 export type EditState = {
+    href:string,
     collName:string,
     authtorName:string,
     description:string,
