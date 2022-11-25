@@ -5,6 +5,7 @@ export type EditImage = {
 }
 
 export type Editbookpart={
+    id:string;
     lenght:number;
     url:string;
     googleid:string;
@@ -32,6 +33,6 @@ export type EditState = {
     description:string,
     bookImage:EditImage,
     collections: EditCollection[],
-    removeOnSave:[],
-    removeOnCancel:[],
+    removeOnSave:string[],
+    removeOnCancel:string[],
 }

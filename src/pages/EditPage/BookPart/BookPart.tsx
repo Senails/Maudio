@@ -33,20 +33,24 @@ export function BookPart({part,numCol,numBook,numFragment}:PropsType){
                 <span>{numToTime(lenght)}</span>
                 <span>{numToSize(size||0)}</span>
             </div>
+            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,numFragment}))}}>
+                <div className='try'></div>
+                <div className='try'></div>
+            </div>
         </>
     }
 
     if (status==='error'){
         jsxfragment=<>
             <span className='error'>Ошибка загрузки</span>
+            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,numFragment}))}}>
+                <div className='try'></div>
+                <div className='try'></div>
+            </div>
         </>
     }
 
     return <div className='book-part-block'>
         {jsxfragment}
-        <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,numFragment}))}}>
-            <div className='try'></div>
-            <div className='try'></div>
-        </div>
     </div>
 }

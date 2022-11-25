@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sendFileToBackend } from "../../api/sendFileToBackend";
 import { Editbookpart, EditState } from "../../types/editSlice";
+import { createID } from "../../Utils/other/createId";
+import { getAudioSize } from "../../Utils/other/getaudiosize";
 
 let initialState:EditState ={
     href:'',
@@ -113,17 +115,18 @@ let EditSlice = createSlice({
             colls[numColl].books[nummBook].show= !colls[numColl].books[nummBook].show;
             state.collections=colls;
         },
-        addFragment(state,action:PayloadAction<{numColl:number,nummBook:number}>){
-            let {numColl,nummBook} = action.payload;
+        addFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
+            let {numColl,nummBook,lenght,size,status,googleid,url,id} = action.payload;
 
             let colls = state.collections;
 
             let newFragment:Editbookpart = {
-                url:'',
-                lenght:100,
-                size:1234752,
-                status:'loadend',
-                googleid:'23131',
+                id,
+                url,
+                lenght,
+                size,
+                status,
+                googleid,
             }
 
             colls[numColl].books[nummBook].bookparts.push(newFragment);
@@ -137,7 +140,36 @@ let EditSlice = createSlice({
             .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
 
             state.collections=coll;
-        }
+        },
+        changeFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
+            let {numColl,nummBook,lenght,size,status,googleid,url,id} = action.payload;
+            let colls = state.collections;
+            let Fragment:Editbookpart = {
+                id,
+                url,
+                lenght,
+                size,
+                status,
+                googleid,
+            }
+            let bookparts = colls[numColl].books[nummBook].bookparts;
+            bookparts = bookparts.map((elem,index)=>{
+                if (elem.id===id) return Fragment;
+                return elem;
+            });
+            colls[numColl].books[nummBook].bookparts = bookparts;
+            state.collections=colls;
+        },
+        addToSaveRemoveList(state,action:PayloadAction<string>){
+            let arr = state.removeOnSave;
+            arr.push(action.payload);
+            state.removeOnSave=arr;
+        },
+        addToCancelRemoveList(state,action:PayloadAction<string>){
+            let arr = state.removeOnCancel;
+            arr.push(action.payload);
+            state.removeOnCancel=arr;
+        },
     },
 })
 
@@ -156,8 +188,10 @@ export const {
     ShowHideBook,
     addFragment,
     removeFragment,
+    changeFragment,
 } = EditSlice.actions;
 export default EditSlice.reducer;
+
 export const asyncSetMainImage = createAsyncThunk(
     'edit/asyncSetMainImage',
     async (param:File, thunkApi) => {
@@ -223,10 +257,53 @@ export const asyncSetBookImage = createAsyncThunk(
         }
     }
 );
-
 export const asyncAddBookFrahment = createAsyncThunk(
     'edit/asyncAddBookFrahment',
-    async (params, thunkApi) => {
+    async (params:{numColl:number,nummBook:number,file:File}, thunkApi) => {
+        let {dispatch}=thunkApi;
+        let {numColl,nummBook,file}=params;
+        let id = createID();
 
-    return;}
+        let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
+            id,
+            numColl,
+            nummBook,
+            lenght:0,
+            size:0,
+            status:'loading',
+            googleid:'',
+            url:'',
+        }
+        dispatch(addFragment(payload));
+        let res = await sendFileToBackend(file);
+
+        if (res==='error'){
+            let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
+                id,
+                numColl,
+                nummBook,
+                lenght:0,
+                size:0,
+                status:'error',
+                googleid:'',
+                url:'',
+            }
+            dispatch(changeFragment(payload));
+        }else{
+            let lenght = await getAudioSize(res.url);
+            let size = file.size;
+
+            let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
+                id,
+                numColl,
+                nummBook,
+                lenght,
+                size,
+                status:'loadend',
+                googleid:res.googleid,
+                url:res.url,
+            }
+            dispatch(changeFragment(payload));
+        }
+    }
 )

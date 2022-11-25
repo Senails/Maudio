@@ -1,5 +1,5 @@
 import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
-import { addFragment, asyncSetBookImage, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
+import { addFragment, asyncAddBookFrahment, asyncSetBookImage, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
 import { Editbookpart, EditImage } from '../../../types/editSlice';
 import { bookpart } from '../../../types/pleerSlice';
@@ -46,8 +46,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         let files = event.target.files;
         if (!files) return;
         for(let i=0; i<files.length;i++){
-            dispatch(addFragment({numColl:numcoll,nummBook:numbook}))
-            // console.log(files[i]);
+            dispatch(asyncAddBookFrahment({numColl:numcoll,nummBook:numbook,file:files[i]}))
         }
         event.target.value='';
     }
