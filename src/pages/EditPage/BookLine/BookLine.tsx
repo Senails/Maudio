@@ -69,7 +69,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
                 <div className='try'></div>
                 <div className='try'></div>
             </div>
-            <div className={`add-imageforbook ${image.url?'haveimage':''} ${image.status==='error'?'error':''}`}>
+            <div className={`add-imageforbook ${image.url?'haveimage':''} ${image.status==='error'?'error':''} ${image.status==='loading'?'loading':''}`}>
                 <div className='image-previe' style={image.status==='loadend'?imagePrevieStyle:{}}>
                     {image.status==='loading'?<MiniLoader/>:<></>}
                     {image.status==='error'?

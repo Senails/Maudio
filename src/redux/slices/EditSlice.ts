@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { sendFileToBackend } from "../../api/sendFileToBackend";
+import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
 import { Editbookpart, EditState } from "../../types/editSlice";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
+import { RootState } from "../store";
 
 let initialState:EditState ={
     href:'',
@@ -51,10 +52,22 @@ let EditSlice = createSlice({
             state.collections=arr;
         },
         removecoll(state,action:PayloadAction<number>){
-            let arr = state.collections;
+            let colls = state.collections;
             let num = action.payload;
 
-            let rez = arr.filter((elem,index)=>index===num?false:true);
+
+            //занести фрагменты колекции в список на удаление 
+            let removeList = state.removeOnSave;
+            colls[num].books.forEach((book)=>{
+                book.bookparts.forEach((fragment)=>{
+                    removeList.push(fragment.googleid);
+                })
+            })
+            state.removeOnSave=removeList;
+            //
+
+
+            let rez = colls.filter((elem,index)=>index===num?false:true);
             state.collections=rez;
         },
         changecollname(state,action:PayloadAction<{num:number, name:string}>){
@@ -78,6 +91,14 @@ let EditSlice = createSlice({
             let {Collnum,Booknum} = action.payload;
             let colls = state.collections;
             let books = state.collections[Collnum].books;
+
+            //занести фрагменты книги в список на удаление 
+            let removeList = state.removeOnSave;
+            books[Booknum].bookparts.forEach((fragment)=>{
+                removeList.push(fragment.googleid);
+            })
+            state.removeOnSave=removeList;
+            //
 
             colls[Collnum].books=books.filter((elem,index)=>Booknum===index?false:true);
             state.collections=colls;
@@ -134,12 +155,18 @@ let EditSlice = createSlice({
         },
         removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,numFragment:number}>){
             let {numCol, numBook, numFragment} = action.payload;
+            let colls = state.collections;
 
-            let coll = state.collections;
-            coll[numCol].books[numBook].bookparts=coll[numCol]
+            //занести фрагмент в список на удаление 
+            let removeList = state.removeOnSave;
+            removeList.push(colls[numCol].books[numBook].bookparts[numFragment].googleid);
+            state.removeOnSave=removeList;
+            //
+
+            colls[numCol].books[numBook].bookparts=colls[numCol]
             .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
 
-            state.collections=coll;
+            state.collections=colls;
         },
         changeFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
             let {numColl,nummBook,lenght,size,status,googleid,url,id} = action.payload;
@@ -189,18 +216,24 @@ export const {
     addFragment,
     removeFragment,
     changeFragment,
+    addToSaveRemoveList,
+    addToCancelRemoveList,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
 export const asyncSetMainImage = createAsyncThunk(
     'edit/asyncSetMainImage',
     async (param:File, thunkApi) => {
-        let {dispatch}= thunkApi;
+        let {dispatch,getState}= thunkApi;
         let payload:{url:string,googleid:string,status:'loadend'|'loading'|'error',} = {
             url:'',
             googleid: '',
             status:'loading',
         };
+
+        let state = getState() as RootState;
+        let prevGoogleID = state.edit.bookImage.googleid;
+
         dispatch(setSeriasImage(payload));
         let res = await sendFileToBackend(param);
 
@@ -217,6 +250,9 @@ export const asyncSetMainImage = createAsyncThunk(
                 googleid:res.googleid,
                 status:'loadend',
             };
+
+            dispatch(addToSaveRemoveList(prevGoogleID));
+            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(setSeriasImage(payload));
         }
     }
@@ -225,7 +261,11 @@ export const asyncSetBookImage = createAsyncThunk(
     'edit/asyncSetBookImage',
     async (params:{img:File,numColl:number,nummBook:number}, thunkApi) => {
         let {img,numColl,nummBook} = params;
-        let {dispatch}= thunkApi;
+        let {dispatch, getState}= thunkApi;
+
+        let state = getState() as RootState;
+        let prevGoogleID = state.edit.collections[numColl].books[nummBook].image.googleid;
+
         let payload:{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'} = {
             numColl,
             nummBook,
@@ -253,6 +293,9 @@ export const asyncSetBookImage = createAsyncThunk(
                 googleid: res.googleid,
                 status: 'loadend',
             };
+
+            dispatch(addToSaveRemoveList(prevGoogleID));
+            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(setBookImage(payload));
         }
     }
@@ -260,7 +303,7 @@ export const asyncSetBookImage = createAsyncThunk(
 export const asyncAddBookFrahment = createAsyncThunk(
     'edit/asyncAddBookFrahment',
     async (params:{numColl:number,nummBook:number,file:File}, thunkApi) => {
-        let {dispatch}=thunkApi;
+        let {dispatch,getState}=thunkApi;
         let {numColl,nummBook,file}=params;
         let id = createID();
 
@@ -303,6 +346,8 @@ export const asyncAddBookFrahment = createAsyncThunk(
                 googleid:res.googleid,
                 url:res.url,
             }
+
+            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(changeFragment(payload));
         }
     }

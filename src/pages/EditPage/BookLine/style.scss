@@ -141,6 +141,9 @@
                     }
                 }
             }
+            &.loading{
+                border: 1px solid #fdfb6d;
+            }
             &:hover{
                 background-color: #0c0c0c;
             }
