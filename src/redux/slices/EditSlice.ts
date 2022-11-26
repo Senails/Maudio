@@ -7,10 +7,10 @@ import { RootState } from "../store";
 
 let initialState:EditState ={
     href:'',
-    collName:'Name Collection',
-    authtorName:'Name authtor',
-    description:'description of collection',
-    bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:'',status:'loadend'},
+    collName:'',
+    authtorName:'',
+    description:'',
+    bookImage:{url:'',googleid:'',status:'loadend'},
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
@@ -197,6 +197,18 @@ let EditSlice = createSlice({
             arr.push(action.payload);
             state.removeOnCancel=arr;
         },
+        setEditState(state,action:PayloadAction<EditState>){
+            let {href, collName , authtorName, description, bookImage, collections} = action.payload;
+
+            state.href = href;
+            state.collName = collName;
+            state.authtorName = authtorName;
+            state.description = description;
+            state.bookImage = bookImage;
+            state.collections = collections;
+            state.removeOnCancel=[];
+            state.removeOnSave=[];
+        }
     },
 })
 
@@ -218,6 +230,7 @@ export const {
     changeFragment,
     addToSaveRemoveList,
     addToCancelRemoveList,
+    setEditState,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
