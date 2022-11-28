@@ -1,5 +1,4 @@
 import {google} from 'googleapis';
-import { Request } from 'express';
 
 const CLIENT_ID = '1057357561839-dkluu6cbr8312848dklbec7469hgce1c.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
@@ -20,7 +19,7 @@ const drive = google.drive({
 });
 
 
-export async function uploadGoogleFile(name:string,mimeType:string,readStream:Request){
+export async function uploadGoogleFile(name,mimeType,readStream){
     return new Promise(async (res,rej)=>{
         try{
             const response = await drive.files.create({
@@ -47,7 +46,7 @@ export async function uploadGoogleFile(name:string,mimeType:string,readStream:Re
         }
     })
 }
-export async function removeGoogleFile(googleID:string):Promise<'ok'|'error'>{
+export async function removeGoogleFile(googleID){
     return new Promise(async (res,rej)=>{
         try{
             const response = await drive.files.delete({
@@ -55,7 +54,7 @@ export async function removeGoogleFile(googleID:string):Promise<'ok'|'error'>{
             });
             (response.status===204)?res('ok'):res('error');
         }catch(e){
-            let message: string = (e as Error).message;
+            let message = e.message;
             if (message.includes('File not found')){
                 res('ok');
             }else{
@@ -64,7 +63,23 @@ export async function removeGoogleFile(googleID:string):Promise<'ok'|'error'>{
         }
     })
 }
-async function getPublickURL(googleID:string):Promise<string>{
+export async function deleteRemoveList(removeList){
+    let promiseArray = [];
+    for(let googleID of removeList){
+        promiseArray.push(removeGoogleFile(googleID));
+    }
+    let pesolvedArray = await Promise.all(promiseArray);
+    let errorList=[];
+    for(let i=0; i<pesolvedArray.length;i++){
+        if (pesolvedArray[i]!=='error') continue;
+
+        errorList.push(promiseArray[i]);
+    }
+    if (errorList.length===0) return 'ok';
+    return errorList;
+}
+
+async function getPublickURL(googleID){
     await drive.permissions.create({
         fileId:googleID,
         requestBody:{

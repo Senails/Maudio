@@ -1,8 +1,7 @@
-import { uploadGoogleFile } from "../../utils/googleFiles/google";
-import {createFileName} from '../../utils/googleFiles/createFileName';
-import { Request , Response} from 'express';
+import { uploadGoogleFile } from "../../utils/googleFiles/google.js";
+import {createFileName} from '../../utils/googleFiles/createFileName.js';
 
-export async function sendFileToGoogle(req:Request,res:Response){
+export async function sendFileToGoogle(req,res){
     let mimeType = req.headers['content-type'];
     if (!mimeType) return res.send('error');
 
