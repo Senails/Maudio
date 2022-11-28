@@ -1,4 +1,5 @@
 import {MongoColl} from './MongoDB.js';
+import {filterBooksBySearch} from '../reimport.js';
 
 let nameDB = 'AudioBooks';
 
@@ -48,7 +49,6 @@ export async function addBookToDB(book){
         })
     })
 }
-
 export async function removeBookOnDB(href){
     return new Promise(async(res,rej)=>{
         MongoColl(async (mongo)=>{
@@ -64,6 +64,26 @@ export async function removeBookOnDB(href){
                 return res('error');
             }
         })
+    })
+}
+export async function findBooksBySearch(search){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('books');
+
+                let arraybooks = await coll.find().toArray();
+                let needbooks = filterBooksBySearch(arraybooks,search);
+                return res(needbooks);
+            }catch{
+                return res('error');
+            }
+        })
+
+
+
+
     })
 }
 

@@ -1,8 +1,9 @@
 import { uploadGoogleFile, deleteRemoveList, removeGoogleFile } from './google/google.js';
 
-import { addBookToDB, removeBookOnDB } from './mongoDb/MongoUtils.js';
+import { addBookToDB, removeBookOnDB ,findBooksBySearch } from './mongoDb/MongoUtils.js';
 
 import { readBodyToJson } from './other/readBody.js';
+import { filterBooksBySearch } from './other/filterBooks.js';
 
 export {
     addBookToDB,
@@ -10,5 +11,7 @@ export {
     uploadGoogleFile,
     deleteRemoveList,
     removeGoogleFile,
-    readBodyToJson
+    readBodyToJson,
+    findBooksByName,
+    filterBooksBySearch
 }

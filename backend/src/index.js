@@ -1,9 +1,6 @@
 import express from 'express';
 import { sendFileToGoogle } from './api/post/sendFileToGoogle.js';
-import { readBodyToJson } from './utils/reimport.js';
-import __dirname from './__dirname.js';
-import path from 'path';
-import fs from 'fs';
+import { readBodyToJson, findBooksBySearch, addBookToDB} from './utils/reimport.js';
 
 let app = express();
 
@@ -31,22 +28,12 @@ app.post('/api/cancel',async (req,res)=>{})
 app.post('/api/auth',async (req,res)=>{})
 app.post('/api/login',async (req,res)=>{})
 
-//112232423443
 
-app.listen(3000, function() {
-	console.log('running');
-});
-
-let book = {
-    href:'MaxMax',
-    name:'mixin',
-    surn:'pixin'
-}
-
-// addBookToDB(book);
+// app.listen(3000, function() {
+// 	console.log('running');
+// });
 
 
 func()
 async function func(){
 }
-
