@@ -1,4 +1,5 @@
 import {google} from 'googleapis';
+import { Request } from 'express';
 
 const CLIENT_ID = '1057357561839-dkluu6cbr8312848dklbec7469hgce1c.apps.googleusercontent.com';
 const CLIENT_SECRET = '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';
@@ -18,7 +19,8 @@ const drive = google.drive({
     auth: oauth2Client,
 });
 
-export async function uploadGoogleFile(name,mimeType,readStream){
+
+export async function uploadGoogleFile(name:string,mimeType:string,readStream:Request){
     return new Promise(async (res,rej)=>{
         try{
             const response = await drive.files.create({
@@ -33,29 +35,28 @@ export async function uploadGoogleFile(name,mimeType,readStream){
             })
 
             let GoogleID = response.data.id;
+            if (!GoogleID) return res('error');
             let url = await getPublickURL(GoogleID);
-
             let result = {
                 URL:url,
                 googleID:GoogleID,
             }
-
             res(result)
         }catch{
             res('error');
         }
     })
 }
-
-export async function removeGoogleFile(googleID){
+export async function removeGoogleFile(googleID:string):Promise<'ok'|'error'>{
     return new Promise(async (res,rej)=>{
         try{
             const response = await drive.files.delete({
                 fileId: googleID,
             });
             (response.status===204)?res('ok'):res('error');
-        }catch(error){
-            if (error.message.includes('File not found')){
+        }catch(e){
+            let message: string = (e as Error).message;
+            if (message.includes('File not found')){
                 res('ok');
             }else{
                 res('error');
@@ -63,8 +64,7 @@ export async function removeGoogleFile(googleID){
         }
     })
 }
-
-async function getPublickURL(googleID){
+async function getPublickURL(googleID:string):Promise<string>{
     await drive.permissions.create({
         fileId:googleID,
         requestBody:{
@@ -77,6 +77,10 @@ async function getPublickURL(googleID){
         fileId:googleID,
         fields: 'webContentLink',
     })
-    return res.data.webContentLink;
+
+    let url = res.data.webContentLink;
+
+    if (url) return url;
+    return 'error';
 }
 //
