@@ -1,7 +1,9 @@
 import express from 'express';
 import {apiRouter} from './api/apiRouter.js';
+import cors from 'cors';
 
 let app = express();
+app.use(cors());
 
 app.get('/',(req,res)=>{
     res.send('123');
@@ -11,18 +13,6 @@ app.use('/api/',apiRouter);
 
 
 
-app.listen(3000, function() {
+app.listen(3001, function() {
 	console.log('running');
 });
-
-
-// let user ={
-//     login:'senails',
-//     status:'admin',
-//     password:'rtyrfvrty'
-// }
-
-// // func()
-// function func(){
-//     addUser(user);
-// }

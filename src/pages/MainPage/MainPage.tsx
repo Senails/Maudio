@@ -40,7 +40,7 @@ export default function MainPage(){
                 <div className='addbook-icon'>
                     <div></div>
                     <div></div>
-                    <Link to={'/edit/newcollection'}></Link>
+                    <Link to={'/edit/newbook'}></Link>
                 </div>
             </>:<></>}
         </div>

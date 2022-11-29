@@ -1,8 +1,12 @@
 import { BookData } from "../pages/BookInfoPage/BookInfoPage";
-import { sleep } from "../Utils/other/sleep";
+import { adress } from "./apiAdress";
 
-export async function getBookData(bookname:string):Promise<BookData|'error'>{
-    await sleep(300);
+export async function getBookData(href:string):Promise<BookData|'error'>{
+    let apiadress=adress+`/api/getbookdata/${href}`;
+    let res = await fetch(apiadress);
+    let json = await res.json();
+
+    console.log(json);
 
     //тут выполнить запрос
     let bookdata:BookData = {

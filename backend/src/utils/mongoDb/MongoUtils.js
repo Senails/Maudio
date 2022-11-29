@@ -78,6 +78,7 @@ export async function findBooksBySearch(search){
 
                 let arraybooks = await coll.find().toArray();
                 let needbooks = filterBooksBySearch(arraybooks,search);
+        
                 res(needbooks);
             }catch{
                 res('error');

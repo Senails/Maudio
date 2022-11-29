@@ -32,6 +32,7 @@ export type EditState = {
     authtorName:string,
     description:string,
     bookImage:EditImage,
+    bookcount:number,
     collections: EditCollection[],
     removeOnSave:string[],
     removeOnCancel:string[],

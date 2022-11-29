@@ -1,25 +1,23 @@
 import { EditState } from "../../types/editSlice";
-import { sleep } from "../../Utils/other/sleep";
 
 type editData = {
 
 }
 
-export async function  getDataForEdit():Promise<EditState|'error'> {
-    await sleep(242);
-
-    let result:EditState ={
-        href:'',
-        collName:'Name Collection',
-        authtorName:'Name authtor',
-        description:'description of collection',
-        bookImage:{url:'http://localhost:3000/static/media/img1.a13b7f9a6e77a8409bdb.jpg',googleid:'',status:'loadend'},
-        collections: [],
-        removeOnCancel:[],
-        removeOnSave:[],
+export async function getDataForEdit(bookname:string):Promise<EditState|'error'> {
+    if (bookname==='newbook'){
+        let result:EditState ={
+            href:'newbook',
+            collName:'Name Collection',
+            authtorName:'Name authtor',
+            description:'description of collection',
+            bookImage:{url:'',googleid:'',status:'loadend'},
+            bookcount:0,
+            collections: [],
+            removeOnCancel:[],
+            removeOnSave:[],
+        }
+        return result;
     }
-
-    return result;
-
-    // return 'error';
+    return "error";
 }   

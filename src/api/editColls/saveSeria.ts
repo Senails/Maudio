@@ -1,8 +1,35 @@
 import { store } from "../../redux/store";
-import { sleep } from "../../Utils/other/sleep";
-let editState = store.getState().edit;
+import { BookMapFetch} from "../../types/api";
+import { EditState } from "../../types/editSlice";
+import { editMapToApiMap } from "../../Utils/apiUtils/apiUtils";
+import { adress } from "../apiAdress";
+
 
 export async function saveSeria():Promise<'error'|'ok'>{
-    await sleep(300);
-    return 'ok';
+    try{
+        let editState: EditState = store.getState().edit;
+        let fetchBookMap: BookMapFetch = editMapToApiMap(editState);
+        let removeList = editState.removeOnSave;
+
+        let apiObj = {
+            bookMap:fetchBookMap,
+            RemoveList:removeList,
+            lasthref: editState.href,
+        }
+
+        let apiadress=adress+`/api/${editState.href==='newbook'?'save':'edit'}`;
+        let res = await fetch(apiadress,{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(apiObj),
+        })
+        let text= await res.text();
+
+
+        return text as 'error'|'ok';
+    }catch{
+        return 'error';
+    }
 }

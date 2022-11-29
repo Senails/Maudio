@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { cancelSeria } from '../../api/editColls/cancelSeria';
 import { deleteSeria } from '../../api/editColls/deleteSeria';
 import { getDataForEdit } from '../../api/editColls/getDataForEdit';
@@ -17,6 +17,7 @@ export function EditPage(){
     let {collName,authtorName,description,bookImage} = useAppSelector((state:RootState)=>state.edit);
     let dispatch = useAppDispatch();
     let navigate = useNavigate();
+    let { bookname } = useParams()
 
     let [validsate,setvalidsate]=useState<{[key:string]:boolean}>(val);
     let [loadend,setloadend]=useState(false);
@@ -27,7 +28,7 @@ export function EditPage(){
     },[])
 
     async function onOpen() {
-        let res = await getDataForEdit();
+        let res = await getDataForEdit(bookname!);
         if (res!=='error'){
             dispatch(setEditState(res));
         }else{

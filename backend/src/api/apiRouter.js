@@ -8,6 +8,7 @@ export const apiRouter = express.Router();
 apiRouter.get('/getbookdata/:href',getBookData);
 apiRouter.get('/getbookmap/:href',getBookMap);
 apiRouter.get('/getbooks/:search',getBooksData);
+apiRouter.get('/getbooks',getBooksData);
 
 apiRouter.post('/sendfile',sendFileToGoogle);
 apiRouter.post('/save',saveBook);

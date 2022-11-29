@@ -1,5 +1,4 @@
-import { getSrcFromFile } from "../../Utils/other/getSrc";
-import { sleep } from "../../Utils/other/sleep";
+import { adress } from "../apiAdress";
 
 type ResponseType = {
     url:string,
@@ -7,16 +6,25 @@ type ResponseType = {
 }
 
 export async function sendFileToBackend(file:File):Promise<ResponseType|'error'> {
-    await sleep(Math.floor(Math.random()*3000)*10);
     //отправить на бекенд и загрузить на гугл диск
+    let mimeType =file.type;
+    let apiadress=adress+`/api/sendfile`;
     try{
-        let src = await getSrcFromFile(file);
-        return{
-            url:src,
-            googleid:file.name,
+        let res = await fetch(apiadress,{
+            method:'POST',
+            headers:{
+                'Content-Type': `${mimeType}`,
+            },
+            body:file,
+        })
+        let json = await res.json();
+
+        let result:ResponseType = {
+            url:json.URL,
+            googleid: json.googleID,
         }
+        return result;
     }catch{
         return 'error';
     }
-    //
 }

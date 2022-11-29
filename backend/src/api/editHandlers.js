@@ -8,9 +8,21 @@ import {
 } from '../utils/reimport.js';
 
 export async function saveBook(req,res){
-    let json = await readBodyToJson(req);
-    let result = await addBookToDB(json);
+    let body = await readBodyToJson(req);
+    let {bookMap, RemoveList} = body;
+    await deleteRemoveList(RemoveList);
+    let result = await addBookToDB(bookMap);
     res.send(result);
+}
+
+export async function editBook(req,res){
+    let body = await readBodyToJson(req);
+    let {book,lasthref,RemoveList}=body;
+    let remove1 = await removeBookOnDB(lasthref);
+    let result = await await addBookToDB(book);
+    let remove2 = await deleteRemoveList(RemoveList);
+
+    res.send('ok');
 }
 
 export async function deleteBook(req,res){
@@ -20,16 +32,6 @@ export async function deleteBook(req,res){
     let remove2 = await deleteRemoveList(RemoveList);
 
     res.send(remove1);
-}
-
-export async function editBook(req,res){
-    let json = await readBodyToJson(req);
-    let {book,lasthref,RemoveList}=json;
-    let remove1 = await removeBookOnDB(lasthref);
-    let result = await await addBookToDB(book);
-    let remove2 = await deleteRemoveList(RemoveList);
-
-    res.send('ok');
 }
 
 export async function cancelEdit(req,res){

@@ -7,6 +7,7 @@ export type BookCardtype = {
     bookcount:number;
     authtor:string;
     name:string;
+    description?:string;
 }
 
 type searchState = {

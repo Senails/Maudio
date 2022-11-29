@@ -1,19 +1,37 @@
 import { BookCardtype } from "../redux/slices/searchSlice";
-import { sleep } from "../Utils/other/sleep";
+import { BookDataFetch } from "../types/api";
+import { adress } from "./apiAdress";
 
 export async function getArrayBooks(param:string):Promise<BookCardtype[]|'error'>{
-    await sleep(300);
+    let apiadress=adress+`/api/getbooks/${param}`;
+    try{
+        let res = await fetch(apiadress);
+        let json = await res.json();
+        let arrayCard = JSON.parse(json);
 
-    //тут выполнить запрос
-    let book: BookCardtype = {
-        href:'/bookInfo/MaxFrei',
-        img: './img1.jpg',
-        bookcount: 12,
-        authtor:'Макс Фрай',
-        name:'Сэр Макс из Ехо1',
+        let needArray: BookCardtype[] = arrayCard
+        .map((bookcard:BookDataFetch)=>{
+            let {
+                authtorname,
+                image,
+                bookcount,
+                description,
+                href,
+                name,
+             } = bookcard;
+
+            return {
+                href,
+                img: image.url,
+                bookcount,
+                authtor:authtorname,
+                name: name,
+                description,
+            }
+        })
+
+        return needArray;
+    }catch{
+        return "error";
     }
-    let books = [book,book,book,book,book,book];
-    //
-
-    return books;
 }

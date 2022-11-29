@@ -11,6 +11,7 @@ export type BookData = {
     description:string,
     bookscount:number,
     bookimage:string,
+    href?:string,
 }
 let initDataState:BookData={
     name:'',

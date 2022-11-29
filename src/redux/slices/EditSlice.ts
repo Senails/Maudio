@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
 import { Editbookpart, EditState } from "../../types/editSlice";
+import { calculateBookCount } from "../../Utils/EditPage/calculateBookCount";
+import { calculateBookLenth } from "../../Utils/EditPage/calculateBookLength";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
-import { RootState } from "../store";
+import { RootState} from "../store";
 
 let initialState:EditState ={
     href:'',
@@ -11,6 +13,7 @@ let initialState:EditState ={
     authtorName:'',
     description:'',
     bookImage:{url:'',googleid:'',status:'loadend'},
+    bookcount:0,
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
@@ -69,6 +72,8 @@ let EditSlice = createSlice({
 
             let rez = colls.filter((elem,index)=>index===num?false:true);
             state.collections=rez;
+
+            state.bookcount=calculateBookCount(state);
         },
         changecollname(state,action:PayloadAction<{num:number, name:string}>){
             let {num,name}=action.payload;
@@ -86,6 +91,7 @@ let EditSlice = createSlice({
                 show:false,
             })
             state.collections=arr;
+            state.bookcount=calculateBookCount(state);
         },
         removebook(state,action:PayloadAction<{Collnum:number, Booknum:number}>){
             let {Collnum,Booknum} = action.payload;
@@ -102,6 +108,8 @@ let EditSlice = createSlice({
 
             colls[Collnum].books=books.filter((elem,index)=>Booknum===index?false:true);
             state.collections=colls;
+
+            state.bookcount=calculateBookCount(state);
         },
         changebookname(state,action:PayloadAction<{Collnum:number, Booknum:number, newName: string}>){
             let {Collnum,Booknum,newName} = action.payload;
@@ -152,6 +160,10 @@ let EditSlice = createSlice({
 
             colls[numColl].books[nummBook].bookparts.push(newFragment);
 
+            let bookLength = calculateBookLenth(state.collections[numColl].books[nummBook]);
+            colls[numColl].books[nummBook].booklength=bookLength;
+
+            state.collections=colls;
         },
         removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,numFragment:number}>){
             let {numCol, numBook, numFragment} = action.payload;
@@ -165,6 +177,9 @@ let EditSlice = createSlice({
 
             colls[numCol].books[numBook].bookparts=colls[numCol]
             .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
+
+            let bookLength = calculateBookLenth(state.collections[numCol].books[numBook]);
+            colls[numCol].books[numBook].booklength=bookLength;
 
             state.collections=colls;
         },
@@ -185,6 +200,11 @@ let EditSlice = createSlice({
                 return elem;
             });
             colls[numColl].books[nummBook].bookparts = bookparts;
+            
+            
+            let bookLength = calculateBookLenth(state.collections[numColl].books[nummBook]);
+            colls[numColl].books[nummBook].booklength=bookLength;
+
             state.collections=colls;
         },
         addToSaveRemoveList(state,action:PayloadAction<string>){
@@ -258,14 +278,15 @@ export const asyncSetMainImage = createAsyncThunk(
             };
             dispatch(setSeriasImage(payload));
         }else{
+            dispatch(addToSaveRemoveList(prevGoogleID));
+            dispatch(addToCancelRemoveList(res.googleid));
+
             let payload:{url:string,googleid:string,status:'loadend'|'loading'|'error',} = {
                 url:res.url,
                 googleid:res.googleid,
                 status:'loadend',
             };
 
-            dispatch(addToSaveRemoveList(prevGoogleID));
-            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(setSeriasImage(payload));
         }
     }
@@ -299,6 +320,9 @@ export const asyncSetBookImage = createAsyncThunk(
             };
             dispatch(setBookImage(payload));
         }else{
+            dispatch(addToSaveRemoveList(prevGoogleID));
+            dispatch(addToCancelRemoveList(res.googleid));
+
             let payload:{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'} = {
                 numColl,
                 nummBook,
@@ -307,8 +331,6 @@ export const asyncSetBookImage = createAsyncThunk(
                 status: 'loadend',
             };
 
-            dispatch(addToSaveRemoveList(prevGoogleID));
-            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(setBookImage(payload));
         }
     }
@@ -346,6 +368,8 @@ export const asyncAddBookFrahment = createAsyncThunk(
             }
             dispatch(changeFragment(payload));
         }else{
+            dispatch(addToCancelRemoveList(res.googleid));
+
             let lenght = await getAudioSize(res.url);
             let size = file.size;
 
@@ -359,8 +383,6 @@ export const asyncAddBookFrahment = createAsyncThunk(
                 googleid:res.googleid,
                 url:res.url,
             }
-
-            dispatch(addToCancelRemoveList(res.googleid));
             dispatch(changeFragment(payload));
         }
     }

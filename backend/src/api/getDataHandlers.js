@@ -19,7 +19,10 @@ export async function getBookMap(req,res){
 
 export async function getBooksData(req,res){
     let {search} = req.params;
-    let books = await findBooksBySearch(search);
+    let search1=''
+    if (search) search1=search;
+    let books = await findBooksBySearch(search1);
+
     books=books.map((bookcard)=>bookMapToData(bookcard));
     let json = JSON.stringify(books);
     res.json(json);

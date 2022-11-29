@@ -7,7 +7,8 @@ export function filterBooksBySearch(arraybooks,searchUser){
     })
 
     let array2 = arraybooks.filter((seria)=>{
-        if (seria.authtorName.toLowerCase().includes(search)) return true;
+        if (seria.authtorname.toLowerCase().includes(search)) return true;
+        console.log(222);
         return false;
     })
 

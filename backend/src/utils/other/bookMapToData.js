@@ -1,13 +1,13 @@
 export function bookMapToData(bookcard){
-    let {href, name, authtorName, bookimage, description, bookscount} = bookcard;
+    let {href, name, authtorname, image, description, bookcount} = bookcard;
 
     let book = {
         href,
         name,
-        authtor:authtorName,
+        authtorname,
         description,
-        bookscount,
-        bookimage,
+        bookcount,
+        image,
     }
 
     return book;
