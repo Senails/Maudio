@@ -3,10 +3,9 @@ import {filterBooksBySearch} from '../reimport.js';
 
 let nameDB = 'AudioBooks';
 
-
 export async function addBookToDB(book){
     return new Promise(async(res,rej)=>{
-        MongoColl(async (mongo)=>{
+        MongoColl(async (mongo,close)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -46,12 +45,13 @@ export async function addBookToDB(book){
             }catch{
                 res('error');
             }
+            close();
         })
     })
 }
 export async function removeBookOnDB(href){
     return new Promise(async(res,rej)=>{
-        MongoColl(async (mongo)=>{
+        MongoColl(async (mongo,close)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -59,31 +59,45 @@ export async function removeBookOnDB(href){
                 let check = await checkBookOnDB(href);
                 if (check===false) return res('ok');
                 await coll.deleteOne({href: href});
-                return res('ok');
+                res('ok');
             }catch{
-                return res('error');
+                res('error');
             }
+            close();
         })
     })
 }
 export async function findBooksBySearch(search){
     return new Promise((res,rej)=>{
-        MongoColl(async (mongo)=>{
+        MongoColl(async (mongo,close)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
 
                 let arraybooks = await coll.find().toArray();
                 let needbooks = filterBooksBySearch(arraybooks,search);
-                return res(needbooks);
+                res(needbooks);
             }catch{
-                return res('error');
+                res('error');
             }
+            close();
         })
+    })
+}
+export async function findBookByHref(href){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo,close)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('books');
 
-
-
-
+                let needbook = await coll.findOne({href:href})
+                res(needbook);
+            }catch{
+                res('error');
+            }
+            close();
+        })
     })
 }
 
