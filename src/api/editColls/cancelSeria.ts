@@ -1,7 +1,28 @@
 import { store } from "../../redux/store";
-let editState = store.getState().edit;
+import { EditState } from "../../types/editSlice";
+import { adress } from "../apiAdress";
 
 export async function cancelSeria():Promise<'error'|'ok'>{
-    
-    return 'ok';
+    try{
+        let editState: EditState = store.getState().edit;
+        let removeList = editState.removeOnCancel;
+
+        let apiObj = {
+            RemoveList:removeList,
+        }
+
+        let apiadress=adress+`/api/cancel`;
+        let res = await fetch(apiadress,{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(apiObj),
+        })
+        let text= await res.text();
+
+        return text as 'error'|'ok';
+    }catch{
+        return 'error';
+    }
 }

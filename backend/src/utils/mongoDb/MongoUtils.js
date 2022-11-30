@@ -7,7 +7,7 @@ let nameDB = 'AudioBooks';
 
 export async function addBookToDB(book){
     return new Promise(async(res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -43,17 +43,17 @@ export async function addBookToDB(book){
                 NewBook.name=ResName;
 
                 await coll.insertOne(NewBook);
+
                 res('ok');
-            }catch{
+            }catch(e){
                 res('error');
             }
-            close();
         })
     })
 }
 export async function removeBookOnDB(href){
     return new Promise(async(res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -65,13 +65,12 @@ export async function removeBookOnDB(href){
             }catch{
                 res('error');
             }
-            close();
         })
     })
 }
 export async function findBooksBySearch(search){
     return new Promise((res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -83,13 +82,12 @@ export async function findBooksBySearch(search){
             }catch{
                 res('error');
             }
-            close();
         })
     })
 }
 export async function findBookByHref(href){
     return new Promise((res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('books');
@@ -99,13 +97,12 @@ export async function findBookByHref(href){
             }catch{
                 res('error');
             }
-            close();
         })
     })
 }
 export async function findUserByLogin(login){
     return new Promise((res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('users');
@@ -115,13 +112,12 @@ export async function findUserByLogin(login){
             }catch{
                 res('error');
             }
-            close();
         })
     })
 }
 export async function findUserByID(ID){
     return new Promise((res,rej)=>{
-        MongoColl(async (mongo,close)=>{
+        MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
                 let coll = db.collection('users');
@@ -131,7 +127,6 @@ export async function findUserByID(ID){
             }catch{
                 res('error');
             }
-            close();
         })
     })
 }
@@ -143,7 +138,7 @@ async function checkBookOnDB(hrefName){
             let coll = db.collection('books');
 
             let one = await coll.findOne({href: hrefName});
-            
+    
             if (one!==null) return res(true);
             return res(false);
         })

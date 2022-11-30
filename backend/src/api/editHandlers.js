@@ -12,14 +12,16 @@ export async function saveBook(req,res){
     let {bookMap, RemoveList} = body;
     await deleteRemoveList(RemoveList);
     let result = await addBookToDB(bookMap);
+    
     res.send(result);
 }
 
 export async function editBook(req,res){
     let body = await readBodyToJson(req);
-    let {book,lasthref,RemoveList}=body;
+    let {bookMap,lasthref,RemoveList}=body;
+
     let remove1 = await removeBookOnDB(lasthref);
-    let result = await await addBookToDB(book);
+    let result = await addBookToDB(bookMap);
     let remove2 = await deleteRemoveList(RemoveList);
 
     res.send('ok');

@@ -26,6 +26,9 @@ export default function MainPage(){
             if (array!=='error'){
                 setloadend(true);
                 dispatch(setArrayCard(array));
+            }else{
+                setloadend(true);
+                dispatch(setArrayCard([]));
             }
         }
     },[searchString]);

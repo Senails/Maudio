@@ -16,7 +16,6 @@ export type Editbookpart={
 export type EditBook= {
     name: string;
     image:EditImage;
-    booklength: number;
     bookparts: Editbookpart[];
     show?:boolean;
 }
@@ -32,7 +31,6 @@ export type EditState = {
     authtorName:string,
     description:string,
     bookImage:EditImage,
-    bookcount:number,
     collections: EditCollection[],
     removeOnSave:string[],
     removeOnCancel:string[],

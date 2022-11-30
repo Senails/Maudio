@@ -10,9 +10,8 @@ export async function getBookData(req,res){
 export async function getBookMap(req,res){
     let {href} = req.params;
     let book = await findBookByHref(href);
-    let json = JSON.stringify(book);
 
-    res.json(json);
+    res.json(book);
 }
 
 export async function getBooksData(req,res){

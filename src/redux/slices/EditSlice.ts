@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
 import { Editbookpart, EditState } from "../../types/editSlice";
-import { calculateBookCount } from "../../Utils/EditPage/calculateBookCount";
-import { calculateBookLenth } from "../../Utils/EditPage/calculateBookLength";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
 import { RootState} from "../store";
@@ -13,7 +11,6 @@ let initialState:EditState ={
     authtorName:'',
     description:'',
     bookImage:{url:'',googleid:'',status:'loadend'},
-    bookcount:0,
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
@@ -72,8 +69,6 @@ let EditSlice = createSlice({
 
             let rez = colls.filter((elem,index)=>index===num?false:true);
             state.collections=rez;
-
-            state.bookcount=calculateBookCount(state);
         },
         changecollname(state,action:PayloadAction<{num:number, name:string}>){
             let {num,name}=action.payload;
@@ -87,11 +82,9 @@ let EditSlice = createSlice({
                 name:'Book '+arr[collnum].books.length,
                 image:{url:'',googleid:'',status:'loadend'},
                 bookparts:[],
-                booklength:0,
                 show:false,
             })
             state.collections=arr;
-            state.bookcount=calculateBookCount(state);
         },
         removebook(state,action:PayloadAction<{Collnum:number, Booknum:number}>){
             let {Collnum,Booknum} = action.payload;
@@ -108,8 +101,6 @@ let EditSlice = createSlice({
 
             colls[Collnum].books=books.filter((elem,index)=>Booknum===index?false:true);
             state.collections=colls;
-
-            state.bookcount=calculateBookCount(state);
         },
         changebookname(state,action:PayloadAction<{Collnum:number, Booknum:number, newName: string}>){
             let {Collnum,Booknum,newName} = action.payload;
@@ -119,7 +110,6 @@ let EditSlice = createSlice({
             colls[Collnum].books=books.map((elem,index)=>{
                 if (Booknum!==index) return elem;
                 return{
-                    booklength:elem.booklength,
                     bookparts:elem.bookparts,
                     image:elem.image,
                     name:newName,
@@ -159,10 +149,6 @@ let EditSlice = createSlice({
             }
 
             colls[numColl].books[nummBook].bookparts.push(newFragment);
-
-            let bookLength = calculateBookLenth(state.collections[numColl].books[nummBook]);
-            colls[numColl].books[nummBook].booklength=bookLength;
-
             state.collections=colls;
         },
         removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,numFragment:number}>){
@@ -177,10 +163,7 @@ let EditSlice = createSlice({
 
             colls[numCol].books[numBook].bookparts=colls[numCol]
             .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
-
-            let bookLength = calculateBookLenth(state.collections[numCol].books[numBook]);
-            colls[numCol].books[numBook].booklength=bookLength;
-
+            
             state.collections=colls;
         },
         changeFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
@@ -201,10 +184,6 @@ let EditSlice = createSlice({
             });
             colls[numColl].books[nummBook].bookparts = bookparts;
             
-            
-            let bookLength = calculateBookLenth(state.collections[numColl].books[nummBook]);
-            colls[numColl].books[nummBook].booklength=bookLength;
-
             state.collections=colls;
         },
         addToSaveRemoveList(state,action:PayloadAction<string>){
