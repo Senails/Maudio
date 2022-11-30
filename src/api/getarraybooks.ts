@@ -6,8 +6,7 @@ export async function getArrayBooks(param:string):Promise<BookCardtype[]|'error'
     let apiadress=adress+`/api/getbooks/${param}`;
     try{
         let res = await fetch(apiadress);
-        let json = await res.json();
-        let arrayCard = JSON.parse(json);
+        let arrayCard = await res.json();
 
         let needArray: BookCardtype[] = arrayCard
         .map((bookcard:BookDataFetch)=>{

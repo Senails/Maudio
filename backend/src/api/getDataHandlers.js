@@ -4,9 +4,7 @@ export async function getBookData(req,res){
     let {href} = req.params;
     let book = await findBookByHref(href);
     book = bookMapToData(book);
-    let json = JSON.stringify(book);
-
-    res.json(json);
+    res.json(book);
 }
 
 export async function getBookMap(req,res){
@@ -24,6 +22,5 @@ export async function getBooksData(req,res){
     let books = await findBooksBySearch(search1);
 
     books=books.map((bookcard)=>bookMapToData(bookcard));
-    let json = JSON.stringify(books);
-    res.json(json);
+    res.json(books);
 }

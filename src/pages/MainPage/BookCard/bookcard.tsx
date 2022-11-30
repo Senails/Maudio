@@ -12,7 +12,7 @@ type props = {
 
 export function BookCard({img,bookcount,authtor,name,href}:props){
     const divStyle = {
-        backgroundImage: `url(${img}')`,
+        backgroundImage: `url(${img})`,
     };
 
     return <div className='book-card'>
@@ -23,6 +23,6 @@ export function BookCard({img,bookcount,authtor,name,href}:props){
             {bookcount} 
             <div className='book-icon'></div>
         </span>
-        <Link to={href}></Link>
+        <Link to={`/bookInfo/${href}`}></Link>
     </div>
 }

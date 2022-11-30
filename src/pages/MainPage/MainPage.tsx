@@ -33,7 +33,7 @@ export default function MainPage(){
     return <div className="MainPage">
         <div className='main-top-line'>
             <div className='main-input'>
-                <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название книги или автора'/>
+                <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название или автора'/>
                 <div className='input-icon'></div>
             </div>
             {status!=='user'?<>
