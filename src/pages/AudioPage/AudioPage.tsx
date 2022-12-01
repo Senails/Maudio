@@ -17,20 +17,21 @@ export default function AudioPage(){
 
     useEffect(()=>{
         onload()
-        async function onload(){
-            try{
-                let data = await getBookMap(bookname!);
-                if (data!=='error'){
-                    dispatch(setAllState({seria:data, hrefparam: bookname!}));
-                    setloadend(true);
-                }else{
-                    navigate('/404page');
-                }
-            }catch{
-                navigate('/404page')
-            }
-        }
     },[]);
+
+    async function onload(){
+        try{
+            let data = await getBookMap(bookname!);
+            if (data!=='error'){
+                dispatch(setAllState({seria:data, hrefparam: bookname!}));
+                setloadend(true);
+            }else{
+                navigate('/404page');
+            }
+        }catch{
+            navigate('/404page')
+        }
+    }
 
     return <div className={`AudioPage ${loadend?'':'loading'}`}>
         {loadend?

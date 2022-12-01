@@ -5,7 +5,11 @@ export function calculateBookCount(state:EditState){
     let bookcount = 0;
 
     colls.forEach((coll)=>{
-        bookcount+=coll.books.length;
+        coll.books.forEach((book)=>{
+            if (book.bookparts.length>0){
+                bookcount++;
+            }
+        })
     })
 
     return bookcount;

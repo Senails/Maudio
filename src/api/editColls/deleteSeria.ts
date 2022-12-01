@@ -14,8 +14,6 @@ export async function deleteSeria():Promise<'error'|'ok'>{
             href:editState.href,
         }
 
-        console.log(apiObj.RemoveList)
-
         let apiadress=adress+`/api/delete`;
         let res = await fetch(apiadress,{
             method:'POST',

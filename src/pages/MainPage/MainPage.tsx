@@ -50,7 +50,13 @@ export default function MainPage(){
         {loadend?
         <>
             <div ref={bookCardBox} className='bookcard-box'>
-                {arrayCard.map((book:BookCardtype,index:number)=>{
+                {arrayCard
+                .filter((book:BookCardtype)=>{
+                    if (status!=='user') return true;
+                    if (book.bookcount===0) return false;
+                    return true;
+                })
+                .map((book:BookCardtype,index:number)=>{
                     return <BookCard 
                     href={book.href}
                     img={book.img}

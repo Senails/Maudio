@@ -113,8 +113,10 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
 }
 export function bookMapToSeria(map:BookMapFetch):Seria{
     let colls:Collection[]=map.collections
+    .filter(checkCollonNull)
     .map((fetchColl:FetchCollection)=>{
         let books:Book[]=fetchColl.books
+        .filter(checkBookonNull)
         .map((fetchBook:FetchBook)=>{
             let bookparts:bookpart[]=fetchBook.bookparts
             .map((FetchPart:Fetchbookpart)=>{
@@ -168,7 +170,23 @@ export function allFilesToRemoveList(editState: EditState):string[]{
     return removeList;
 }
 
-
 export function createHrefName(name:string):string{
     return 'nnfghf';
+}
+
+
+function checkCollonNull(coll:FetchCollection){
+    for(let book of coll.books){
+        if (book.bookparts.length>0){
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkBookonNull(book:FetchBook){
+    if (book.bookparts.length>0){
+        return true;
+    }
+    return false;
 }
