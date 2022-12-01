@@ -1,4 +1,4 @@
-import { sleep } from "../Utils/other/sleep";
+import { adress } from "./apiAdress";
 
 export type LoginData = {
     token:string,
@@ -6,14 +6,23 @@ export type LoginData = {
 }
 
 export async function loginUp(login:string,password:string):Promise<LoginData|'error'>{
-    await sleep(300);
-
-    //тут выполнить запрос
-    let obj:LoginData = {
-        token:'321',
-        status:'admin',
+    let apiadress=adress+`/api/login`;
+    let apiObj = {
+        login,
+        password,
     }
-    //
 
-    return obj;
+    try{
+        let res = await fetch(apiadress,{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(apiObj),
+        })
+        let json:LoginData= await res.json();
+        return json;
+    }catch{
+        return 'error';
+    }
 }

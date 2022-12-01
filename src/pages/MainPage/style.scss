@@ -56,26 +56,31 @@
             }
         }
         .addbook-icon{
+            box-sizing: border-box;
             width: 40px;
             height: 40px;
             border-radius: 50%;
             
-            background-color: rgb(29, 29, 29);
+            background-color: rgb(255, 255, 255);
             margin-left: 20px;
             position: relative;
             opacity: 0.8;
 
             >div{
-                height: 26px;
+                height: 22px;
                 width: 4px;
-                border-radius: 2px;
+                border-radius: 0px;
                 position: absolute;
-                background-color: white;
+                background-color: rgb(0, 0, 0);
 
-                top: calc(50% - 13px);
-                left: calc(50% - 2px);
+                top: 9px;
+                left: 18px;
                 &:nth-child(1){
-                    transform: rotate(90deg);
+                    height: 4px;
+                    width: 22px;
+                    top: 18px;
+                    left: 9px;
+                    // transform: rotate(90deg);
                 }
             }
             &:hover{

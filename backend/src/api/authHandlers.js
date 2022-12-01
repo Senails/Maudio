@@ -27,8 +27,13 @@ export async function login(req,res){
 
 export async function auth(req,res){
     let tokenReq = req.headers.authorization;
+    let userID;
 
-    let userID = jwt.decode(tokenReq, secretJWT).id;
+    try{
+        userID = jwt.decode(tokenReq, secretJWT).id;
+    }catch{
+        return res.send('error');
+    }
     let user = await findUserByID(userID);
 
     if (user==='error' || !user) return res.send('error');
