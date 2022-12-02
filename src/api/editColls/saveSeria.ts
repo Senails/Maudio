@@ -28,7 +28,7 @@ export async function saveSeria():Promise<'error'|'ok'>{
         let text= await res.text();
 
         return text as 'error'|'ok';
-    }catch{
+    }catch (e){
         return 'error';
     }
 }

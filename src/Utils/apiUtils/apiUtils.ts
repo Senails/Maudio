@@ -170,11 +170,6 @@ export function allFilesToRemoveList(editState: EditState):string[]{
     return removeList;
 }
 
-export function createHrefName(name:string):string{
-    return 'nnfghf';
-}
-
-
 function checkCollonNull(coll:FetchCollection){
     for(let book of coll.books){
         if (book.bookparts.length>0){
@@ -189,4 +184,65 @@ function checkBookonNull(book:FetchBook){
         return true;
     }
     return false;
+}
+
+export function createHrefName(name:string):string{
+    type charObj={
+        [key:string]:string
+    }
+
+    let obj:charObj = {
+        'а':'a',
+        'б':'b',
+        'в':'v',
+        'г':'g',
+        'д':'d',
+        'е':'e',
+        'ё':'io',
+        'ж':'zh',
+        'з':'z',
+        'и':'i',
+        'й':'i',
+        'к':'k',
+        'л':'l',
+        'м':'m',
+        'н':'n',
+        'о':'o',
+        'п':'p',
+        'р':'r',
+        'с':'s',
+        'т':'t',
+        'у':'u',
+        'ф':'f',
+        'х':'h',
+        'ц':'c',
+        'ч':'ch',
+        'ш':'sh',
+        'щ':'sh',
+        'Ъ':'',
+        'ы':'i',
+        'ь':'',
+        'э':'e',
+        'ю':'u',
+        'я':'ya',
+    }
+
+    let charArray = name.split('');
+    let newArr=[];
+
+    for(let char of charArray){
+        if (char===' '){
+            newArr.push('');
+        }else if (!obj[char.toLowerCase()]){ 
+            newArr.push(char);
+        }else if (char.toLowerCase()===char){
+            newArr.push(obj[char])
+        }else{
+            newArr.push(obj[char.toLowerCase()].toUpperCase())
+        }
+    }
+
+    let rez = newArr.join('');
+
+    return rez;
 }
