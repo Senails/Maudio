@@ -10,10 +10,9 @@
     transition: 0.3s transform;
     // box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
     position: relative;
+    padding: 20px 0;
     padding-left: 115px;
     padding-right: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
 
     display: flex;
     flex-direction: column;
@@ -34,6 +33,10 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+        &.book{
+            background-size: 80%;
+            background-image: url('./../../../assets/book-icon.png');
+        }
     }
 
     .serias-name{
@@ -44,16 +47,17 @@
         font-size: 22px;
         line-height: 30px;
         color: white;
-        height: 90px;
 
         overflow: hidden;
-        word-break: break-all;
+        // word-break: break-all;
         hyphens: auto;
         text-overflow: ellipsis;
         white-space: pre-line;
     }
 
     .authtor-name{
+        user-select: none;
+
         width: 150px;
         // border: 1px solid red;
         font-family: 'Inter';
@@ -66,11 +70,16 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        opacity: 0.7;
+
+        &:hover{
+            opacity: 0.9;
+        }
     }
     .book-count{
         position: absolute;
-        right: 10px;
-        bottom: 10px;
+        right: 30px;
+        bottom: 20px;
         // border: 1px solid red;
 
         font-family: 'Inter';

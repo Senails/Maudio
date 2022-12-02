@@ -9,7 +9,8 @@ type resultType = {
 export function ValidationEdit(props:propsType):resultType|'ok'{
     let result:resultType={};
     for (let key in props){
-        if (props[key]!=='' && props[key].length<50){
+        let regular = /^[а-яА-Я0-9 ]+$/;
+        if (props[key]!=='' && props[key].length<50 && regular.test(props[key])){
             result[key]=true;
         }else{
             result[key]=false;

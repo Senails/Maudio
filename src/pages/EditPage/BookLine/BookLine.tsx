@@ -48,6 +48,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         for(let i=0; i<files.length;i++){
             dispatch(asyncAddBookFrahment({numColl:numcoll,nummBook:numbook,file:files[i]}))
         }
+        
         event.target.value='';
     }
 
@@ -76,14 +77,14 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
                     <span>Ошибка</span>:<></>}
                 </div>
                 <span>загрузить картинку</span>
-                <input type="file" onChange={ImageInputOnChange}/>
+                <input type="file" accept="image/*" onChange={ImageInputOnChange}/>
             </div>
         </div>
         <div className='array-fragments' style={arrayFragmentsStyle}>
             {bookPartsBlocks}
             <div className='add-fragments-button'>
                 <span>Загрузить фрагменты</span>
-                <input type="file" onChange={addFragmentInput} multiple />
+                <input type="file" accept="audio/*" onChange={addFragmentInput} multiple />
             </div>
         </div>
     </div>

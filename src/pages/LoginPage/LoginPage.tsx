@@ -22,32 +22,40 @@ export function LoginPage(){
         }
         async function keydown(event:KeyboardEvent){
             if (event.key!=='Enter') return;
-            if (login==='' || password===''){
-                seterror('заполните поля');
-                return;
-            }
-            setloadend(false);
-            let res = await loginUp(login,password);
-            setloadend(true);
-            if (res==='error'){
-                seterror('ошибка авторизации');
-            }else{
-                dispatch(loginUser(res));
-                navigate('/');
-            }
+            open(login,password);
         }
     },[login, password]);
 
+    async function open(login:string,password:string){
+        if (login==='' || password===''){
+            seterror('заполните поля');
+            return;
+        }
+        setloadend(false);
+        let res = await loginUp(login,password);
+        setloadend(true);
+        if (res==='error'){
+            seterror('ошибка авторизации');
+        }else{
+            dispatch(loginUser(res));
+            navigate('/');
+        }
+    }
+
     return <div className='loginpage'>
-        {loadend?
-        <div className='loginpage-modal'>
-            <form>
-                <p>login <span>{error}</span></p>
-                <input type="text" value={login} onChange={(event)=>setlogin(event.target.value)}/>
-                <p>password</p>
-                <input type="password" value={password} onChange={(event)=>setpassword(event.target.value)}/>
-            </form>
-        </div>
+        {loadend?<>
+            <span>Войдите что бы добавлять и редактировать</span>
+            <div className='loginpage-modal'>
+                <form>
+                    <p>login <span>{error}</span></p>
+                    <input type="text" value={login} onChange={(event)=>setlogin(event.target.value)}/>
+                    <p>password</p>
+                    <input type="password" value={password} onChange={(event)=>setpassword(event.target.value)}/>
+                </form>
+                <div className='button' onClick={()=>{open(login,password)}}>войти</div>
+            </div>
+            <span onClick={()=>navigate('/')}>или на главную</span>
+        </>
         :<Loader/>}
     </div>
 }

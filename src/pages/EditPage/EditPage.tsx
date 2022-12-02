@@ -21,7 +21,7 @@ export function EditPage(){
 
     let [validsate,setvalidsate]=useState<{[key:string]:boolean}>(val);
     let [loadend,setloadend]=useState(false);
-    let [ShowError,setShowError]=useState(false);
+    let [error,seterror]=useState('');
 
     useEffect(()=>{
         onOpen();
@@ -47,6 +47,7 @@ export function EditPage(){
         let checked = ValidationEdit({collName,authtorName,description});
         if (checked!=='ok'){
             setvalidsate(checked);
+            seterror('заполните текстовые поля. (RU)');
         }else{
             setvalidsate(val);
             setloadend(false);
@@ -56,7 +57,7 @@ export function EditPage(){
                 navigate('/');
             }else{
                 setloadend(true);
-                setShowError(true);
+                seterror('попробуете чуть позже');
             }
         }
     }
@@ -68,7 +69,7 @@ export function EditPage(){
             navigate('/');
         }else{
             setloadend(true);
-            setShowError(true);
+            seterror('попробуете чуть позже');
         }
     }
     async function removeCollection(){
@@ -79,7 +80,7 @@ export function EditPage(){
             navigate('/');
         }else{
             setloadend(true);
-            setShowError(true);
+            seterror('попробуете чуть позже');
         }
     }
 
@@ -97,7 +98,7 @@ export function EditPage(){
                         <span>Ошибка</span>
                         <span>загрузите сного</span>
                         </>:<></>}
-                        {bookImage.status!=='loading'?<input type="file" onInput={onchange}/>:<></>}
+                        {bookImage.status!=='loading'?<input type="file" accept="image/*" onInput={onchange}/>:<></>}
                     </div>
                 </div>
                 <div className='right-collomn'>
@@ -127,10 +128,11 @@ export function EditPage(){
                     </div>
                 </div>
             </div>
-            {ShowError?<>
-                <div className='error-message' onClick={()=>setShowError(false)}>
+            {error!==''?<>
+                <div className='error-message' onClick={()=>seterror('')}>
                     <span>Ошибка</span>
-                    <span>попробуйте еще раз</span>
+                    <span>{error}</span>
+                    <span>кликните что бы закрыть</span>
                 </div>
             </>:<></>}
         </>:<Loader/>}

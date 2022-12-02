@@ -39,24 +39,21 @@ export default function MainPage(){
                 <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название или автора'/>
                 <div className='input-icon'></div>
             </div>
-            {status!=='user'?<>
-                <div className='addbook-icon'>
-                    <div></div>
-                    <div></div>
-                    <Link to={'/edit/newbook'}></Link>
-                </div>
-            </>:<></>}
+            <div className='addbook-icon'>
+                <div></div>
+                <div></div>
+                <Link to={status!=='user'?'/edit/newbook':'/admin'}></Link>
+            </div>
         </div>
         {loadend?
         <>
             <div ref={bookCardBox} className='bookcard-box'>
-                {arrayCard
-                .filter((book:BookCardtype)=>{
+                {(arrayCard.length>0)?
+                arrayCard.filter((book:BookCardtype)=>{
                     if (status!=='user') return true;
                     if (book.bookcount===0) return false;
                     return true;
-                })
-                .map((book:BookCardtype,index:number)=>{
+                }).map((book:BookCardtype,index:number)=>{
                     return <BookCard 
                     href={book.href}
                     img={book.img}
@@ -65,7 +62,12 @@ export default function MainPage(){
                     name={book.name}
                     key={index}
                     />
-                })}
+                })
+                :<div className='message'>
+                    <span>{`Аудиокнижки не найдены :(`}</span>
+                    <span>{`попробуйте немного позже`}</span> 
+                </div>
+                }
             </div>
         </>:<Loader/>}
     </div>
