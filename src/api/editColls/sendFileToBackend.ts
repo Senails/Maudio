@@ -1,3 +1,4 @@
+import { GetToken } from "../../Utils/other/GetSaveToken";
 import { adress } from "../apiAdress";
 
 type ResponseType = {
@@ -14,6 +15,7 @@ export async function sendFileToBackend(file:File):Promise<ResponseType|'error'>
             method:'POST',
             headers:{
                 'Content-Type': `${mimeType}`,
+                'authorization': GetToken(),
             },
             body:file,
         })

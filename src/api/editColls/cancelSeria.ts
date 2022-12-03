@@ -1,5 +1,6 @@
 import { store } from "../../redux/store";
 import { EditState } from "../../types/editSlice";
+import { GetToken } from "../../Utils/other/GetSaveToken";
 import { adress } from "../apiAdress";
 
 export async function cancelSeria():Promise<'error'|'ok'>{
@@ -16,6 +17,7 @@ export async function cancelSeria():Promise<'error'|'ok'>{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json',
+                'authorization': GetToken(),
             },
             body:JSON.stringify(apiObj),
         })

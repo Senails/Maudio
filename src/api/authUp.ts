@@ -11,7 +11,7 @@ export async function authUp():Promise<LoginData|'notoken'>{
         let res = await fetch(apiadress,{
             method:'POST',
             headers:{
-                'authorization': token,
+                'authorization': GetToken(),
             },
         })
         let json:LoginData= await res.json();

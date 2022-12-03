@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import AudioPage from "./pages/AudioPage/AudioPage";
-import {Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import MainPage from "./pages/MainPage/MainPage";
 import { NoPage } from "./pages/Nopage/NoPage";
 import { MainLayouts } from "./layouts/MainLayouts";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { BookInfoPage } from "./pages/BookInfoPage/BookInfoPage";
 import { EditPage } from "./pages/EditPage/EditPage";
-import { useAppDispatch, useAppSelector } from "./redux/store";
+import { store, useAppDispatch, useAppSelector } from "./redux/store";
 import { authUp } from "./api/authUp";
 import { loginUser } from "./redux/slices/userSlice";
 import { Loader } from "./components/Loader/Loader";
+import { Provider } from "react-redux";
 
 
 
-function App() {
+function AppComponent() {
   let {userstatus, isAuth} = useAppSelector((state)=>state.user);
   let dispatch = useAppDispatch();
 
@@ -51,4 +52,13 @@ function App() {
   );
 }
 
-export default App;
+export default function App(){
+  return <>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppComponent />
+      </BrowserRouter>
+    </Provider>
+  </>
+}
+

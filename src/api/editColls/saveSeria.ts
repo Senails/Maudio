@@ -2,6 +2,7 @@ import { store } from "../../redux/store";
 import { BookMapFetch} from "../../types/api";
 import { EditState } from "../../types/editSlice";
 import { editMapToApiMap } from "../../Utils/apiUtils/apiUtils";
+import { GetToken } from "../../Utils/other/GetSaveToken";
 import { adress } from "../apiAdress";
 
 
@@ -22,6 +23,7 @@ export async function saveSeria():Promise<'error'|'ok'>{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json',
+                'authorization': GetToken(),
             },
             body:JSON.stringify(apiObj),
         })

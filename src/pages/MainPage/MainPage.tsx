@@ -48,7 +48,11 @@ export default function MainPage(){
         {loadend?
         <>
             <div ref={bookCardBox} className='bookcard-box'>
-                {(arrayCard.length>0)?
+                {(arrayCard.filter((book:BookCardtype)=>{
+                    if (status!=='user') return true;
+                    if (book.bookcount===0) return false;
+                    return true;
+                }).length>0)?
                 arrayCard.filter((book:BookCardtype)=>{
                     if (status!=='user') return true;
                     if (book.bookcount===0) return false;
