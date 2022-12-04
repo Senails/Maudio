@@ -1,4 +1,4 @@
-import { adress } from "./apiAdress";
+import { adress } from "../apiAdress";
 
 export type LoginData = {
     token:string,

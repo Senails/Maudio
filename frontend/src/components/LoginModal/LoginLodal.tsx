@@ -1,58 +1,52 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { showhidemodal } from '../../redux/slices/userSlice';
 import { useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/other/sleep';
 import { getTimeControl } from '../../Utils/other/timecontrol';
-import { Login } from './Login/Login';
-import { Registration } from './Registration/Registr';
+import { LoginConteiner } from './loginConteiner/LoginConteiner';
 import './style.scss';
 
-let timeControll = getTimeControl(500);
+let timecontrol = getTimeControl(300);
 
 export function LoginModal(){
+    let dispatch = useDispatch();
     let acttimeModal = useAppSelector((state)=>state.user.acttimeModal);
-    let isAuth = useAppSelector((state)=>state.user.isAuth);
-
-    let [move,setmove]=useState(false);
-    let [activemodal,setactivemodal]=useState(true);
 
     let [hide,sethide]=useState('hide');
-
+    let [show,setshow]=useState(false);
 
     useEffect(()=>{
-        console.log(acttimeModal)
-        activeModalHandler();
+        timecontrol(()=>{
+            activeModalHandler();
+        })
     },[acttimeModal]);
 
     async function activeModalHandler() {
         if (acttimeModal){
             document.body.classList.add('block');
-            sethide('');
+            setshow(true);
+            await sleep(10);
+            requestAnimationFrame(()=>sethide(''))
         }else{
             document.body.classList.remove('block');
             sethide('hide');
+            await sleep(300);
+            setshow(false);
         }
     }
 
-    async function changeModal(){
-        timeControll(async()=>{
-            setmove(true);
-            await sleep(500);
-            setactivemodal(!activemodal);
-            setmove(false);
-        })
+    if (!show) return <></>;
+    function clickonFon(event:React.MouseEvent){
+        let path = event.nativeEvent.composedPath();
+        let elem = document.querySelectorAll('.login-modal');
+        
+        if (!path.includes(elem[1])){
+            dispatch(showhidemodal(false));
+        }
     }
 
-    let modal1=<Login changeModal={changeModal}/>
-    let modal2=<Registration changeModal={changeModal}/>
-
-    return <div className={`login-modal-screen ${hide}`}>
-        <div className={`double-block ${move?'move':''}`}>
-            <div className='screen'>
-                {activemodal?modal2:modal1};
-            </div>
-            <div className='screen'>
-                {activemodal?modal1:modal2};
-            </div>
-        </div>
+    return <div onClick={clickonFon} className={`login-modal-screen ${hide}`}>
+        <LoginConteiner/>
     </div>
 }

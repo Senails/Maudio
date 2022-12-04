@@ -1,4 +1,4 @@
-import { authUp } from "../../api/authUp";
+import { authUp } from "../../api/auth/authUp";
 import { loginUser } from "../../redux/slices/userSlice";
 import { dispatch } from "../../redux/store";
 
@@ -7,7 +7,7 @@ let keytoken = 'jfgk26065hfkew4';
 export function GetToken():string{
     let token = localStorage.getItem(keytoken);
 
-    if (token) return token;
+    if (token && token!=='') return token;
     return 'none';
 }
 

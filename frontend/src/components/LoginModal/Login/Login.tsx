@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUp } from '../../../api/loginUp';
+import { loginUp } from '../../../api/auth/loginUp';
 import { loginUser, showhidemodal } from '../../../redux/slices/userSlice';
 import { Loader } from '../../Loader/Loader';
 import { ExitModal } from '../exitmodal/ExitModal';
 import { LoginHeader } from '../Header/Header';
 import { Input } from '../Input/Intput';
-import './style.scss';
 
 export function Login({changeModal}:{changeModal:()=>void}){
     let dispatch = useDispatch();

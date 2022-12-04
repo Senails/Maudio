@@ -71,7 +71,7 @@ export function BookInfoPage(){
                             {bookdata.bookscount}
                             <div className='book-icon'></div>
                         </span>
-                        {status!=='user'?<span><Link to={`/edit/${bookname}`}>to edit</Link></span>:<></>}
+                        {(status==='admin' || status==='editor')?<span><Link to={`/edit/${bookname}`}>to edit</Link></span>:<></>}
                     </span>
                 </div>
             </div>

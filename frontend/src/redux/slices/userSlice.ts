@@ -30,12 +30,18 @@ let userSlice = createSlice({
         },
         showhidemodal(state,action:PayloadAction<boolean>){
             state.acttimeModal=action.payload;
-        }
+        },
+        exitUser(state){
+            state.isAuth=false;
+            state.token='';
+            state.userstatus='user';
+        },
     },
 })
 
 export const {
     loginUser,
     showhidemodal,
+    exitUser,
 } = userSlice.actions;
 export default userSlice.reducer

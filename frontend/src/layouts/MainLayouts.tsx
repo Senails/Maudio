@@ -10,7 +10,7 @@ export function MainLayouts({children}:{children:any}){
         <Fon/>
             {children}
         <AudioPl/>
-        <LoginModal/>
         <MiniPleer/>
+        <LoginModal/>
     </>
 }

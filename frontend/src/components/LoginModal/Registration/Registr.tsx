@@ -6,6 +6,7 @@ import { LoginHeader } from "../Header/Header";
 import { Input } from "../Input/Intput";
 
 export function Registration({changeModal}:{changeModal:()=>void}){
+    let [name,setname]=useState('');
     let [email,setemail]=useState('');
     let [password,setpassword]=useState('');
     let [repeatpassword,setrepeatpassword]=useState('');
@@ -22,6 +23,10 @@ export function Registration({changeModal}:{changeModal:()=>void}){
             <ExitModal/>
             <LoginHeader text='Регистрация' error=''/>
             <form name='register'>
+                <Input type='text' placeholder='name' name='name'
+                        value={name}
+                        onChange={setname}
+                />
                 <Input type='text' placeholder='email' name='email'
                     value={email}
                     onChange={setemail}

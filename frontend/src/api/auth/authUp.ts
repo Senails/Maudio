@@ -1,6 +1,7 @@
-import { GetToken } from "../Utils/appData/GetSaveToken";
-import { adress } from "./apiAdress";
+import { GetToken } from "../../Utils/appData/GetSaveToken";
+import { adress } from "../apiAdress";
 import { LoginData } from "./loginUp";
+
 
 export async function authUp():Promise<LoginData|'notoken'>{
     let token = GetToken();
