@@ -11,18 +11,27 @@ let timeControll = getTimeControl(500);
 export function LoginModal(){
     let acttimeModal = useAppSelector((state)=>state.user.acttimeModal);
     let isAuth = useAppSelector((state)=>state.user.isAuth);
+
     let [move,setmove]=useState(false);
     let [activemodal,setactivemodal]=useState(true);
 
+    let [hide,sethide]=useState('hide');
+
+
     useEffect(()=>{
-        if (acttimeModal){
-            document.body.classList.add('block');
-        }else{
-            document.body.classList.remove('block');
-        }
+        console.log(acttimeModal)
+        activeModalHandler();
     },[acttimeModal]);
 
-    if (!acttimeModal || isAuth) return <></>;
+    async function activeModalHandler() {
+        if (acttimeModal){
+            document.body.classList.add('block');
+            sethide('');
+        }else{
+            document.body.classList.remove('block');
+            sethide('hide');
+        }
+    }
 
     async function changeModal(){
         timeControll(async()=>{
@@ -36,7 +45,7 @@ export function LoginModal(){
     let modal1=<Login changeModal={changeModal}/>
     let modal2=<Registration changeModal={changeModal}/>
 
-    return <div className="login-modal-screen">
+    return <div className={`login-modal-screen ${hide}`}>
         <div className={`double-block ${move?'move':''}`}>
             <div className='screen'>
                 {activemodal?modal2:modal1};

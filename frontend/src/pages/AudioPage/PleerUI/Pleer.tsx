@@ -5,6 +5,7 @@ import { PlayButton } from './plauButton/playButton';
 import { PrevNextButtons } from './PrevNextButtons/PrevNext';
 import { H1Name } from './name/H1name';
 import { WheelRect } from './wheelrect/WheelRect';
+import { RewindBlock } from './rewindBlock/RewindBlock';
 
 export function PleerUI(){
     return <div className='pleer_layer'>
@@ -13,6 +14,7 @@ export function PleerUI(){
                 <H1Name/>
                 <PlayButton/>
                 <PrevNextButtons/>
+                <RewindBlock/>
             </WheelRect>
             <ProgressBar/>
         </div>

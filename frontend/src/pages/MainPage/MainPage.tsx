@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { getArrayBooks } from '../../api/getarraybooks';
 import { Loader } from '../../components/Loader/Loader';
-import { BookCardtype, setArrayCard, setsearch,  } from '../../redux/slices/searchSlice';
-import { showhidemodal } from '../../redux/slices/userSlice';
+import { BookCardtype, setArrayCard, } from '../../redux/slices/searchSlice';
 import { useAppSelector,RootState, useAppDispatch} from '../../redux/store';
 import { getTimeControl2 } from '../../Utils/other/timecontrol';
 import { BookCard } from './BookCard/bookcard';
+import { MainTopLine } from './MainTopLine/MainTopLine';
 import './style.scss';
 
 let timeControl = getTimeControl2(1000);
@@ -15,7 +14,6 @@ export default function MainPage(){
     let {arrayCard , searchString } = useAppSelector((state:RootState)=>state.search);
     let status = useAppSelector((state:RootState)=>state.user.userstatus);
     let dispatch = useAppDispatch();
-    let navigate = useNavigate();
 
     let[loadend,setloadend]= useState(false);
     let bookCardBox = useRef<HTMLDivElement>(null);
@@ -35,25 +33,9 @@ export default function MainPage(){
         }
     },[searchString]);
 
-    function addiconclick(){
-        if (status!=='user'){
-            navigate('/edit/newbook');
-        }else{
-            dispatch(showhidemodal(true));
-        }
-    }
 
     return <div className="MainPage">
-        <div className='main-top-line'>
-            <div className='main-input'>
-                <input type="text" value={searchString} onChange={(e)=>dispatch(setsearch(e.target.value))} placeholder='введите название или автора'/>
-                <div className='input-icon'></div>
-            </div>
-            <div onClick={addiconclick} className='addbook-icon'>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
+        <MainTopLine/>
         {loadend?
         <>
             <div ref={bookCardBox} className='bookcard-box'>

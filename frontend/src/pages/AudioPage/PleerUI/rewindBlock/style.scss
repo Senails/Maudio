@@ -1,0 +1,70 @@
+.rewind-block{
+    height: 24px;
+    width: 100%;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+
+    .left-arrow,.right-arrow{
+        cursor: pointer;
+        width: 70px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+
+        span{
+            color: white;
+            font-family: "Inter";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        opacity: 0.7;
+        &:hover{
+            opacity: 1; 
+        }
+    }
+
+    .left-arrow{
+        display: flex;
+        >div{
+            height: 16px;
+            width: 16px;
+
+            background-image: url('./../../../../assets/simbol111.svg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 3px;
+
+            &:nth-child(1){
+                margin-right:-6px;
+            }
+        }
+    }
+
+    .right-arrow{
+        display: flex;
+        flex-direction: row-reverse;
+
+        >div{
+            height: 16px;
+            width: 16px;
+
+            background-image: url('./../../../../assets/simbol111.svg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-left: 3px;
+
+            transform: rotate(180deg);
+
+            &:nth-child(1){
+                margin-left:-6px;
+            }
+        }
+    }
+}

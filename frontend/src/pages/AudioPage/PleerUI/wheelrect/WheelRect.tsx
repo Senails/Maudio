@@ -26,6 +26,5 @@ export function WheelRect({children}:{children:any}){
 
     return <div onWheel={weelhandler} className='wheel-rect'>
         {children}
-        <div></div>
     </div>;
 }

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { loginUp } from '../../../api/loginUp';
-import { loginUser } from '../../../redux/slices/userSlice';
-import { sleep } from '../../../Utils/other/sleep';
+import { loginUser, showhidemodal } from '../../../redux/slices/userSlice';
 import { Loader } from '../../Loader/Loader';
 import { ExitModal } from '../exitmodal/ExitModal';
 import { LoginHeader } from '../Header/Header';
@@ -12,8 +10,6 @@ import './style.scss';
 
 export function Login({changeModal}:{changeModal:()=>void}){
     let dispatch = useDispatch();
-    let navigate = useNavigate();
-
 
     let [email,setemail]=useState('');
     let [password,setpassword]=useState('');
@@ -38,7 +34,7 @@ export function Login({changeModal}:{changeModal:()=>void}){
             seterror('ошибка авторизации');
         }else{
             dispatch(loginUser(res));
-            navigate('/');
+            dispatch(showhidemodal(false));
         }
     }
 

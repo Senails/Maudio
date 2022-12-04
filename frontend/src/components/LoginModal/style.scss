@@ -6,6 +6,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    transition: top 0.3s;
 
     .double-block{
         position: absolute;
@@ -45,5 +46,9 @@
                 }
             }
         }
+    }
+
+    &.hide{
+        top: -100vh;
     }
 }
