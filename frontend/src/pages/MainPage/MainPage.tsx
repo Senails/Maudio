@@ -57,7 +57,7 @@ export default function MainPage(){
                     if (status!=='user') return true;
                     if (book.bookcount===0) return false;
                     return true;
-                }).map((book:BookCardtype,index:number)=>{
+                }).reverse().map((book:BookCardtype,index:number)=>{
                     return <BookCard 
                     href={book.href}
                     img={book.img}

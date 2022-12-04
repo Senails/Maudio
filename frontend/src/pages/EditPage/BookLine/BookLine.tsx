@@ -1,9 +1,8 @@
 import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
-import { addFragment, asyncAddBookFrahment, asyncSetBookImage, changebookname, removebook, setBookImage, ShowHideBook } from '../../../redux/slices/EditSlice';
-import { useAppDispatch } from '../../../redux/store';
+import { asyncAddBookFrahments, asyncSetBookImage, changebookname, removebook, ShowHideBook } from '../../../redux/slices/EditSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { Editbookpart, EditImage } from '../../../types/editSlice';
-import { bookpart } from '../../../types/pleerSlice';
-import { getSrcFromFile } from '../../../Utils/other/getSrc';
+import { checkLoading } from '../../../Utils/EditPage/checkLoading';
 import { BookPart } from '../BookPart/BookPart';
 import './style.scss';
 
@@ -17,6 +16,7 @@ type props = {
 }
 
 export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
+    let loading = useAppSelector((state)=>state.edit.loading);
     let dispatch = useAppDispatch();
         
     let imagePrevieStyle = {
@@ -45,10 +45,8 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
     function addFragmentInput(event: React.ChangeEvent<HTMLInputElement>){
         let files = event.target.files;
         if (!files) return;
-        for(let i=0; i<files.length;i++){
-            dispatch(asyncAddBookFrahment({numColl:numcoll,nummBook:numbook,file:files[i]}))
-        }
-        
+        let fileArray:File[]=Array.from(files);
+        dispatch(asyncAddBookFrahments({numColl:numcoll,nummBook:numbook,files:fileArray}));
         event.target.value='';
     }
 
@@ -79,13 +77,19 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
                 <span>загрузить картинку</span>
                 <input type="file" accept="image/*" onChange={ImageInputOnChange}/>
             </div>
+            <div className={`status-circle ${checkLoading(bookparts)}`}></div>
         </div>
         <div className='array-fragments' style={arrayFragmentsStyle}>
             {bookPartsBlocks}
             <div className='add-fragments-button'>
-                <span>Загрузить фрагменты</span>
-                <input type="file" accept="audio/*" onChange={addFragmentInput} multiple />
+                <span>{loading?'Дождитесь другой загрузки':'Загрузить фрагменты'}</span>
+                {loading?<></>:
+                <input type="file" accept="audio/*" onChange={addFragmentInput} multiple />}
             </div>
         </div>
+        {(bookparts.length>9)?<>
+            <div className={`scrol-icon ${showB?'show':''}`}></div>
+            <div className={`scrol-icon two ${showB?'show':''}`}></div>
+        </>:<></>}
     </div>
 }

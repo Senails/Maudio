@@ -1,4 +1,6 @@
 .book-card{
+    user-select: none;
+
     box-sizing: border-box;
     width: 350px;
     height: 150px;
@@ -70,12 +72,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        opacity: 0.7;
+        opacity: 1;
 
-        &:hover{
-            color: rgb(255, 255, 255);
-            opacity: 0.9;
-        }
+        // &:hover{
+        //     color: rgb(255, 255, 255);
+        //     opacity: 0.9;
+        // }
     }
     .book-count{
         position: absolute;

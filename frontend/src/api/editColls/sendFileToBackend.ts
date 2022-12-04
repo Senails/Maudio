@@ -1,4 +1,5 @@
 import { GetToken } from "../../Utils/other/GetSaveToken";
+import { sleep } from "../../Utils/other/sleep";
 import { adress } from "../apiAdress";
 
 type ResponseType = {
@@ -6,7 +7,16 @@ type ResponseType = {
     googleid:string,
 }
 
-export async function sendFileToBackend(file:File):Promise<ResponseType|'error'> {
+export async function sendFileToBackend(file:File,abortControler?:AbortController):Promise<ResponseType|'error'> {
+    // let rand = Math.random()*5;
+    // if (rand>3){
+    //     await sleep(5000);
+    //     return 'error';
+    // }
+    
+
+
+
     //отправить на бекенд и загрузить на гугл диск
     let mimeType =file.type;
     let apiadress=adress+`/api/sendfile`;
@@ -18,6 +28,7 @@ export async function sendFileToBackend(file:File):Promise<ResponseType|'error'>
                 'authorization': GetToken(),
             },
             body:file,
+            signal:abortControler?.signal,
         })
         let json = await res.json();
 

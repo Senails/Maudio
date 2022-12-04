@@ -16,6 +16,7 @@ export function editMapToApiMap(editState: EditState):BookMapFetch{
             let apibookparts: Fetchbookpart[] = book.bookparts
             .map((part)=>{
                 let apipart:Fetchbookpart={
+                    name:part.name,
                     id:part.id,
                     lenght:part.lenght,
                     url:part.url,
@@ -65,12 +66,13 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
             let bookparts: Editbookpart[]=fetchbook.bookparts
             .map((fetchpart:Fetchbookpart)=>{
                 let part:Editbookpart={
+                    name:fetchpart.name,
                     id:fetchpart.id,
                     lenght:fetchpart.lenght,
                     url:fetchpart.url,
                     googleid:fetchpart.googleid,
                     size:fetchpart.size,
-                    status:'loadend',
+                    status: (fetchpart.size===0 && fetchpart.lenght===0)?'error':'loadend',
                 }
                 return part;
             })
@@ -108,6 +110,8 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
         collections,
         removeOnCancel:[],
         removeOnSave:[],
+        loading:false,
+        abortControler:null,
     }
     return editState;
 }

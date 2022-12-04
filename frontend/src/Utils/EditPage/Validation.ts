@@ -9,7 +9,7 @@ type resultType = {
 export function ValidationEdit(props:propsType):resultType|'ok'{
     let result:resultType={};
     for (let key in props){
-        let regular = /^[а-яА-Я0-9 ]+$/;
+        let regular = /^[а-яА-Я0-9 .,:"';]+$/;
         if (props[key]!=='' && props[key].length<50 && regular.test(props[key])){
             result[key]=true;
         }else{
@@ -17,7 +17,7 @@ export function ValidationEdit(props:propsType):resultType|'ok'{
         }
     }
 
-    if (props['description'] && props['description'].length<3000){
+    if (props['description'] && props['description'].length<=1000){
         result['description']=true;
     }
 

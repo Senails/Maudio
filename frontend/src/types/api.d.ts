@@ -13,6 +13,7 @@ export type BookDataFetch = {
 }
 
 export type Fetchbookpart={
+    name:string;
     id:string;
     lenght:number;
     url:string;

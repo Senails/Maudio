@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
-import { Editbookpart, EditState } from "../../types/editSlice";
+import { Editbookpart, EditState, payloadFragmentType } from "../../types/editSlice";
+import { checkContainFragment, getstoplist } from "../../Utils/EditPage/forLoadFiles";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
 import { RootState} from "../store";
@@ -14,6 +15,8 @@ let initialState:EditState ={
     collections: [],
     removeOnCancel:[],
     removeOnSave:[],
+    loading:false,
+    abortControler:null,
 };
 
 let EditSlice = createSlice({
@@ -134,12 +137,13 @@ let EditSlice = createSlice({
             colls[numColl].books[nummBook].show= !colls[numColl].books[nummBook].show;
             state.collections=colls;
         },
-        addFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
-            let {numColl,nummBook,lenght,size,status,googleid,url,id} = action.payload;
+        addFragment(state,action:PayloadAction<payloadFragmentType>){
+            let {numColl,nummBook,lenght,size,status,googleid,url,id,name} = action.payload;
 
             let colls = state.collections;
 
             let newFragment:Editbookpart = {
+                name,
                 id,
                 url,
                 lenght,
@@ -151,25 +155,27 @@ let EditSlice = createSlice({
             colls[numColl].books[nummBook].bookparts.push(newFragment);
             state.collections=colls;
         },
-        removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,numFragment:number}>){
-            let {numCol, numBook, numFragment} = action.payload;
+        removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,partID:string}>){
+            let {numCol, numBook, partID} = action.payload;
             let colls = state.collections;
 
             //занести фрагмент в список на удаление 
             let removeList = state.removeOnSave;
-            removeList.push(colls[numCol].books[numBook].bookparts[numFragment].googleid);
+            removeList.push(colls[numCol].books[numBook]
+                .bookparts.filter((elem)=>elem.id===partID?true:false)[0].googleid);
             state.removeOnSave=removeList;
             //
 
             colls[numCol].books[numBook].bookparts=colls[numCol]
-            .books[numBook].bookparts.filter((elem,index)=>index===numFragment?false:true);
+            .books[numBook].bookparts.filter((elem)=>elem.id===partID?false:true);
             
             state.collections=colls;
         },
-        changeFragment(state,action:PayloadAction<{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string,id:string}>){
-            let {numColl,nummBook,lenght,size,status,googleid,url,id} = action.payload;
+        changeFragment(state,action:PayloadAction<payloadFragmentType>){
+            let {numColl,nummBook,lenght,size,status,googleid,url,id,name} = action.payload;
             let colls = state.collections;
             let Fragment:Editbookpart = {
+                name,
                 id,
                 url,
                 lenght,
@@ -177,6 +183,7 @@ let EditSlice = createSlice({
                 status,
                 googleid,
             }
+
             let bookparts = colls[numColl].books[nummBook].bookparts;
             bookparts = bookparts.map((elem,index)=>{
                 if (elem.id===id) return Fragment;
@@ -207,7 +214,13 @@ let EditSlice = createSlice({
             state.collections = collections;
             state.removeOnCancel=[];
             state.removeOnSave=[];
-        }
+        },
+        setloading(state,action:PayloadAction<boolean>){
+            state.loading=action.payload;
+        },
+        setAbortCont(state,action:PayloadAction<AbortController>){
+            state.abortControler=action.payload;
+        },
     },
 })
 
@@ -230,6 +243,8 @@ export const {
     addToSaveRemoveList,
     addToCancelRemoveList,
     setEditState,
+    setloading,
+    setAbortCont,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
@@ -314,55 +329,100 @@ export const asyncSetBookImage = createAsyncThunk(
         }
     }
 );
-export const asyncAddBookFrahment = createAsyncThunk(
-    'edit/asyncAddBookFrahment',
-    async (params:{numColl:number,nummBook:number,file:File}, thunkApi) => {
+export const asyncAddBookFrahments = createAsyncThunk(
+    'edit/asyncAddBookFrahments',
+    async (params:{numColl:number,nummBook:number,files:File[]}, thunkApi) => {
         let {dispatch,getState}=thunkApi;
-        let {numColl,nummBook,file}=params;
-        let id = createID();
+        dispatch(setloading(true));
+        let {numColl,nummBook,files} = params;
 
-        let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
-            id,
-            numColl,
-            nummBook,
-            lenght:0,
-            size:0,
-            status:'loading',
-            googleid:'',
-            url:'',
-        }
-        dispatch(addFragment(payload));
-        let res = await sendFileToBackend(file);
+        let arrayFiles = files.map((file)=>{
+            let id = createID();
 
-        if (res==='error'){
-            let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
+            let payload:payloadFragmentType = {
+                name:file.name,
                 id,
                 numColl,
                 nummBook,
                 lenght:0,
                 size:0,
-                status:'error',
+                status:'waitloading',
+                googleid:'',
+                url:'',
+            }
+            dispatch(addFragment(payload));
+
+            return {
+                file,
+                partID:id,
+            }
+        })
+
+        let successFragments:string[]=[];
+
+        for(let part of arrayFiles){
+            let book = (getState() as RootState).edit.collections[numColl].books[nummBook];
+            if (!checkContainFragment(book,part.partID)) continue;
+
+            let payload:payloadFragmentType = {
+                name:part.file.name,
+                id:part.partID,
+                numColl,
+                nummBook,
+                lenght:0,
+                size:0,
+                status:'loading',
                 googleid:'',
                 url:'',
             }
             dispatch(changeFragment(payload));
-        }else{
-            dispatch(addToCancelRemoveList(res.googleid));
 
-            let lenght = await getAudioSize(res.url);
-            let size = file.size;
+            let size = part.file.size;
+            console.log(`загружаю ${part.file.name}`)
 
-            let payload:{numColl:number,nummBook:number,lenght:number,size:number,status:'loadend'|'loading'|'error',googleid:string,url:string, id:string} = {
-                id,
-                numColl,
-                nummBook,
-                lenght,
-                size,
-                status:'loadend',
-                googleid:res.googleid,
-                url:res.url,
+            let abortControler = new AbortController();
+            dispatch(setAbortCont(abortControler));
+            let res = await sendFileToBackend(part.file,abortControler);
+
+            if (res==='error'){
+                let payload:payloadFragmentType = {
+                    name:part.file.name,
+                    id:part.partID,
+                    numColl,
+                    nummBook,
+                    lenght:0,
+                    size:0,
+                    status:'error',
+                    googleid:'',
+                    url:'',
+                }
+                dispatch(changeFragment(payload));
+
+                let list = getstoplist(successFragments,part.partID,arrayFiles);
+                for (let id of list){
+                    dispatch(removeFragment({numCol:numColl,numBook:nummBook,partID:id}));
+                }
+                break;
+            }else{
+                dispatch(addToCancelRemoveList(res.googleid));
+                let lenght = await getAudioSize(res.url);
+
+                let payload:payloadFragmentType = {
+                    name:part.file.name,
+                    id:part.partID,
+                    numColl,
+                    nummBook,
+                    lenght,
+                    size,
+                    status:'loadend',
+                    googleid:res.googleid,
+                    url:res.url,
+                }
+                successFragments.push(part.partID);
+
+                dispatch(changeFragment(payload));
             }
-            dispatch(changeFragment(payload));
         }
+        dispatch(setloading(false));
     }
-)
+);

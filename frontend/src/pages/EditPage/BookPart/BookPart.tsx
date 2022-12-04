@@ -16,8 +16,22 @@ type PropsType = {
 export function BookPart({part,numCol,numBook,numFragment}:PropsType){
     let dispatch = useAppDispatch();
 
-    let {status, size, lenght}= part;
+    let {status, size, lenght,name}= part;
     let jsxfragment=<></>;
+
+    if (status==='waitloading'){
+        jsxfragment=<>
+            <div className='fragment-data-block'>
+                <span></span>
+                <span>{`${name} ждет загрузки`}</span>
+                <span></span>
+            </div>
+            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,partID:part.id}))}}>
+                <div className='try'></div>
+                <div className='try'></div>
+            </div>
+        </>
+    }
 
     if (status==='loading'){
         jsxfragment=<>
@@ -31,9 +45,10 @@ export function BookPart({part,numCol,numBook,numFragment}:PropsType){
         jsxfragment=<>
             <div className='fragment-data-block'>
                 <span>{numToTime(lenght)}</span>
+                <span>{name}</span>
                 <span>{numToSize(size||0)}</span>
             </div>
-            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,numFragment}))}}>
+            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,partID:part.id}))}}>
                 <div className='try'></div>
                 <div className='try'></div>
             </div>
@@ -42,8 +57,11 @@ export function BookPart({part,numCol,numBook,numFragment}:PropsType){
 
     if (status==='error'){
         jsxfragment=<>
-            <span className='error'>Ошибка загрузки</span>
-            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,numFragment}))}}>
+            <div className='fragment-data-block'>
+                <span className='error'>ошибка с {part.name}</span>
+                <span className='load-again'>загрузить</span>
+            </div>
+            <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,partID:part.id}))}}>
                 <div className='try'></div>
                 <div className='try'></div>
             </div>

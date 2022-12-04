@@ -5,12 +5,13 @@ export type EditImage = {
 }
 
 export type Editbookpart={
+    name:string;
     id:string;
     lenght:number;
     url:string;
     googleid:string;
     size:number;
-    status:'loadend'|'loading'|'error',
+    status:'loadend'|'loading'|'error'|'waitloading',
 }
 
 export type EditBook= {
@@ -34,4 +35,21 @@ export type EditState = {
     collections: EditCollection[],
     removeOnSave:string[],
     removeOnCancel:string[],
+    loading:boolean,
+    abortControler:AbortController|null
+}
+
+//////////////////////
+
+
+export type payloadFragmentType = {
+    numColl:number,
+    nummBook:number,
+    lenght:number,
+    size:number,
+    status:'loadend'|'loading'|'error'|'waitloading',
+    googleid:string,
+    url:string,
+    id:string,
+    name:string
 }

@@ -25,6 +25,10 @@ export function EditPage(){
 
     useEffect(()=>{
         onOpen();
+
+        return()=>{
+
+        }
     },[])
 
     async function onOpen() {
@@ -36,13 +40,14 @@ export function EditPage(){
         }
         setloadend(true);
     }
-
     async function onchange(event: React.ChangeEvent<HTMLInputElement>){
         if (event.target.files===null) return;
         let file = event.target.files![0];
         dispatch(asyncSetMainImage(file));
         event.target.value='';
     }
+
+
     async function saveCollection(){
         let checked = ValidationEdit({collName,authtorName,description});
         if (checked!=='ok'){
@@ -84,6 +89,10 @@ export function EditPage(){
         }
     }
 
+    function onForseCancel(){
+        cancelSeria()
+    }
+
     let activeimageStyle = {
         backgroundImage:`url(${bookImage.url})`,
     }
@@ -112,10 +121,15 @@ export function EditPage(){
                         onChange={(event)=>dispatch(setauthtorname(event.target.value))}  
                         className={`${validsate['authtorName']?'':'borderRed'} text authtor-name`} 
                         placeholder='Authtor name*'/>
-                    <textarea 
-                        value={description} 
-                        onChange={(event)=>dispatch(setdescription(event.target.value))} 
-                        className={`${validsate['description']?'':'borderRed'}`}  placeholder='Collection description*'></textarea>
+                    <div className='textarea'>
+                        <textarea 
+                            value={description} 
+                            onChange={(event)=>dispatch(setdescription(event.target.value))} 
+                            className={`${validsate['description']?'':'borderRed'}`}
+                            placeholder='Collection description*'>
+                        </textarea>
+                        <span>{`${description.length}/1000`}</span>
+                    </div>
                     <div className='books-group'>
                         <div className='box-editor-fragments'>
                             <FragmentsEditor/>

@@ -1,4 +1,5 @@
 .edit-book-line{
+    position: relative;
     width: 100%;
     min-height: 40px;
     // border: 1px solid red;
@@ -77,7 +78,7 @@
         >.add-imageforbook{
             position: absolute;
             top: calc(50% - 13px);
-            right: 50px;
+            right: 80px;
 
             text-align: center;
             border:1px solid #fd6969;
@@ -157,11 +158,37 @@
                 opacity: 0;
             }
         }
+        >.status-circle{
+            position: absolute;
+            top: 13px;
+            right: 50px;
+
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+
+            background-color: #6dff60;
+
+            &.loading{
+                background-color: #fdfb6d;
+            }
+            &.error{
+                background-color: #fd6969;
+            }
+        }
     }
     .array-fragments{
+        position: relative;
         // border: 1px solid red;
         transition: 0.3s;
-        overflow: hidden;
+        overflow-y: scroll;
+        max-height: 450px;
+
+        &::-webkit-scrollbar {
+            width: 0px;               /* ширина scrollbar */
+        }
+        scrollbar-width: thin;          /* "auto" или "thin"  */
+        scrollbar-color: rgba(0, 0, 255, 0) rgba(255, 166, 0, 0);
 
         .add-fragments-button{
             // border: 1px solid red;
@@ -200,6 +227,30 @@
             }
         }
     }
+    .scrol-icon{
+        position: absolute;
+        top: 60px;
+        left: 23px;
+
+        width: 24px;
+        height: 16px;
+        opacity: 0;
+        transition: 0.2s opacity;
+
+        background-image: url('./../../../assets/^simbol.svg');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &.two{
+            top: 460px;
+            transform: rotate(180deg);
+        }
+        &.show{
+            opacity: 0.5;
+        }
+    }
+
     &.show{
         .book-block{
             >.symb{
