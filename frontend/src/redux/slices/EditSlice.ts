@@ -16,7 +16,6 @@ let initialState:EditState ={
     removeOnCancel:[],
     removeOnSave:[],
     loading:false,
-    abortControler:null,
 };
 
 let EditSlice = createSlice({
@@ -218,9 +217,6 @@ let EditSlice = createSlice({
         setloading(state,action:PayloadAction<boolean>){
             state.loading=action.payload;
         },
-        setAbortCont(state,action:PayloadAction<AbortController>){
-            state.abortControler=action.payload;
-        },
     },
 })
 
@@ -244,7 +240,6 @@ export const {
     addToCancelRemoveList,
     setEditState,
     setloading,
-    setAbortCont,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
@@ -381,7 +376,6 @@ export const asyncAddBookFrahments = createAsyncThunk(
             console.log(`загружаю ${part.file.name}`)
 
             let abortControler = new AbortController();
-            dispatch(setAbortCont(abortControler));
             let res = await sendFileToBackend(part.file,abortControler);
 
             if (res==='error'){

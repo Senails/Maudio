@@ -35,8 +35,7 @@ export type EditState = {
     collections: EditCollection[],
     removeOnSave:string[],
     removeOnCancel:string[],
-    loading:boolean,
-    abortControler:AbortController|null
+    loading:boolean
 }
 
 //////////////////////

@@ -22,16 +22,21 @@ const drive = google.drive({
 export async function uploadGoogleFile(name,mimeType,readStream){
     return new Promise(async (res,rej)=>{
         try{
-            const response = await drive.files.create({
-                requestBody:{
-                    name,
-                    mimeType,
-                },
-                media:{
-                    mimeType,
-                    body: readStream
-                }
-            })
+            try{
+                const response = await drive.files.create({
+                    requestBody:{
+                        name,
+                        mimeType,
+                    },
+                    media:{
+                        mimeType,
+                        body: readStream
+                    }
+                })
+                console.log(response);
+            }catch(e){
+                console.log(e.message);
+            }
 
             let GoogleID = response.data.id;
             if (!GoogleID) return res('error');

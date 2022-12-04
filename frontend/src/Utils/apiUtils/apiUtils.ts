@@ -111,7 +111,6 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
         removeOnCancel:[],
         removeOnSave:[],
         loading:false,
-        abortControler:null,
     }
     return editState;
 }
