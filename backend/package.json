@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "googleapis": "^109.0.1",
+    "googleapis": "^105.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.12.1",
     "react": "^18.2.0",

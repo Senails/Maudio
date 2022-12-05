@@ -1,52 +1,81 @@
+import fs from 'fs/promises';
+import path from 'path';
+import {authenticate} from '@google-cloud/local-auth';
 import {google} from 'googleapis';
+import __dirname from './__dirname.js';
 
-const CLIENT_ID = '1057357561839-dkluu6cbr8312848dklbec7469hgce1c.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URL = 'https://developers.google.com/oauthplayground/';
-const REFRESH_TOCKEN = '1//04SULOYM_E_vOCgYIARAAGAQSNwF-L9IrbpZgb3OBQuXwTLuOZHEroUfQ2BH6MxMT58N_cLpODkMcjUHcB774JsSGNGfM6dAOj_I';
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const TOKEN_PATH = path.join(__dirname, 'token.json');
+const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 
-const oauth2Client = new google.auth.OAuth2({
-    clientId:CLIENT_ID,
-    redirectUri:REDIRECT_URL,
-    clientSecret: CLIENT_SECRET,
-});
-
-oauth2Client.setCredentials({refresh_token:REFRESH_TOCKEN});
-
-const drive = google.drive({
-    version:'v3',
-    auth: oauth2Client,
+async function loadSavedCredentialsIfExist() {
+    try {
+      const content = await fs.readFile(TOKEN_PATH);
+      const credentials = JSON.parse(content);
+      return google.auth.fromJSON(credentials);
+    } catch (err) {
+      return null;
+    }
+}
+async function saveCredentials(client) {
+    const content = await fs.readFile(CREDENTIALS_PATH);
+    const keys = JSON.parse(content);
+    const key = keys.installed || keys.web;
+    const payload = JSON.stringify({
+      type: 'authorized_user',
+      client_id: key.client_id,
+      client_secret: key.client_secret,
+      refresh_token: client.credentials.refresh_token,
+    });
+    await fs.writeFile(TOKEN_PATH, payload);
+}
+async function authorize() {
+    let client = await loadSavedCredentialsIfExist();
+    if (client) {
+      return client;
+    }
+    client = await authenticate({
+      scopes: SCOPES,
+      keyfilePath: CREDENTIALS_PATH,
+    });
+    if (client.credentials) {
+      await saveCredentials(client);
+    }
+    return client;
+}
+let drive = google.drive({
+    version: 'v3',
+    auth: await authorize(),
 });
 
 
 export async function uploadGoogleFile(name,mimeType,readStream){
     return new Promise(async (res,rej)=>{
         try{
-            try{
-                const response = await drive.files.create({
-                    requestBody:{
-                        name,
-                        mimeType,
-                    },
-                    media:{
-                        mimeType,
-                        body: readStream
-                    }
-                })
-                console.log(response);
-            }catch(e){
-                console.log(e.message);
-            }
+            const response = await drive.files.create({
+                requestBody:{
+                    name,
+                    mimeType,
+                },
+                media:{
+                    mimeType,
+                    body: readStream
+                }
+            })
 
             let GoogleID = response.data.id;
             if (!GoogleID) return res('error');
+
             let url = await getPublickURL(GoogleID);
+
             let result = {
                 URL:url,
                 googleID:GoogleID,
             }
+
             res(result)
-        }catch{
+        }catch(e){
+            console.log(e.message);
             res('error');
         }
     })

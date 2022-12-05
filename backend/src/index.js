@@ -33,7 +33,10 @@ app.listen(PORT, function() {
 	console.log('running');
 });
 
+
+
 func()
+
 async function func(){
     let pat = filepath+'package.json';
     let res = await uploadGoogleFile('package.json','application/json',fs.createReadStream(filepath+'package.json'))
