@@ -16,6 +16,8 @@ export async function getDataForEdit(bookname:string):Promise<EditState|'error'>
             removeOnCancel:[],
             removeOnSave:[],
             loading:false,
+            showColl:-1,
+            showBook:-1,
         }
         return result;
     }

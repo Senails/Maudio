@@ -85,7 +85,6 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
                 name:fetchbook.name,
                 image,
                 bookparts,
-                show:false,
             }
             return book;
         })
@@ -111,6 +110,8 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
         removeOnCancel:[],
         removeOnSave:[],
         loading:false,
+        showColl:-1,
+        showBook:-1,
     }
     return editState;
 }

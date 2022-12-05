@@ -18,7 +18,6 @@ export type EditBook= {
     name: string;
     image:EditImage;
     bookparts: Editbookpart[];
-    show?:boolean;
 }
 
 export type EditCollection = {
@@ -35,7 +34,9 @@ export type EditState = {
     collections: EditCollection[],
     removeOnSave:string[],
     removeOnCancel:string[],
-    loading:boolean
+    loading:boolean,
+    showColl:number,
+    showBook:number,
 }
 
 //////////////////////

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
 import { asyncAddBookFrahments, asyncSetBookImage, changebookname, removebook, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
@@ -12,13 +13,18 @@ type props = {
     name:string,
     image:EditImage,
     bookparts: Editbookpart[],
-    showB:boolean,
 }
 
-export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
+export function Bookline({numcoll,numbook,name,bookparts,image}:props){
     let loading = useAppSelector((state)=>state.edit.loading);
+    let showBook = useAppSelector((state)=>state.edit.showBook);
+    let showColl = useAppSelector((state)=>state.edit.showColl);
     let dispatch = useAppDispatch();
-        
+
+    let [rendering,setrendering] = useState(false);
+
+    let showB = (showBook===numbook && numcoll===showColl);
+
     let imagePrevieStyle = {
         backgroundImage:`url(${image.url})`,
     }
@@ -37,10 +43,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         event.target.value='';
     }
     function showhide(){
-        dispatch(ShowHideBook({
-            numColl:numcoll,
-            nummBook:numbook,
-        }))
+        dispatch(ShowHideBook(numbook));
     }
     function addFragmentInput(event: React.ChangeEvent<HTMLInputElement>){
         let files = event.target.files;
@@ -50,7 +53,17 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         event.target.value='';
     }
 
-    let bookPartsBlocks = bookparts.map((elem,index)=>{
+    useEffect(()=>{
+        if (showBook===numbook && numcoll===showColl){
+            setrendering(true);
+        }else{
+            setTimeout(() => {
+                setrendering(false);
+            }, 300);
+        }
+    },[showBook,showColl]);
+
+    let bookPartsBlocks =rendering?bookparts.map((elem,index)=>{
         return <BookPart
         numBook={numbook}
         numCol={numcoll}
@@ -58,7 +71,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image,showB}:props){
         part={elem}
         key={index}
         />
-    });
+    }):<></>;
 
     return <div className={`edit-book-line ${showB?'show':''}`}>
         <div className='book-block'>

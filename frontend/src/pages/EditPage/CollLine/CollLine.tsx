@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
-import { addbook, changecollname, removecoll } from '../../../redux/slices/EditSlice';
-import { useAppDispatch } from '../../../redux/store';
+import { useEffect, useMemo, useState } from 'react';
+import { addbook, changecollname, removecoll, showHideColl } from '../../../redux/slices/EditSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { EditBook } from '../../../types/editSlice';
 import { AddFragment } from '../AddFragment/AddFragment';
 import { Bookline } from '../BookLine/BookLine';
@@ -14,21 +14,34 @@ type props = {
 
 export function CollLine({num,name,books}:props){
     let dispatch = useAppDispatch();
-    let [show, setshow]= useState(false);
+    let showColl = useAppSelector((state)=>state.edit.showColl);
+    let showBook = useAppSelector((state)=>state.edit.showBook);
 
-    let arraybooks = books.map((elem,index)=>{
+    let show = showColl===num;
+    let [rendering,setrendering] = useState(false);
+
+    useEffect(()=>{
+        if (num===showColl){
+            setrendering(true);
+        }else{
+            setTimeout(() => {
+                setrendering(false);
+            }, 300);
+        }
+    },[showColl]);
+
+    let arraybooks =rendering?books.map((elem,index)=>{
         return <Bookline
         image={elem.image}
         bookparts={elem.bookparts}
         name={elem.name}
         numcoll={num}
         numbook={index}
-        showB={elem.show!}
         key={index}
         />
-    });
+    }):<></>;
 
-    let Height = useMemo(getheight,[books]);
+    let Height = useMemo(getheight,[books,showBook]);
     let arrayBooksStyle={
         height: Height,
     }
@@ -36,9 +49,11 @@ export function CollLine({num,name,books}:props){
     function getheight(){
         let sum = 45;
 
-        books.forEach((elem)=>{
-            if (elem.show){
-                sum+=(90+elem.bookparts.length*45);
+        books.forEach((elem,index)=>{
+            if (index===showBook){
+                let num1 = elem.bookparts.length;
+                let num2 = 45+(num1>=9?10:num1+1)*45;
+                sum+=num2;
             }else{
                 sum+=45;
             }
@@ -50,7 +65,7 @@ export function CollLine({num,name,books}:props){
     return <div className={`edit-collection-line ${show?'show':''}`}>
         <div className='coll-block'>
             <input type="text" value={name} onChange={(event)=>dispatch(changecollname({num,name:event.target.value}))}/>
-            <div className='symb' onClick={()=>setshow(!show)}></div>
+            <div className='symb' onClick={()=>dispatch(showHideColl(num))}></div>
             <div className='delete' onClick={()=>dispatch(removecoll(num))}>
                 <div className='try'></div>
                 <div className='try'></div>

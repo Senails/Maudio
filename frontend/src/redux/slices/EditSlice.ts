@@ -17,6 +17,8 @@ let initialState:EditState ={
     removeOnCancel:[],
     removeOnSave:[],
     loading:false,
+    showColl:-1,
+    showBook:-1,
 };
 
 let EditSlice = createSlice({
@@ -54,6 +56,15 @@ let EditSlice = createSlice({
 
             state.collections=arr;
         },
+        showHideColl(state,action:PayloadAction<number>){
+            let numCol = action.payload;
+            if (state.showColl===numCol){
+                state.showColl=-1;
+            }else{
+                state.showColl=action.payload;
+            }
+            state.showBook=-1;
+        },
         removecoll(state,action:PayloadAction<number>){
             let colls = state.collections;
             let num = action.payload;
@@ -85,7 +96,6 @@ let EditSlice = createSlice({
                 name:'Book '+arr[collnum].books.length,
                 image:{url:'',googleid:'',status:'loadend'},
                 bookparts:[],
-                show:false,
             })
             state.collections=arr;
         },
@@ -130,12 +140,13 @@ let EditSlice = createSlice({
                 status,
             };
         },
-        ShowHideBook(state,action:PayloadAction<{numColl:number,nummBook:number}>){
-            let {numColl , nummBook} = action.payload;
-
-            let colls = state.collections;
-            colls[numColl].books[nummBook].show= !colls[numColl].books[nummBook].show;
-            state.collections=colls;
+        ShowHideBook(state,action:PayloadAction<number>){
+            let numBook = action.payload;
+            if (state.showBook===numBook){
+                state.showBook=-1;
+            }else{
+                state.showBook=action.payload;
+            }
         },
         addFragment(state,action:PayloadAction<payloadFragmentType>){
             let {numColl,nummBook,lenght,size,status,googleid,url,id,name} = action.payload;
@@ -241,6 +252,7 @@ export const {
     addToCancelRemoveList,
     setEditState,
     setloading,
+    showHideColl,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
