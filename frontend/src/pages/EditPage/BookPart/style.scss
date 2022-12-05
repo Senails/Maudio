@@ -71,7 +71,7 @@
         }
 
         >.error{
-            max-width: 340px;
+            max-width: 450px;
             overflow: hidden;
             color:  rgb(255, 124, 124);
             font-family: 'Inter';
@@ -84,18 +84,6 @@
             white-space: nowrap;
             >span{
                 margin-right: 5px;
-            }
-        }
-        >.load-again{
-            color: rgb(255, 255, 255);
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 600;
-            font-size: 22px;
-            opacity: 0.5;
-
-            &:hover{
-                opacity: 1;
             }
         }
     }

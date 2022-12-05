@@ -1,5 +1,4 @@
 import { GetToken } from "../../Utils/other/GetSaveToken";
-import { sleep } from "../../Utils/other/sleep";
 import { adress } from "../apiAdress";
 
 type ResponseType = {
@@ -8,18 +7,9 @@ type ResponseType = {
 }
 
 export async function sendFileToBackend(file:File,abortControler?:AbortController):Promise<ResponseType|'error'> {
-    // let rand = Math.random()*5;
-    // if (rand>3){
-    //     await sleep(5000);
-    //     return 'error';
-    // }
-    
-
-
-
-    //отправить на бекенд и загрузить на гугл диск
     let mimeType =file.type;
     let apiadress=adress+`/api/sendfile`;
+
     try{
         let res = await fetch(apiadress,{
             method:'POST',

@@ -59,7 +59,6 @@ export function BookPart({part,numCol,numBook,numFragment}:PropsType){
         jsxfragment=<>
             <div className='fragment-data-block'>
                 <span className='error'>ошибка с {part.name}</span>
-                <span className='load-again'>загрузить</span>
             </div>
             <div className='delete' onClick={()=>{dispatch(removeFragment({numCol,numBook,partID:part.id}))}}>
                 <div className='try'></div>

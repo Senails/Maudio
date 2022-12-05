@@ -193,7 +193,6 @@ export function createHrefName(name:string):string{
     type charObj={
         [key:string]:string
     }
-
     let obj:charObj = {
         'а':'a',
         'б':'b',
@@ -231,8 +230,9 @@ export function createHrefName(name:string):string{
     }
 
     let charArray = name.split('');
-    let newArr=[];
 
+
+    let newArr=[];
     for(let char of charArray){
         if (char===' '){
             newArr.push('');
@@ -244,8 +244,5 @@ export function createHrefName(name:string):string{
             newArr.push(obj[char.toLowerCase()].toUpperCase())
         }
     }
-
-    let rez = newArr.join('');
-
-    return rez;
+    return newArr.join('');
 }

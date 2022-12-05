@@ -229,6 +229,7 @@
     }
 
     .error-message{
+        user-select: none;
         position: fixed;
 
         top: calc(50% - 100px);
@@ -255,11 +256,12 @@
             font-size: 30px;
         }
         span:nth-child(2){
+            color: white;
             font-size: 24px;
         }
         span:nth-child(3){
             line-height: 18px;
-            font-size: 18px;
+            font-size: 20px;
             opacity: 0.7;
         }
     }

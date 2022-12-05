@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
 import { Editbookpart, EditState, payloadFragmentType } from "../../types/editSlice";
+import { saveController } from "../../Utils/apiUtils/abortFileUpload";
 import { checkContainFragment, getstoplist } from "../../Utils/EditPage/forLoadFiles";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
@@ -373,9 +374,8 @@ export const asyncAddBookFrahments = createAsyncThunk(
             dispatch(changeFragment(payload));
 
             let size = part.file.size;
-            console.log(`загружаю ${part.file.name}`)
-
             let abortControler = new AbortController();
+            saveController(abortControler);
             let res = await sendFileToBackend(part.file,abortControler);
 
             if (res==='error'){
@@ -400,7 +400,6 @@ export const asyncAddBookFrahments = createAsyncThunk(
             }else{
                 dispatch(addToCancelRemoveList(res.googleid));
                 let lenght = await getAudioSize(res.url);
-
                 let payload:payloadFragmentType = {
                     name:part.file.name,
                     id:part.partID,
@@ -417,6 +416,7 @@ export const asyncAddBookFrahments = createAsyncThunk(
                 dispatch(changeFragment(payload));
             }
         }
+        saveController(null);
         dispatch(setloading(false));
     }
 );

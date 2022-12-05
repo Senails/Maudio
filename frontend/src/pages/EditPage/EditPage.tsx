@@ -7,11 +7,11 @@ import { saveSeria } from '../../api/editColls/saveSeria';
 import { Loader } from '../../components/Loader/Loader';
 import { setauthtorname, setcollname, setdescription, asyncSetMainImage, setEditState } from '../../redux/slices/EditSlice';
 import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
+import { abortUpload } from '../../Utils/apiUtils/abortFileUpload';
 import { ValidationEdit } from '../../Utils/EditPage/Validation';
 import { FragmentsEditor } from './FragmentsEditor/FragmentsEditor';
 import './style.scss';
 
-let val = {collName:true,authtorName:true,description:true};
 
 export function EditPage(){
     let {collName,authtorName,description,bookImage} = useAppSelector((state:RootState)=>state.edit);
@@ -19,7 +19,6 @@ export function EditPage(){
     let navigate = useNavigate();
     let { bookname } = useParams()
 
-    let [validsate,setvalidsate]=useState<{[key:string]:boolean}>(val);
     let [loadend,setloadend]=useState(false);
     let [error,seterror]=useState('');
 
@@ -49,12 +48,10 @@ export function EditPage(){
 
 
     async function saveCollection(){
-        let checked = ValidationEdit({collName,authtorName,description});
-        if (checked!=='ok'){
-            setvalidsate(checked);
-            seterror('заполните текстовые поля. (RU)');
+        let ValidationMessage = ValidationEdit();
+        if (ValidationMessage!=='ok'){
+            seterror(ValidationMessage);
         }else{
-            setvalidsate(val);
             setloadend(false);
             let res = await saveSeria();
             if (res==='ok'){
@@ -67,15 +64,17 @@ export function EditPage(){
         }
     }
     async function cancelCollection(){
-        setloadend(false);
-        let res = await cancelSeria();
-        if (res==='ok'){
-            setloadend(true);
-            navigate('/');
-        }else{
-            setloadend(true);
-            seterror('попробуете чуть позже');
-        }
+        abortUpload()
+
+        // setloadend(false);
+        // let res = await cancelSeria();
+        // if (res==='ok'){
+        //     setloadend(true);
+        //     navigate('/');
+        // }else{
+        //     setloadend(true);
+        //     seterror('попробуете чуть позже');
+        // }
     }
     async function removeCollection(){
         setloadend(false);
@@ -114,19 +113,18 @@ export function EditPage(){
                     <input type="text" 
                         value={collName} 
                         onChange={(event)=>dispatch(setcollname(event.target.value))}  
-                        className={`${validsate['collName']?'':'borderRed'} text serias-name`} 
-                        placeholder='Collection name*'/>
+                        className={`text serias-name`} 
+                        placeholder='Введите название*'/>
                     <input type="text" 
                         value={authtorName} 
                         onChange={(event)=>dispatch(setauthtorname(event.target.value))}  
-                        className={`${validsate['authtorName']?'':'borderRed'} text authtor-name`} 
-                        placeholder='Authtor name*'/>
+                        className={`text authtor-name`} 
+                        placeholder='Имя Автора*'/>
                     <div className='textarea'>
                         <textarea 
                             value={description} 
                             onChange={(event)=>dispatch(setdescription(event.target.value))} 
-                            className={`${validsate['description']?'':'borderRed'}`}
-                            placeholder='Collection description*'>
+                            placeholder='Введите описание*'>
                         </textarea>
                         <span>{`${description.length}/1000`}</span>
                     </div>

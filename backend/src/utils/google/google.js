@@ -75,7 +75,6 @@ export async function uploadGoogleFile(name,mimeType,readStream){
 
             res(result)
         }catch(e){
-            console.log(e.message);
             res('error');
         }
     })

@@ -1,11 +1,8 @@
-import { BookMapFetch, FetchBook, Fetchbookpart, FetchCollection } from "../../types/api";
-import { EditBook, Editbookpart, EditCollection, EditImage, EditState } from "../../types/editSlice";
+import { BookMapFetch} from "../../types/api";
+import { EditState } from "../../types/editSlice";
 import { ApiMapToEditMap } from "../../Utils/apiUtils/apiUtils";
 import { adress } from "../apiAdress";
 
-type editData = {
-
-}
 
 export async function getDataForEdit(bookname:string):Promise<EditState|'error'> {
     if (bookname==='newbook'){
