@@ -1,10 +1,7 @@
-import { ObjectId } from 'mongodb';
-
-import {MongoColl} from './MongoDB.js';
+import {MongoColl,nameDB} from './MongoDB.js';
 import {filterBooksBySearch} from '../reimport.js';
 
-let nameDB = 'AudioBooks';
-
+//books
 export async function addBookToDB(book){
     return new Promise(async(res,rej)=>{
         MongoColl(async (mongo)=>{
@@ -101,37 +98,9 @@ export async function findBookByHref(href){
         })
     })
 }
-export async function findUserByLogin(login){
-    return new Promise((res,rej)=>{
-        MongoColl(async (mongo)=>{
-            try{
-                let db = mongo.db(nameDB);
-                let coll = db.collection('users');
 
-                let user = await coll.findOne({login:login})
-                res(user);
-            }catch{
-                res('error');
-            }
-        })
-    })
-}
-export async function findUserByID(ID){
-    return new Promise((res,rej)=>{
-        MongoColl(async (mongo)=>{
-            try{
-                let db = mongo.db(nameDB);
-                let coll = db.collection('users');
 
-                let user = await coll.findOne({ _id: ObjectId(ID) })
-                res(user);
-            }catch{
-                res('error');
-            }
-        })
-    })
-}
-
+////////////
 async function checkBookOnDB(hrefName){
     return new Promise((res,rej)=>{
         MongoColl(async (mongo)=>{

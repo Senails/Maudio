@@ -5,16 +5,18 @@ import {
     removeBookOnDB,
     findBooksBySearch,
     findBookByHref,
-    findUserByLogin,
-    findUserByID,
-} from './mongoDb/MongoUtils.js';
+} from './mongoDb/Books.js';
 
 import { MongoColl } from './mongoDb/MongoDB.js';
 import { readBodyToJson } from './other/readBody.js';
 import { filterBooksBySearch } from './other/filterBooks.js';
 import { createFileName } from './other/createFileName.js';
 import { bookMapToData } from './other/bookMapToData.js';
-import { addUser } from './other/addUser.js';
+import { addUser,
+    findUserByEmail,
+    findUserByID,
+    findUserByName,
+ } from './mongoDb/Users.js';
 
 export {
     addBookToDB,
@@ -28,8 +30,9 @@ export {
     createFileName,
     findBookByHref,
     bookMapToData,
-    findUserByLogin,
+    findUserByEmail,
     findUserByID,
     MongoColl,
     addUser,
+    findUserByName,
 }

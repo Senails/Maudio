@@ -1,7 +1,7 @@
 import express from 'express';
 import {saveBook, deleteBook, editBook, cancelEdit, sendFileToGoogle} from './editHandlers.js';
 import {getBookData,getBookMap,getBooksData} from './getDataHandlers.js';
-import { login, auth, checkToken } from './authHandlers.js';
+import { login, auth, checkToken, registration } from './authHandlers.js';
 
 export const apiRouter = express.Router();
 
@@ -18,3 +18,4 @@ apiRouter.post('/cancel',checkToken, cancelEdit);
 
 apiRouter.post('/login',login);
 apiRouter.post('/auth',auth);
+apiRouter.post('/register',registration);

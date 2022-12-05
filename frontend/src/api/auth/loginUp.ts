@@ -5,10 +5,10 @@ export type LoginData = {
     status:'user'|'editor'|'admin';
 }
 
-export async function loginUp(login:string,password:string):Promise<LoginData|'error'>{
+export async function loginUp(email:string,password:string):Promise<LoginData|'error'>{
     let apiadress=adress+`/api/login`;
     let apiObj = {
-        login,
+        email,
         password,
     }
 

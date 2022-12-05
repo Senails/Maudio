@@ -4,6 +4,7 @@ const mongologin = 'Senails67895';
 const mongopassword = '7PSs46zeXYi2mdQe';
 const uri = `mongodb+srv://${mongologin}:${mongopassword}@cluster0.emeen9d.mongodb.net`;
 const mongoclient = new MongoClient(uri, {serverApi: ServerApiVersion.v1 });
+export const nameDB = 'AudioBooks';
 
 async function getMongo(){
     return new Promise((res,rej)=>{

@@ -21,20 +21,20 @@ export function Login({changeModal}:{changeModal:()=>void}){
     async function clickopen(){
         open(email,password)
     }
-    async function open(login:string,password:string){
-        if (login==='' || password===''){
+    async function open(email:string,password:string){
+        if (email==='' || password===''){
             seterror('заполните поля');
             return;
         }
         setloadend(false);
-        let res = await loginUp(login,password);
-        setloadend(true);
+        let res = await loginUp(email,password);
         if (res==='error'){
             seterror('ошибка авторизации');
         }else{
             dispatch(loginUser(res));
             dispatch(showhidemodal(false));
         }
+        setloadend(true);
     }
 
     
@@ -43,11 +43,11 @@ export function Login({changeModal}:{changeModal:()=>void}){
             <ExitModal/>
             <LoginHeader text='Войти' error={error}/>
             <form name='login'>
-                <Input type='text' placeholder='email' name='email'
+                <Input type='text' placeholder='имейл' name='email'
                     value={email}
                     onChange={setemail}
                 />
-                <Input type='password' placeholder='password' name='password'
+                <Input type='password' placeholder='пароль' name='password'
                     value={password}
                     onChange={setpassword}
                 />
