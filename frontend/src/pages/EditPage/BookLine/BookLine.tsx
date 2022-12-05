@@ -15,6 +15,8 @@ type props = {
     bookparts: Editbookpart[],
 }
 
+let timeoutConteiner:NodeJS.Timeout;
+
 export function Bookline({numcoll,numbook,name,bookparts,image}:props){
     let loading = useAppSelector((state)=>state.edit.loading);
     let showBook = useAppSelector((state)=>state.edit.showBook);
@@ -55,9 +57,11 @@ export function Bookline({numcoll,numbook,name,bookparts,image}:props){
 
     useEffect(()=>{
         if (showBook===numbook && numcoll===showColl){
+            if (timeoutConteiner) clearTimeout(timeoutConteiner);
             setrendering(true);
         }else{
             setTimeout(() => {
+                if (timeoutConteiner) clearTimeout(timeoutConteiner);
                 setrendering(false);
             }, 300);
         }

@@ -12,6 +12,8 @@ type props = {
     books: EditBook[],
 }
 
+let timeoutConteiner:NodeJS.Timeout;
+
 export function CollLine({num,name,books}:props){
     let dispatch = useAppDispatch();
     let showColl = useAppSelector((state)=>state.edit.showColl);
@@ -22,9 +24,11 @@ export function CollLine({num,name,books}:props){
 
     useEffect(()=>{
         if (num===showColl){
+            if (timeoutConteiner) clearTimeout(timeoutConteiner);
             setrendering(true);
         }else{
-            setTimeout(() => {
+            if (timeoutConteiner) clearTimeout(timeoutConteiner);
+            timeoutConteiner = setTimeout(() => {
                 setrendering(false);
             }, 300);
         }
