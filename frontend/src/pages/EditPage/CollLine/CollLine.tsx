@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { addbook, changecollname, removecoll, showHideColl } from '../../../redux/slices/EditSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { EditBook } from '../../../types/editSlice';
@@ -12,7 +12,6 @@ type props = {
     books: EditBook[],
 }
 
-let timeoutConteiner:NodeJS.Timeout;
 
 export function CollLine({num,name,books}:props){
     let dispatch = useAppDispatch();
@@ -20,21 +19,23 @@ export function CollLine({num,name,books}:props){
     let showBook = useAppSelector((state)=>state.edit.showBook);
 
     let show = showColl===num;
-    let [rendering,setrendering] = useState(false);
+    let [rendering,setrendering]=useState(false);
+    let timeoutID = useRef<NodeJS.Timeout|null>(null);
 
     useEffect(()=>{
         if (num===showColl){
-            if (timeoutConteiner) clearTimeout(timeoutConteiner);
+            if (timeoutID.current) clearTimeout(timeoutID.current);
             setrendering(true);
         }else{
-            if (timeoutConteiner) clearTimeout(timeoutConteiner);
-            timeoutConteiner = setTimeout(() => {
+            if (timeoutID.current) clearTimeout(timeoutID.current);
+            let ID = setTimeout(() => {
                 setrendering(false);
             }, 300);
+            timeoutID.current=ID;
         }
-    },[showColl]);
+    },[showColl,num]);
 
-    let arraybooks =rendering?books.map((elem,index)=>{
+    let arraybooks=rendering?books.map((elem,index)=>{
         return <Bookline
         image={elem.image}
         bookparts={elem.bookparts}

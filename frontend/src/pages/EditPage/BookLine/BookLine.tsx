@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
 import { asyncAddBookFrahments, asyncSetBookImage, changebookname, removebook, ShowHideBook } from '../../../redux/slices/EditSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
@@ -24,6 +24,7 @@ export function Bookline({numcoll,numbook,name,bookparts,image}:props){
     let dispatch = useAppDispatch();
 
     let [rendering,setrendering] = useState(false);
+    let timeoutID = useRef<NodeJS.Timeout|null>(null);
 
     let showB = (showBook===numbook && numcoll===showColl);
 
@@ -57,15 +58,16 @@ export function Bookline({numcoll,numbook,name,bookparts,image}:props){
 
     useEffect(()=>{
         if (showBook===numbook && numcoll===showColl){
-            if (timeoutConteiner) clearTimeout(timeoutConteiner);
+            if (timeoutID.current) clearTimeout(timeoutID.current);
             setrendering(true);
         }else{
-            setTimeout(() => {
-                if (timeoutConteiner) clearTimeout(timeoutConteiner);
+            if (timeoutID.current) clearTimeout(timeoutID.current);
+            let ID = setTimeout(() => {
                 setrendering(false);
             }, 300);
+            timeoutID.current=ID;
         }
-    },[showBook,showColl]);
+    },[showBook,showColl,numbook,numcoll]);
 
     let bookPartsBlocks =rendering?bookparts.map((elem,index)=>{
         return <BookPart

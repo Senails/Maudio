@@ -81,7 +81,7 @@
         // overflow: hidden;
         opacity: 0;
         transition: 0.3s;
-        clip-path: polygon(0% -50%, 0% 100%, 100% 100%, 100% -50%);
+        clip-path: polygon(0% -200px, 0% 100%, 100% 100%, 100% -200px);
     }
 
     &.show{
