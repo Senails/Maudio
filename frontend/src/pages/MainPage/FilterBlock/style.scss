@@ -1,0 +1,40 @@
+.filter-block{
+    width: 100%;
+    min-height: 30px;
+    // border: 1px solid red;
+    display: flex;
+    flex-wrap: wrap;
+
+    .filter-select, .sorting-select{
+        position: relative;
+        height: 30px;
+        border-radius: 15px;
+        background-color: rgb(255, 255, 255);
+
+        margin-bottom: 20px;
+        margin-right: 20px;
+
+        &:nth-child(2){
+            margin-right: 0px; 
+        }
+    }
+
+    .sorting-select{
+        width: 210px;
+    }
+
+    .filter-select{
+        width: 160px;
+    }
+
+    @media (max-width: 451px) {
+        justify-content: space-between;
+        .filter-select, .sorting-select{
+            margin-right: 10px;
+
+            &:nth-child(2){
+                margin-right: 0px; 
+            }
+        }
+    }
+}

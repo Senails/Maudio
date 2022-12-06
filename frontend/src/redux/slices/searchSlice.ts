@@ -13,12 +13,15 @@ export type BookCardtype = {
 type searchState = {
     arrayCard: BookCardtype[];
     searchString: string;
-    
+    sortingParam: string;
+    filterParam: string;
 }
 
 let initialState:searchState = {
     arrayCard:[],
     searchString:'',
+    sortingParam:'без сортировки',
+    filterParam:'все',
 };
 
 export const searchSlise = createSlice({
@@ -28,11 +31,22 @@ export const searchSlise = createSlice({
         setsearch(state, action: PayloadAction<string>){
             state.searchString = action.payload;
         },
+        setSorting(state,action: PayloadAction<string>){
+            state.sortingParam=action.payload;
+        },
+        setFilter(state,action: PayloadAction<string>){
+            state.filterParam=action.payload;
+        },
         setArrayCard(state,action: PayloadAction<BookCardtype[]>){
             state.arrayCard=action.payload;
         }
     },
 });
 
-export const {setsearch,setArrayCard} = searchSlise.actions;
+export const {
+    setsearch,
+    setArrayCard,
+    setSorting,
+    setFilter,
+} = searchSlise.actions;
 export default searchSlise.reducer

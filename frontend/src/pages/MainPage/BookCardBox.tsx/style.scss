@@ -1,0 +1,73 @@
+.bookcard-box{
+    min-height: 150px;
+    // border: 1px solid red;
+    margin: 0 auto;
+    width: 1100px;
+
+    >.message{
+        color:white;
+        margin: 0 auto;
+
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        >span{
+            user-select: none;
+
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            margin-bottom: 10px;
+            &:nth-child(1){
+                margin-top: 100px;
+                font-size: 30px;
+            }
+            &:nth-child(2){
+                opacity: 0.7;
+                // &:hover{
+                //     opacity: 0.9;
+                // }
+            }
+        }
+    }
+
+    .array-card-conteiner{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media (min-width: 1201px) {
+    .book-card{
+        &:nth-child(3n){
+            margin-right: 0;
+        }
+    }
+}
+@media (max-width: 1200px) {
+    .bookcard-box{
+        width: 725px;
+    }
+    .book-card{
+        &:nth-child(2n){
+            margin-right: 0;
+        }
+    }
+}
+@media (max-width: 800px) {
+    .bookcard-box{
+        width: calc(100% - 60px);
+    }
+    .array-card-conteiner{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .book-card{
+        margin: 0;
+        margin-bottom: 20px;
+    }
+}

@@ -1,5 +1,4 @@
 import { GetToken } from "../../Utils/appData/GetSaveToken";
-import { sleep } from "../../Utils/other/sleep";
 import { adress } from "../apiAdress";
 
 type ResponseType = {
@@ -10,9 +9,6 @@ type ResponseType = {
 export async function sendFileToBackend(file:File,abortControler?:AbortController):Promise<ResponseType|'error'> {
     let mimeType =file.type;
     let apiadress=adress+`/api/sendfile`;
-
-    // await sleep(20000);
-    // return 'error';
 
     try{
         let res = await fetch(apiadress,{
