@@ -3,7 +3,6 @@ import { setsearch } from "../../../redux/slices/searchSlice";
 import { exitUser, showhidemodal } from "../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { SaveToken } from "../../../Utils/appData/GetSaveToken";
-import { FilterBlock } from "../FilterBlock/FilterBlock";
 import './style.scss';
 
 

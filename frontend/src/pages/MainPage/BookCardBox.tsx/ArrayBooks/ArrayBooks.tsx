@@ -44,8 +44,7 @@ export function ArrauBooks(){
             authtor={book.authtor} 
             name={book.name}
             key={index}
-            />
-            })}
+            />})}
         </div>
         :<div className='message'>
             <span>{`Аудиокнижки не найдены :(`}</span>

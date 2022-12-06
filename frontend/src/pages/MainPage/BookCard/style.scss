@@ -1,24 +1,28 @@
 .book-card{
     user-select: none;
-
     box-sizing: border-box;
     width: 350px;
     height: 150px;
     // border: 1px solid red;
+
     border-radius: 10px;
     margin-bottom: 25px;
     margin-right: 25px;
     background: #1c1c1c;
-    transition: 0.3s transform;
-    // box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 5px 0px #000000;
+
+
     position: relative;
     padding: 20px 0;
     padding-left: 115px;
-    padding-right: 40px;
+    padding-right: 50px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    transition: 0.3s transform;
+    overflow: hidden;
 
     &:hover{
         transform: scale(1.05);
@@ -41,71 +45,7 @@
         }
     }
 
-    .serias-name{
-        // border: 1px solid red;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 22px;
-        line-height: 30px;
-        color: white;
 
-        overflow: hidden;
-        // word-break: break-all;
-        hyphens: auto;
-        text-overflow: ellipsis;
-        white-space: pre-line;
-    }
-
-    .authtor-name{
-        user-select: none;
-
-        width: 150px;
-        // border: 1px solid red;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 20px;
-        color: white;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        opacity: 1;
-
-        // &:hover{
-        //     color: rgb(255, 255, 255);
-        //     opacity: 0.9;
-        // }
-    }
-    .book-count{
-        position: absolute;
-        right: 30px;
-        bottom: 20px;
-        // border: 1px solid red;
-
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 20px;
-        color: white;
-        display: flex;
-        align-items: center;
-
-        .book-icon{
-            margin-left: 3px;
-            width: 20px;
-            height: 20px;
-            // border: 1px solid red;
-
-            background-image: url('./../../../assets/book-icon.png');
-            background-position: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-    }
     a{
         position: absolute;
         left: 0;
@@ -115,5 +55,65 @@
         width: 100%;
         height: 100%;
         // border: 1px solid red;
+    }
+
+    .propress-line{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        width: 100%;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.3);
+
+        >span{
+            padding: 5px;
+            border-radius: 5px;
+
+            bottom: 6px;
+            left: 10px;
+            position: absolute;
+            color: #FFE924;
+
+            font-family: "Inter";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+
+            background-color: rgba(0, 0, 0, 0.8);
+            text-shadow: 0px 0px 5px black;
+        }
+
+        .light-line{
+            height: 100%;
+            width: 30%;
+
+            background-color: #FFE924;
+            box-shadow: 0px 0px 5px 0px #FFE924;
+        }
+    }
+
+    .likebook-icon{
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        width: 30px;
+        height: 30px;
+        // border: 1px solid red;
+
+        background-image: url('./../../../assets/HeartBook.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.4;
+
+        transition: 0.2s;
+
+        &.active{
+            opacity: 1;
+            filter: drop-shadow(0px 0px 3px #FFE924);
+        }
     }
 }
