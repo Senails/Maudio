@@ -7,7 +7,7 @@ import './style.scss';
 let num = 0.001;
 
 export default function ProgressBar(){
-    let {lenght , block , activebook,activecollection, bookMap} = useAppSelector((state:RootState)=>state.pleer);
+    let {lenght , activebook,activecollection, bookMap} = useAppSelector((state:RootState)=>state.pleer);
     let alllenght = bookMap.booklength;
     let dispatch= useAppDispatch();
 
@@ -31,8 +31,6 @@ export default function ProgressBar(){
     function mousehandler(event:React.MouseEvent){
         let polzik = polsunok.current;
         let line = progress.current;
-
-        if (block) return;
 
         setUserControl(true);
 
@@ -76,8 +74,6 @@ export default function ProgressBar(){
     function touchhandler(event:React.TouchEvent){
         let polzik = polsunok.current;
         let line = progress.current;
-
-        if (block) return;
 
         setUserControl(true);
 

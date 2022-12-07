@@ -17,8 +17,6 @@ import './style.scss';
 import { TextInputs } from './TextInputs/textInputs';
 
 export function EditPage(){
-    console.log('EditPage')
-
     let dispatch = useAppDispatch();
     let navigate = useNavigate();
     let { bookname } = useParams()

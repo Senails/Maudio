@@ -16,13 +16,19 @@ let initialSeria: Seria = {
     collections:[
         {
             name:'',
+            lenght:0,
             books:[
                 {
                     name:'',
                     image: "",
                     booklength: 0,
+                    beforelenght:0,
                     bookparts: [
-                    {lenght:0, url:""},                                   
+                    {
+                        lenght:0,
+                        url:"",
+                        lenghtBefore:0
+                    },                                   
                 ]
                 },
             ]
@@ -57,10 +63,7 @@ export const pleerSlice = createSlice({
             state.volume = action.payload;
         },
         setlenght(state, action:PayloadAction<number>){
-            let lenght = 0;
-            for(let i=0; i<state.activefragment;i++){
-                lenght+=state.bookMap.bookparts[i].lenght;
-            }
+            let lenght = state.bookMap.bookparts[state.activefragment].lenghtBefore;
             lenght+=action.payload;
             state.lenght=lenght;
 
@@ -139,23 +142,38 @@ export const pleerSlice = createSlice({
     },
 })
 
-export const {setvolume,setlenght,UserSelectLenght,UserSelectVolume,setplay,changebook,setAllState} = pleerSlice.actions;
+export const {
+    setvolume,
+    setlenght,
+    UserSelectLenght,
+    UserSelectVolume,
+    setplay,
+    changebook,
+    setAllState,
+} = pleerSlice.actions;
 export default pleerSlice.reducer
+
 export const setpause = createAsyncThunk(
     'pleer/setpause',
     async (param:"pause" | "play", thunkApi) => {
         let {dispatch , getState}= thunkApi;
-        let state=<RootState> getState();
+        let state = getState() as RootState;
 
-        if (state.pleer.block) return;
-
+        
         if (param==='play'){
             dispatch(setplay(param));
-            ChangeVolume(state.pleer.volume,state.pleer.userVolume,300,dispatch);
         }else{
-            await ChangeVolume(state.pleer.volume,0,300,dispatch);
             dispatch(setplay(param));
         }
+        // if (state.pleer.block) return;
+
+        // if (param==='play'){
+        //     dispatch(setplay(param));
+        //     ChangeVolume(state.pleer.volume,state.pleer.userVolume,300);
+        // }else{
+        //     dispatch(setplay(param));
+        //     ChangeVolume(state.pleer.volume,0,300);
+        // }
     return;
     }
 )

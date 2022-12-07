@@ -1,8 +1,7 @@
-import { BookMapFetch, FetchBook, Fetchbookpart, FetchCollection, fetchImage } from "../../types/api"
-import { EditBook, Editbookpart, EditCollection, EditImage, EditState } from "../../types/editSlice"
-import { Book, bookpart, Collection, Seria } from "../../types/pleerSlice"
-import { calculateBookCount } from "../EditPage/calculateBookCount"
-import { calculateBookLenth } from "../EditPage/calculateBookLength"
+import { BookMapFetch, FetchBook, Fetchbookpart, FetchCollection, fetchImage } from "../../types/api";
+import { EditBook, Editbookpart, EditCollection, EditImage, EditState } from "../../types/editSlice";
+import { Book, bookpart, Collection, Seria } from "../../types/pleerSlice";
+import { calculateBookCount } from "../EditPage/calculateBookCount";
 
 export function editMapToApiMap(editState: EditState):BookMapFetch{
     let mainImage:fetchImage = {
@@ -11,8 +10,10 @@ export function editMapToApiMap(editState: EditState):BookMapFetch{
     }
     let apicollections: FetchCollection[] = editState.collections
     .map((coll)=>{
+        let sumCollLenght=0;
         let apibooks:FetchBook[]= coll.books.
         map((book)=>{
+            let sumBookLength:number=0;
             let apibookparts: Fetchbookpart[] = book.bookparts
             .map((part)=>{
                 let apipart:Fetchbookpart={
@@ -22,27 +23,30 @@ export function editMapToApiMap(editState: EditState):BookMapFetch{
                     url:part.url,
                     googleid:part.googleid,
                     size:part.size,
+                    lenghtBefore:sumBookLength,
                 }
+                sumBookLength+=part.lenght;
                 return apipart;
             })
-
             let apiimage:fetchImage = {
                 url:book.image.url,
                 googleid:book.image.googleid,
             }
-
             let apibook:FetchBook={
                 name:book.name,
-                booklength:calculateBookLenth(book),
+                booklength:sumBookLength,
                 image:apiimage,
                 bookparts: apibookparts,
+                beforelenght:sumCollLenght,
             }
+            sumCollLenght+=sumBookLength;
             return apibook
         })
 
         let apicoll:FetchCollection = {
             name:coll.name,
             books:apibooks,
+            lenght:sumCollLenght,
         }
         return apicoll;
     })
@@ -129,6 +133,7 @@ export function bookMapToSeria(map:BookMapFetch):Seria{
                 let bookpart:bookpart={
                     lenght:FetchPart.lenght,
                     url:FetchPart.url,
+                    lenghtBefore:FetchPart.lenghtBefore,
                 }
                 return bookpart;
             })
@@ -137,6 +142,7 @@ export function bookMapToSeria(map:BookMapFetch):Seria{
                 name:fetchBook.name,
                 image:fetchBook.image.url,
                 booklength:fetchBook.booklength,
+                beforelenght:fetchBook.beforelenght,
                 bookparts,
             }
             return book;
@@ -144,6 +150,7 @@ export function bookMapToSeria(map:BookMapFetch):Seria{
         let coll:Collection={
             name:fetchColl.name,
             books,
+            lenght:fetchColl.lenght,
         }
         return coll;
     })

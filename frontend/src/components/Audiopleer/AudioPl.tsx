@@ -22,6 +22,22 @@ export default function AudioPl(){
         playhandler();
     },[playpause]);
 
+    async function playhandler(){
+        if (playpause==='play'){
+            audio.current!.play();
+            dispatch(setlenght(audio.current!.currentTime));
+            if (interval) clearInterval(interval);
+            interval = setInterval(()=>{
+                let now = audio.current!.currentTime;
+                dispatch(setlenght(now));
+            },100);
+
+        }else{
+            clearInterval(interval);
+            audio.current!.pause();
+        }
+    }
+
     useEffect(()=>{
         audio.current!.volume=volume;
     },[volume]);
@@ -45,24 +61,6 @@ export default function AudioPl(){
     //         audioTag.removeEventListener('pause',pause);
     //     }
     // },[])
-
-    async function playhandler(){
-        if (playpause==='play'){
-            audio.current!.play();
-            dispatch(setlenght(audio.current!.currentTime));
-            if (interval) clearInterval(interval);
-            interval = setInterval(()=>{
-                let now = audio.current!.currentTime;
-                dispatch(setlenght(now));
-            },100);
-
-        }else{
-            clearInterval(interval);
-            audio.current!.pause();
-        }
-    }
-
-
 
     return <audio ref={audio} src={activeSrc} loop={false}></audio>
 }

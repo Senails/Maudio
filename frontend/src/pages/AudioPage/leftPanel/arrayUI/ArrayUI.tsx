@@ -3,15 +3,14 @@ import Collection from '../Collection/collectin';
 import './style.scss';
 
 export default function ArrayUI(){
-    let {seria ,activecollection, activebook}=useAppSelector((state:RootState)=>state.pleer);
+    let collections = useAppSelector((state:RootState)=>state.pleer.seria.collections);
 
-    let collectionarr = seria.collections.map((elem,i)=>{
+    let collectionarr = collections.map((elem,i)=>{
         return <Collection 
         name={elem.name}
         books={elem.books}
-        activeColl={activecollection}
-        activeBook={activebook}
         numColl={i}
+        collLenght={elem.lenght}
         key={i}/>
     });
 

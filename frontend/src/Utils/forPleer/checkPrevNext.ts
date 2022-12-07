@@ -1,8 +1,14 @@
 import { store } from "../../redux/store";
+import { Seria } from "../../types/pleerSlice";
 
-export function checkprevbook(){
-    let {seria, activecollection, activebook}= store.getState().pleer;
+type propsType = {
+    seria:Seria,
+    activecollection:number,
+    activebook:number,
+}
 
+
+export function checkprevbook({seria, activecollection, activebook}:propsType){
     let nextbook = seria.collections[activecollection].books[activebook-1];
     if (nextbook!==undefined) return true;
     let nextcolection = seria.collections[activecollection-1];
@@ -10,9 +16,7 @@ export function checkprevbook(){
     return false;
 }
 
-export function checknextbook(){
-    let {seria, activecollection, activebook}= store.getState().pleer;
-
+export function checknextbook({seria, activecollection, activebook}:propsType){
     let nextbook = seria.collections[activecollection].books[activebook+1];
     if (nextbook!==undefined) return true;
     let nextcolection = seria.collections[activecollection+1];

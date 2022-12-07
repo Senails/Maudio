@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getBookMap } from "../../api/getbookmap";
 import { Loader } from "../../components/Loader/Loader";
 import { setAllState } from "../../redux/slices/pleerSlice";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { Book } from "./book/Book";
 import LeftPanel from "./leftPanel/LeftPanel";
 import { PleerUI } from "./PleerUI/Pleer";
@@ -11,6 +11,8 @@ import './style.scss';
 
 export default function AudioPage(){
     let dispatch = useAppDispatch();
+    let hrefparam = useAppSelector((state)=>state.pleer.hrefparam);
+
     let navigate = useNavigate();
     let {bookname} = useParams();
     let[loadend,setloadend]= useState(false);
@@ -20,6 +22,10 @@ export default function AudioPage(){
     },[]);
 
     async function onload(){
+        if (bookname===hrefparam){
+            setloadend(true);
+            return;
+        }
         try{
             let data = await getBookMap(bookname!);
             if (data!=='error'){

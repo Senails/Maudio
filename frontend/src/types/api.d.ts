@@ -19,18 +19,21 @@ export type Fetchbookpart={
     url:string;
     googleid:string;
     size:number;
+    lenghtBefore:number;
 }
 
 export type FetchBook= {
     name: string;
     image: fetchImage;
     booklength: number;
+    beforelenght:number;
     bookparts: Fetchbookpart[];
 }
 
 type FetchCollection={
     name: string,
-    books: FetchBook[];
+    books: FetchBook[],
+    lenght:number,
 }
 
 export type BookMapFetch = {

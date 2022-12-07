@@ -1,19 +1,22 @@
 type bookpart={
     lenght:number;
     url:string;
+    lenghtBefore: number;
 }
 
 export type Book= {
     name: string;
     image:string;
     booklength: number;
+    beforelenght:number;
     bookparts: bookpart[];
     show?:boolean;
 }
 
 export type Collection = {
     name: string,
-    books: Book[];
+    books: Book[],
+    lenght:number,
 }
 
 export type Seria = {

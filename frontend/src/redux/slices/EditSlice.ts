@@ -3,6 +3,7 @@ import { sendFileToBackend } from "../../api/editColls/sendFileToBackend";
 import { Editbookpart, EditState, payloadFragmentType } from "../../types/editSlice";
 import { saveController } from "../../Utils/apiUtils/abortFileUpload";
 import { checkContainFragment, getstoplist } from "../../Utils/EditPage/forLoadFiles";
+import { replaceParts } from "../../Utils/EditPage/replaceParts";
 import { createID } from "../../Utils/other/createId";
 import { getAudioSize } from "../../Utils/other/getaudiosize";
 import { RootState} from "../store";
@@ -46,17 +47,8 @@ let EditSlice = createSlice({
             };
         },
         addcoll(state){
-            let arr = state.collections;
-            let len = arr.length;
-
-            let name:string = 'Collection '+len;
-
-            arr.push({
-                name,
-                books:[]
-            })
-
-            state.collections=arr;
+            let name:string = 'Collection '+state.collections.length;
+            state.collections.push({name,books:[]});
         },
         showHideColl(state,action:PayloadAction<number>){
             let numCol = action.payload;
@@ -68,23 +60,16 @@ let EditSlice = createSlice({
             state.showBook=-1;
         },
         removecoll(state,action:PayloadAction<number>){
-            let colls = state.collections;
             let num = action.payload;
 
-
-            //занести фрагменты колекции в список на удаление 
-            let removeList = state.removeOnSave;
-            colls[num].books.forEach((book)=>{
+            state.collections[num].books.forEach((book)=>{
                 book.bookparts.forEach((fragment)=>{
-                    removeList.push(fragment.googleid);
+                    state.removeOnSave.push(fragment.googleid);
                 })
+                state.removeOnSave.push(book.image.googleid);
             })
-            state.removeOnSave=removeList;
-            //
 
-
-            let rez = colls.filter((elem,index)=>index===num?false:true);
-            state.collections=rez;
+            state.collections=state.collections.filter((elem,index)=>index===num?false:true);
         },
         changecollname(state,action:PayloadAction<{num:number, name:string}>){
             let {num,name}=action.payload;
@@ -92,51 +77,30 @@ let EditSlice = createSlice({
         },
         addbook(state,action:PayloadAction<number>){
             let collnum = action.payload;
-            let arr = state.collections;
 
-            arr[collnum].books.push({
-                name:'Book '+arr[collnum].books.length,
+            state.collections[collnum].books.push({
+                name:'Book '+state.collections[collnum].books.length,
                 image:{url:'',googleid:'',status:'loadend'},
                 bookparts:[],
             })
-            state.collections=arr;
         },
         removebook(state,action:PayloadAction<{Collnum:number, Booknum:number}>){
             let {Collnum,Booknum} = action.payload;
-            let colls = state.collections;
-            let books = state.collections[Collnum].books;
 
-            //занести фрагменты книги в список на удаление 
-            let removeList = state.removeOnSave;
-            books[Booknum].bookparts.forEach((fragment)=>{
-                removeList.push(fragment.googleid);
+            state.collections[Collnum].books[Booknum].bookparts.forEach((fragment)=>{
+                state.removeOnSave.push(fragment.googleid);
             })
-            state.removeOnSave=removeList;
-            //
+            state.removeOnSave.push(state.collections[Collnum].books[Booknum].image.googleid);
 
-            colls[Collnum].books=books.filter((elem,index)=>Booknum===index?false:true);
-            state.collections=colls;
+            state.collections[Collnum].books=state.collections[Collnum].books.filter((elem,index)=>Booknum===index?false:true);
         },
         changebookname(state,action:PayloadAction<{Collnum:number, Booknum:number, newName: string}>){
             let {Collnum,Booknum,newName} = action.payload;
-            let colls = state.collections;
-            let books = state.collections[Collnum].books;
-
-            colls[Collnum].books=books.map((elem,index)=>{
-                if (Booknum!==index) return elem;
-                return{
-                    bookparts:elem.bookparts,
-                    image:elem.image,
-                    name:newName,
-                }
-            });
-            state.collections=colls;
+            state.collections[Collnum].books[Booknum].name=newName;
         },
         setBookImage(state,action:PayloadAction<{url:string,numColl:number,nummBook:number,googleid:string,status:'loadend'|'loading'|'error'}>){
             let {url, numColl, nummBook, status, googleid} = action.payload;
-
-            let arr = state.collections;
-            arr[numColl].books[nummBook].image={
+            state.collections[numColl].books[nummBook].image={
                 url,
                 googleid,
                 status,
@@ -170,23 +134,16 @@ let EditSlice = createSlice({
         },
         removeFragment(state,action:PayloadAction<{numCol:number,numBook:number,partID:string}>){
             let {numCol, numBook, partID} = action.payload;
-            let colls = state.collections;
+            let bookparts = state.collections[numCol].books[numBook].bookparts;
 
-            //занести фрагмент в список на удаление 
-            let removeList = state.removeOnSave;
-            removeList.push(colls[numCol].books[numBook]
-                .bookparts.filter((elem)=>elem.id===partID?true:false)[0].googleid);
-            state.removeOnSave=removeList;
-            //
+            state.removeOnSave.push(state.collections[numCol].books[numBook]
+            .bookparts.filter((elem)=>elem.id===partID?true:false)[0].googleid);
 
-            colls[numCol].books[numBook].bookparts=colls[numCol]
-            .books[numBook].bookparts.filter((elem)=>elem.id===partID?false:true);
-            
-            state.collections=colls;
+            bookparts = bookparts.filter((elem)=>elem.id===partID?false:true);
+            state.collections[numCol].books[numBook].bookparts=bookparts;
         },
         changeFragment(state,action:PayloadAction<payloadFragmentType>){
             let {numColl,nummBook,lenght,size,status,googleid,url,id,name} = action.payload;
-            let colls = state.collections;
             let Fragment:Editbookpart = {
                 name,
                 id,
@@ -197,24 +154,19 @@ let EditSlice = createSlice({
                 googleid,
             }
 
-            let bookparts = colls[numColl].books[nummBook].bookparts;
+            let bookparts = state.collections[numColl].books[nummBook].bookparts;
             bookparts = bookparts.map((elem,index)=>{
                 if (elem.id===id) return Fragment;
                 return elem;
             });
-            colls[numColl].books[nummBook].bookparts = bookparts;
-            
-            state.collections=colls;
+
+            state.collections[numColl].books[nummBook].bookparts = bookparts;
         },
         addToSaveRemoveList(state,action:PayloadAction<string>){
-            let arr = state.removeOnSave;
-            arr.push(action.payload);
-            state.removeOnSave=arr;
+            state.removeOnSave.push(action.payload)
         },
         addToCancelRemoveList(state,action:PayloadAction<string>){
-            let arr = state.removeOnCancel;
-            arr.push(action.payload);
-            state.removeOnCancel=arr;
+            state.removeOnCancel.push(action.payload)
         },
         setEditState(state,action:PayloadAction<EditState|null>){
             let editstate = action.payload;
@@ -471,12 +423,3 @@ export const asyncAddBookFrahments = createAsyncThunk(
         dispatch(setloading(false));
     }
 );
-
-
-export function replaceParts(arr:any[],num:number,neednum:number){
-    let array = arr;
-    let part = arr[neednum];
-    arr[neednum]=arr[num];
-    arr[num]=part;
-    return array;
-}

@@ -8,79 +8,91 @@
     align-items: center;
     overflow: hidden;
     .pleer_box {
-        // border: 1px solid red;
         position: relative;
         width: calc(100% - 60px);
         max-width: 1200px;
         height: 90%;
         max-height: 900px;
+
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        h1 {
-            // border: 1px solid red;
-            color: white;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 40px;
-            line-height: 40px;
-            max-width: 60%;
-            height: 100px;
-            text-align: center;
-            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        }
-        .place{
-            flex-grow: 1;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
 
-            .play-pause{
-                position: absolute;
-                left: calc(50% - 50px);
-                top: calc(50% - 50px);
-                width: 100px;
+        .wheel-rect{
+            width: 100%;
+            height: calc(100% - 35px);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            h1 {
+                // border: 1px solid red;
+                color: white;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 40px;
+                line-height: 40px;
+                max-width: 60%;
                 height: 100px;
-                background-size: contain;
+                text-align: center;
+                text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            }
+            .place{
+                // border: 1px solid red;
+                flex-grow: 1;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+                .play-pause{
+                    position: absolute;
+                    left: calc(50% - 50px);
+                    top: calc(50% - 50px);
+                    width: 100px;
+                    height: 100px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    transition: transform 0.1s ease 0s;
+                    transform: scale(1);
+                    &.play{
+                        background-image: url('./../../../assets/pause.svg');
+                    }
+                    &.pause{
+                        background-image: url('./../../../assets/play.svg');
+                    }
+                    &.hide{
+                        transform: scale(0);
+                    }
+                }
+            }
+            .prevnext{
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                top: calc(50% - 25px);
                 background-position: center;
+                background-size: contain;
                 background-repeat: no-repeat;
                 opacity: 1;
-                transition: opacity 0.3s;
-                &.play{
-                    background-image: url('./../../../assets/pause.svg');
-                }
-                &.pause{
-                    background-image: url('./../../../assets/play.svg');
-                }
-                &.hide{
-                    opacity: 0;
+                transition: 0.3s;
+                &.opacity{
+                    opacity: 0.5;
                 }
             }
-        }
-        .prevnext{
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            top: calc(50% - 25px);
-            background-position: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 1;
-            transition: 0.3s;
-            &.opacity{
-                opacity: 0.5;
+            .prevbook{
+                left: 25%;
+                background-image: url('./../../../assets/prevbook.svg');
             }
-        }
-        .prevbook{
-            left: 25%;
-            background-image: url('./../../../assets/prevbook.svg');
-        }
-        .nextbook{
-            right: 25%;
-            background-image: url('./../../../assets/nextbook.svg');
+            .nextbook{
+                right: 25%;
+                background-image: url('./../../../assets/nextbook.svg');
+            }
         }
     }
     @media (max-width: 1200px) {
