@@ -3,180 +3,6 @@
     width: 100%;
     min-height: 40px;
     // border: 1px solid red;
-
-    .book-block{
-        // border: 1px solid red;
-        box-sizing: border-box;
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        background-color: #494949;
-        margin-bottom: 5px;
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-
-        >input{
-            height: 100%;
-            outline: none;
-            border: none;
-            width: 45%;
-
-            background-color: #494949;
-
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 20px;
-            color: white;
-
-            // border: 1px solid red;
-        }
-        >.symb{
-            position: absolute;
-            top: calc(50% - 8px);
-            left: calc(50% - 12px);
-            width: 24px;
-            height: 16px;
-            background-image: url('./../../../assets/^simbol.svg');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            transform: rotate(180deg);
-        }
-        >.delete{
-            position: relative;
-            // border: 1px solid red;
-            width: 24px;
-            height: 24px;
-            >div.try{
-                position: absolute;
-                top: calc(50% - 15px);
-                left: calc(50% - 2px);
-                background-color: white;
-                border-radius: 2px;
-
-                width: 4px;
-                height: 30px;
-                transition: 0.1s;
-
-                &:nth-child(1){
-                    transform: rotate(45deg);
-                }
-                &:nth-child(2){
-                    transform: rotate(-45deg);
-                }
-            }
-            &:hover{
-                >div.try{
-                    background-color: rgb(255, 74, 74);
-                }
-            }
-        }
-        >.add-imageforbook{
-            position: absolute;
-            top: calc(50% - 13px);
-            right: 80px;
-
-            text-align: center;
-            border:1px solid #fd6969;
-            width: 180px;
-            height: 24px;
-
-            background-color: #2F2D2D;
-            border-radius: 3px;
-            color: white;
-            font-size: 16px;
-            line-height: 24px;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            user-select: none;
-
-            .image-previe{
-                display: none;
-            }
-
-            &.haveimage{
-                border: 1px solid #8dff82;
-
-                &:hover{
-                    .image-previe{
-                        display: block;
-
-                        position: absolute;
-                        width: 96px;
-                        height: 150px;
-                        background-color: #1d1d1d;
-
-                        background-position: center;
-                        background-size: cover;
-                        background-repeat: no-repeat;
-    
-                        left: calc(50% - 48px);
-                        bottom: 30px;
-                    }
-                }
-
-                &.error{
-                    border:1px solid #fd6969;
-                    
-                    &:hover{
-                        .image-previe{
-                            display: flex;
-    
-                            position: absolute;
-                            width: 96px;
-                            height: 150px;
-                            background-color: #1d1d1d;
-                            left: calc(50% - 48px);
-                            bottom: 30px;
-
-                            justify-content: center;
-                            align-items: center;
-
-                            color: rgb(253, 86, 86);
-                        }
-                    }
-                }
-            }
-            &.loading{
-                border: 1px solid #fdfb6d;
-            }
-            &:hover{
-                background-color: #0c0c0c;
-            }
-            input{
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-
-                opacity: 0;
-            }
-        }
-        >.status-circle{
-            position: absolute;
-            top: 13px;
-            right: 50px;
-
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-
-            background-color: #6dff60;
-
-            &.loading{
-                background-color: #fdfb6d;
-            }
-            &.error{
-                background-color: #fd6969;
-            }
-        }
-    }
     .array-fragments{
         position: relative;
         // border: 1px solid red;
@@ -247,7 +73,10 @@
             transform: rotate(180deg);
         }
         &.show{
-            opacity: 0.5;
+            opacity: 1;
+            &.opacity{
+                opacity: 0.3;
+            }
         }
     }
 
@@ -262,6 +91,202 @@
         .array-fragments{
             height: 0 !important;
             overflow: hidden;
+        }
+    }
+}
+
+.book-block{
+    // border: 1px solid red;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #494949;
+    margin-bottom: 5px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+
+    >input{
+        height: 100%;
+        outline: none;
+        border: none;
+        width: 45%;
+
+        background-color: #494949;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        color: white;
+
+        // border: 1px solid red;
+    }
+    >.symb{
+        position: absolute;
+        top: calc(50% - 8px);
+        left: calc(50% - 12px);
+        width: 24px;
+        height: 16px;
+        background-image: url('./../../../assets/^simbol.svg');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: rotate(180deg);
+    }
+    >.delete{
+        position: relative;
+        // border: 1px solid red;
+        width: 24px;
+        height: 24px;
+        >div.try{
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 2px);
+            background-color: white;
+            border-radius: 2px;
+
+            width: 4px;
+            height: 30px;
+            transition: 0.1s;
+
+            &:nth-child(1){
+                transform: rotate(45deg);
+            }
+            &:nth-child(2){
+                transform: rotate(-45deg);
+            }
+        }
+        &:hover{
+            >div.try{
+                background-color: rgb(255, 74, 74);
+            }
+        }
+    }
+    >.add-imageforbook{
+        position: absolute;
+        top: calc(50% - 13px);
+        right: 154px;
+
+        text-align: center;
+        border:1px solid #fd6969;
+        width: 120px;
+        height: 24px;
+
+        background-color: #2F2D2D;
+        border-radius: 3px;
+        color: white;
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        user-select: none;
+
+        .image-previe{
+            display: none;
+        }
+
+        &.haveimage{
+            border: 1px solid #8dff82;
+
+            &:hover{
+                .image-previe{
+                    display: block;
+
+                    position: absolute;
+                    width: 96px;
+                    height: 150px;
+                    background-color: #1d1d1d;
+
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+
+                    left: calc(50% - 48px);
+                    bottom: 30px;
+                }
+            }
+
+            &.error{
+                border:1px solid #fd6969;
+                
+                &:hover{
+                    .image-previe{
+                        display: flex;
+
+                        position: absolute;
+                        width: 96px;
+                        height: 150px;
+                        background-color: #1d1d1d;
+                        left: calc(50% - 48px);
+                        bottom: 30px;
+
+                        justify-content: center;
+                        align-items: center;
+
+                        color: rgb(253, 86, 86);
+                    }
+                }
+            }
+        }
+        &.loading{
+            border: 1px solid #fdfb6d;
+        }
+        &:hover{
+            background-color: #0c0c0c;
+        }
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            opacity: 0;
+        }
+    }
+    >.status-circle{
+        position: absolute;
+        top: 13px;
+        right: 120px;
+
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+
+        background-color: #6dff60;
+
+        &.loading{
+            background-color: #fdfb6d;
+        }
+        &.error{
+            background-color: #fd6969;
+        }
+    }
+    >.change-position{
+        position: absolute;
+        top: 0;
+        right: 50px;
+
+        box-sizing: border-box;
+
+        background-image: url('./../../../assets/replaceArrows.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50px 24px;
+        width: 50px;
+        height: 40px;
+        opacity: 0;
+
+        &.active{
+            opacity: 0.6; 
+            &:hover{
+                opacity: 1;
+            }
         }
     }
 }

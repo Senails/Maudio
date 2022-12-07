@@ -79,11 +79,11 @@ export const pleerSlice = createSlice({
             }
 
             if (action.payload>=state.bookMap.bookparts[state.activefragment].lenght){
-                let {src,lenght, activeFragment}= FindFragment(state.bookMap,action.payload);
+                let {src,lenght:len1, activeFragment}= FindFragment(state.bookMap,lenght);
 
                 state.activefragment=activeFragment;
                 state.activeSrc = src;
-                state.pleerlenght=lenght;
+                state.pleerlenght=len1;
                 state.playpause='play';
             }
         },

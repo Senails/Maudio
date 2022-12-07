@@ -6,11 +6,11 @@ import './style.scss';
 
 export function FragmentsEditor(){
     let collections = useAppSelector((state:RootState)=>state.edit.collections);
+    let drop = useAppSelector((state:RootState)=>state.edit.dpopType);
     let dispatch = useAppDispatch();
 
     let arrColls = collections.map((elem,index)=>{
         return <CollLine
-
         books={elem.books}
         name={elem.name}
         num={index}
@@ -18,7 +18,7 @@ export function FragmentsEditor(){
         />
     })
 
-    return <div className='editor-conteiner'>
+    return <div className={`editor-conteiner ${drop?'miniopacity':''}`}>
         {arrColls}
         <AddFragment onClick={()=>dispatch(addcoll())}/>
     </div>

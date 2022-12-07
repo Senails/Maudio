@@ -48,6 +48,7 @@ let drive = google.drive({
     auth: await authorize(),
 });
 
+/// utils
 
 export async function uploadGoogleFile(name,mimeType,readStream){
     return new Promise(async (res,rej)=>{
@@ -67,6 +68,7 @@ export async function uploadGoogleFile(name,mimeType,readStream){
             if (!GoogleID) return res('error');
 
             let url = await getPublickURL(GoogleID);
+            if (url==='error') return res('error');
 
             let result = {
                 URL:url,
@@ -113,22 +115,61 @@ export async function deleteRemoveList(removeList){
 }
 
 async function getPublickURL(googleID){
-    await drive.permissions.create({
-        fileId:googleID,
-        requestBody:{
-            role:'reader',
-            type:'anyone',
-        }
-    })
+    try{
+        await drive.permissions.create({
+            fileId:googleID,
+            requestBody:{
+                role:'reader',
+                type:'anyone',
+            }
+        })
+    }catch{
+        return 'error';
+    }
 
-    let res = await drive.files.get({
-        fileId:googleID,
-        fields: 'webContentLink',
-    })
+    // let res = await drive.files.get({
+    //     fileId:googleID,
+    //     fields: 'webContentLink',
+    // })
+    // let url = res.data.webContentLink;
 
-    let url = res.data.webContentLink;
+    let url=`https://drive.google.com/uc?export=view&id=${googleID}`;
 
     if (url) return url;
     return 'error';
 }
+
+export async function getallFilesLastTime(mSecondAgo){
+    let res = await drive.files.list({
+        fields: 'files(id, name)',
+        q:`modifiedTime > '${timeForGoogle(mSecondAgo)}'`,
+    });
+    let data = await res.data;
+    let files = data.files;
+    return files;
+
+    function timeForGoogle(num){
+        let date = new Date(Date.now()-num);
+    
+        let year = date.getUTCFullYear();
+        let month = date.getUTCMonth()+1;
+        let day = date.getUTCDate();
+    
+        if (month<10) month ='0'+month;
+        if (day<10) day ='0'+day;
+    
+        let h = date.getUTCHours();
+        let m = date.getUTCMinutes();
+        let s = date.getUTCSeconds();
+    
+        if (h<10) h ='0'+h;
+        if (m<10) m ='0'+m;
+        if (s<10) s ='0'+s;
+    
+    
+        return `${year}-${month}-${day}T${h}:${m}:${s}`
+    }
+}
+
 //
+

@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { addbook, changecollname, removecoll, showHideColl } from '../../../redux/slices/EditSlice';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { EditBook } from '../../../types/editSlice';
+import { getheight } from '../../../Utils/EditPage/calcSizes';
+import { moveHandler } from '../../../Utils/EditPage/dropHand';
 import { AddFragment } from '../AddFragment/AddFragment';
 import { Bookline } from '../BookLine/BookLine';
 import './style.scss';
@@ -12,30 +14,29 @@ type props = {
     books: EditBook[],
 }
 
-
 export function CollLine({num,name,books}:props){
     let dispatch = useAppDispatch();
     let showColl = useAppSelector((state)=>state.edit.showColl);
     let showBook = useAppSelector((state)=>state.edit.showBook);
+    let loading = useAppSelector((state)=>state.edit.loading);
 
-    let show = showColl===num;
-    let [rendering,setrendering]=useState(false);
-    let timeoutID = useRef<NodeJS.Timeout|null>(null);
+    let dpopElement = useAppSelector((state)=>state.edit.dpopElement);
+    let dpopType = useAppSelector((state)=>state.edit.dpopType);
 
+    let [renderbooks,setrenderbooks]=useState(false);
+    let timoutID = useRef<NodeJS.Timeout|null>(null);
     useEffect(()=>{
-        if (num===showColl){
-            if (timeoutID.current) clearTimeout(timeoutID.current);
-            setrendering(true);
+        if (timoutID.current) clearTimeout(timoutID.current);
+        if (showColl===num){
+            setrenderbooks(true);
         }else{
-            if (timeoutID.current) clearTimeout(timeoutID.current);
-            let ID = setTimeout(() => {
-                setrendering(false);
-            }, 300);
-            timeoutID.current=ID;
+            timoutID.current = setTimeout(()=>{
+                setrenderbooks(false);
+            },300);
         }
     },[showColl,num]);
 
-    let arraybooks=rendering?books.map((elem,index)=>{
+    let arraybooks=renderbooks?books.map((elem,index)=>{
         return <Bookline
         image={elem.image}
         bookparts={elem.bookparts}
@@ -43,42 +44,26 @@ export function CollLine({num,name,books}:props){
         numcoll={num}
         numbook={index}
         key={index}
+        show={showColl===num && showBook===index}
+        canMove={showBook===-1}
         />
     }):<></>;
 
-    let Height = useMemo(getheight,[books,showBook]);
-    let arrayBooksStyle={
-        height: Height,
-    }
 
-    function getheight(){
-        let sum = 45;
-
-        books.forEach((elem,index)=>{
-            if (index===showBook){
-                let num1 = elem.bookparts.length;
-                let num2 = 45+(num1>=9?10:num1+1)*45;
-                sum+=num2;
-            }else{
-                sum+=45;
-            }
-        })
-
-        return sum+'px';
-    }
-
-    return <div className={`edit-collection-line ${show?'show':''}`}>
-        <div className='coll-block'>
+    return <div className={`edit-collection-line ${showColl===num?'show':''}`}>
+        <div className={`coll-block ${(dpopType==='coll'&& dpopElement===num)?'dropImpOpacity':''}`}>
             <input type="text" value={name} onChange={(event)=>dispatch(changecollname({num,name:event.target.value}))}/>
             <div className='symb' onClick={()=>dispatch(showHideColl(num))}></div>
             <div className='delete' onClick={()=>dispatch(removecoll(num))}>
                 <div className='try'></div>
                 <div className='try'></div>
             </div>
+            <div onMouseDown={(showColl===-1 && !loading)?(event)=>{moveHandler(event,'coll',num)}:()=>{}} className={`change-position ${(showColl===-1 && !loading)?'active':''}`}></div>
         </div>
-        <div className='array-books' style={arrayBooksStyle}>
+        <div className='array-books' style={{height: getheight(books,showBook)}}>
             {arraybooks}
             <AddFragment onClick={()=>{dispatch(addbook(num))}}/>
         </div>
     </div>
 }
+

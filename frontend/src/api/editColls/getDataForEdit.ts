@@ -18,6 +18,8 @@ export async function getDataForEdit(bookname:string):Promise<EditState|'error'>
             loading:false,
             showColl:-1,
             showBook:-1,
+            dpopElement:-1,
+            dpopType:'',
         }
         return result;
     }

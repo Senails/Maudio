@@ -14,7 +14,7 @@ export function FindFragment(bookmap:Book,lenght:number){
         }
     }
 
-    let mathlenght = lenght;
+    let mathlenght = lenght+0.01;
     let part =0;
     while (true){
         if ((mathlenght-bookparts[part].lenght)<0){

@@ -41,6 +41,7 @@ export async function addBookToDB(book){
                 let NewBook = book;
                 NewBook.href=ResHref;
                 NewBook.name=ResName;
+                NewBook.modified=Date.now();
 
                 await coll.insertOne(NewBook);
 

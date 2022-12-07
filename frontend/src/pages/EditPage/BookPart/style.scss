@@ -9,14 +9,6 @@
     position: relative;
     text-align: center;
 
-    .loader-for-part{
-        position: absolute;
-        top: 0;
-        left: calc(50% - 20px);
-
-        width: 40px;
-        height: 40px;
-    }
     >.delete{
         position: absolute;
         top: calc(50% - 12px);
@@ -61,6 +53,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-direction: row;
 
         span{
             color: white;
@@ -85,6 +78,41 @@
             >span{
                 margin-right: 5px;
             }
+        }
+
+        &.loading{
+            justify-content: center;
+            .loader-for-part{
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+            span{
+                color: white;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 20px;
+            }
+        }
+    }
+
+    .abort-button{
+        user-select: none;
+        position: absolute;
+        top:0;
+        right: 40px;
+
+        height: 40px;
+        line-height: 40px;
+
+        font-size: 20px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        color: rgb(255, 255, 255);
+        &:hover{
+            color: rgb(255, 179, 179);
         }
     }
 }

@@ -2,6 +2,7 @@ import { MiniLoader } from '../../../components/MiniLoader/MiniLoader';
 import { removeFragment } from '../../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../../redux/store';
 import { Editbookpart } from '../../../types/editSlice';
+import { abortUpload } from '../../../Utils/apiUtils/abortFileUpload';
 import { numToTime } from '../../../Utils/forPleer/numtotime';
 import { numToSize } from '../../../Utils/other/numToSize';
 import './style.scss';
@@ -10,10 +11,9 @@ type PropsType = {
     part:Editbookpart,
     numCol:number,
     numBook:number,
-    numFragment:number,
 }
 
-export function BookPart({part,numCol,numBook,numFragment}:PropsType){
+export function BookPart({part,numCol,numBook}:PropsType){
     let dispatch = useAppDispatch();
 
     let {status, size, lenght,name}= part;
@@ -35,9 +35,13 @@ export function BookPart({part,numCol,numBook,numFragment}:PropsType){
 
     if (status==='loading'){
         jsxfragment=<>
-            <div className='loader-for-part'>
-                <MiniLoader/>
+            <div className='fragment-data-block loading'>
+                <div className='loader-for-part'>
+                    <MiniLoader/>
+                </div>
+                <span>Идет загрузка...</span>
             </div>
+            <div className='abort-button' onClick={()=>abortUpload()}>прервать</div>
         </>
     }
 

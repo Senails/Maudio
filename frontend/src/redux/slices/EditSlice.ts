@@ -19,6 +19,8 @@ let initialState:EditState ={
     loading:false,
     showColl:-1,
     showBook:-1,
+    dpopElement:-1,
+    dpopType:'',
 };
 
 let EditSlice = createSlice({
@@ -214,8 +216,10 @@ let EditSlice = createSlice({
             arr.push(action.payload);
             state.removeOnCancel=arr;
         },
-        setEditState(state,action:PayloadAction<EditState>){
-            let {href, collName , authtorName, description, bookImage, collections} = action.payload;
+        setEditState(state,action:PayloadAction<EditState|null>){
+            let editstate = action.payload;
+            if (action.payload===null) editstate = initialState;
+            let {href, collName , authtorName, description, bookImage, collections} = editstate!;
 
             state.href = href;
             state.collName = collName;
@@ -225,10 +229,41 @@ let EditSlice = createSlice({
             state.collections = collections;
             state.removeOnCancel=[];
             state.removeOnSave=[];
+            state.loading=false;
+            state.showBook=-1;
+            state.showColl=-1;
         },
         setloading(state,action:PayloadAction<boolean>){
             state.loading=action.payload;
         },
+        setDropElem(state, action:PayloadAction<{num:number,type:'coll'|'book'|''}>){
+            let {num, type} = action.payload;
+
+            state.dpopElement=num;
+            state.dpopType=type;
+        },
+        changePositiom(state, action:PayloadAction<{num:number,neednum:number,type:'coll'|'book'}>){
+            let {neednum,num,type} = action.payload;
+            let arr:any[];
+
+            if (type==='coll'){
+                arr=state.collections;
+            }else{
+                let numcoll=state.showColl;
+                arr=state.collections[numcoll].books;
+            }
+            let resArr = replaceParts(arr,num,neednum);
+
+            if (type==='coll'){
+                state.collections=resArr;
+            }else{
+                let numcoll=state.showColl;
+                let colls = state.collections;
+                colls[numcoll].books=resArr;
+                state.collections=colls;
+            }
+            state.dpopElement=neednum;
+        }
     },
 })
 
@@ -253,6 +288,8 @@ export const {
     setEditState,
     setloading,
     showHideColl,
+    setDropElem,
+    changePositiom,
 } = EditSlice.actions;
 export default EditSlice.reducer;
 
@@ -388,7 +425,9 @@ export const asyncAddBookFrahments = createAsyncThunk(
             let size = part.file.size;
             let abortControler = new AbortController();
             saveController(abortControler);
+            console.log(`загрузка ${part.file.name} начата`)
             let res = await sendFileToBackend(part.file,abortControler);
+            console.log(`загрузка ${part.file.name} окончена`)
 
             if (res==='error'){
                 let payload:payloadFragmentType = {
@@ -432,3 +471,12 @@ export const asyncAddBookFrahments = createAsyncThunk(
         dispatch(setloading(false));
     }
 );
+
+
+export function replaceParts(arr:any[],num:number,neednum:number){
+    let array = arr;
+    let part = arr[neednum];
+    arr[neednum]=arr[num];
+    arr[num]=part;
+    return array;
+}

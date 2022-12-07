@@ -2,77 +2,6 @@
     width: 100%;
     min-height: 40px;
 
-    .coll-block{
-        box-sizing: border-box;
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        background-color: #494949;
-        margin-bottom: 5px;
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-
-        >input{
-            height: 100%;
-            outline: none;
-            border: none;
-            width: 45%;
-
-            background-color: #494949;
-
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 20px;
-            color: white;
-        }
-
-        >.symb{
-            position: absolute;
-            top: calc(50% - 8px);
-            left: calc(50% - 12px);
-            width: 24px;
-            height: 16px;
-            background-image: url('./../../../assets/^simbol.svg');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            transform: rotate(180deg);
-        }
-        >.delete{
-            position: relative;
-            // border: 1px solid red;
-            width: 24px;
-            height: 24px;
-            >div.try{
-                position: absolute;
-                top: calc(50% - 15px);
-                left: calc(50% - 2px);
-                background-color: white;
-                border-radius: 2px;
-
-                width: 4px;
-                height: 30px;
-                transition: 0.1s;
-
-                &:nth-child(1){
-                    transform: rotate(45deg);
-                }
-                &:nth-child(2){
-                    transform: rotate(-45deg);
-                }
-            }
-            &:hover{
-                >div.try{
-                    background-color: rgb(255, 74, 74);
-                }
-            }
-        }
-    }
-
     .array-books{
         box-sizing: border-box;
         width: calc(100% - 70px);
@@ -83,7 +12,6 @@
         transition: 0.3s;
         clip-path: polygon(0% -200px, 0% 100%, 100% 100%, 100% -200px);
     }
-
     &.show{
         .coll-block{
             >.symb{
@@ -98,6 +26,98 @@
         .array-books{
             height: 0 !important;
             overflow: hidden;
+        }
+    }
+}
+
+.coll-block{
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #494949;
+    margin-bottom: 5px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+
+    >input{
+        height: 100%;
+        outline: none;
+        border: none;
+        width: 45%;
+
+        background-color: #494949;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        color: white;
+    }
+    >.symb{
+        position: absolute;
+        top: calc(50% - 8px);
+        left: calc(50% - 12px);
+        width: 24px;
+        height: 16px;
+        background-image: url('./../../../assets/^simbol.svg');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: rotate(180deg);
+    }
+    >.delete{
+        position: relative;
+        // border: 1px solid red;
+        width: 24px;
+        height: 24px;
+        >div.try{
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 2px);
+            background-color: white;
+            border-radius: 2px;
+
+            width: 4px;
+            height: 30px;
+            transition: 0.1s;
+
+            &:nth-child(1){
+                transform: rotate(45deg);
+            }
+            &:nth-child(2){
+                transform: rotate(-45deg);
+            }
+        }
+        &:hover{
+            >div.try{
+                background-color: rgb(255, 74, 74);
+            }
+        }
+    }
+    >.change-position{
+        position: absolute;
+        top: 0;
+        right: 50px;
+
+        box-sizing: border-box;
+
+        background-image: url('./../../../assets/replaceArrows.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50px 24px;
+        width: 50px;
+        height: 40px;
+        opacity: 0;
+
+        &.active{
+            opacity: 0.6; 
+            &:hover{
+                opacity: 1;
+            }
         }
     }
 }

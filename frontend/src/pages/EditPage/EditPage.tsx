@@ -5,28 +5,35 @@ import { deleteSeria } from '../../api/editColls/deleteSeria';
 import { getDataForEdit } from '../../api/editColls/getDataForEdit';
 import { saveSeria } from '../../api/editColls/saveSeria';
 import { Loader } from '../../components/Loader/Loader';
-import { setauthtorname, setcollname, setdescription, asyncSetMainImage, setEditState } from '../../redux/slices/EditSlice';
-import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
+import { setEditState } from '../../redux/slices/EditSlice';
+import { useAppDispatch } from '../../redux/store';
 import { abortUpload } from '../../Utils/apiUtils/abortFileUpload';
 import { ValidationEdit } from '../../Utils/EditPage/Validation';
+import { sleep } from '../../Utils/other/sleep';
 import { FragmentsEditor } from './FragmentsEditor/FragmentsEditor';
+import { ImageInput } from './Imageinput/ImageInput';
 import './style.scss';
-
+import { TextInputs } from './TextInputs/textInputs';
 
 export function EditPage(){
-    let {collName,authtorName,description,bookImage} = useAppSelector((state:RootState)=>state.edit);
+    console.log('EditPage')
+
     let dispatch = useAppDispatch();
     let navigate = useNavigate();
     let { bookname } = useParams()
 
     let [loadend,setloadend]=useState(false);
     let [error,seterror]=useState('');
+    let [ended,setended]=useState(false);
 
     useEffect(()=>{
         onOpen();
-
+        window.addEventListener('beforeunload',onunload);
         return()=>{
-
+            window.removeEventListener('beforeunload',onunload);
+            if (!ended){
+                localStorage.setItem('2222222','222222');
+            }
         }
     },[])
 
@@ -39,13 +46,6 @@ export function EditPage(){
         }
         setloadend(true);
     }
-    async function onchange(event: React.ChangeEvent<HTMLInputElement>){
-        if (event.target.files===null) return;
-        let file = event.target.files![0];
-        dispatch(asyncSetMainImage(file));
-        event.target.value='';
-    }
-
 
     async function saveCollection(){
         let ValidationMessage = ValidationEdit();
@@ -55,6 +55,9 @@ export function EditPage(){
             setloadend(false);
             let res = await saveSeria();
             if (res==='ok'){
+                setended(true);
+                await sleep(0);
+                dispatch(setEditState(null));
                 setloadend(true);
                 navigate('/');
             }else{
@@ -64,11 +67,16 @@ export function EditPage(){
         }
     }
     async function cancelCollection(){
-        abortUpload()
-
+        setended(true);
+        await sleep(0);
+        navigate('/');
+        localStorage.setItem('3333333','333333')
         // setloadend(false);
+        // abortUpload();
+        // await sleep(0);
         // let res = await cancelSeria();
         // if (res==='ok'){
+        //     dispatch(setEditState(null));
         //     setloadend(true);
         //     navigate('/');
         // }else{
@@ -78,8 +86,13 @@ export function EditPage(){
     }
     async function removeCollection(){
         setloadend(false);
+        abortUpload();
+        await sleep(0);
         let res = await deleteSeria();
         if (res==='ok'){
+            setended(true);
+            await sleep(0);
+            dispatch(setEditState(null));
             setloadend(true);
             navigate('/');
         }else{
@@ -87,47 +100,18 @@ export function EditPage(){
             seterror('попробуете чуть позже');
         }
     }
-
-    function onForseCancel(){
-        cancelSeria()
-    }
-
-    let activeimageStyle = {
-        backgroundImage:`url(${bookImage.url})`,
+    function onunload(){
+        localStorage.setItem('1111111','1111111')
+        abortUpload();
+        cancelSeria();
     }
 
     return <div className={`edit-page `+(ondrag?'ongrag':'')}>    
         {loadend?<>
             <div className='edit-conteiner'>
-                <div className={`book-image ${bookImage.status==='loadend'?"haveimage":''}`}>
-                    <div className='activeimage' style={bookImage.status==='loadend'?activeimageStyle:{}}>
-                        {bookImage.status==='loading'?<Loader/>:<></>}
-                        {bookImage.status==='error'?<>
-                        <span>Ошибка</span>
-                        <span>загрузите сного</span>
-                        </>:<></>}
-                        {bookImage.status!=='loading'?<input type="file" accept="image/*" onInput={onchange}/>:<></>}
-                    </div>
-                </div>
+                <ImageInput/>
                 <div className='right-collomn'>
-                    <input type="text" 
-                        value={collName} 
-                        onChange={(event)=>dispatch(setcollname(event.target.value))}  
-                        className={`text serias-name`} 
-                        placeholder='Введите название*'/>
-                    <input type="text" 
-                        value={authtorName} 
-                        onChange={(event)=>dispatch(setauthtorname(event.target.value))}  
-                        className={`text authtor-name`} 
-                        placeholder='Имя Автора*'/>
-                    <div className='textarea'>
-                        <textarea 
-                            value={description} 
-                            onChange={(event)=>dispatch(setdescription(event.target.value))} 
-                            placeholder='Введите описание*'>
-                        </textarea>
-                        <span>{`${description.length}/1000`}</span>
-                    </div>
+                    <TextInputs/>
                     <div className='books-group'>
                         <div className='box-editor-fragments'>
                             <FragmentsEditor/>

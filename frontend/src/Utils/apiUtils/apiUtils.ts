@@ -112,6 +112,8 @@ export function ApiMapToEditMap(json:BookMapFetch):EditState{
         loading:false,
         showColl:-1,
         showBook:-1,
+        dpopElement:-1,
+        dpopType:'',
     }
     return editState;
 }
@@ -154,7 +156,6 @@ export function bookMapToSeria(map:BookMapFetch):Seria{
     }
     return seria;
 }
-
 export function allFilesToRemoveList(editState: EditState):string[]{
     let removeList =[];
 
@@ -174,6 +175,8 @@ export function allFilesToRemoveList(editState: EditState):string[]{
     return removeList;
 }
 
+
+
 function checkCollonNull(coll:FetchCollection){
     for(let book of coll.books){
         if (book.bookparts.length>0){
@@ -182,15 +185,13 @@ function checkCollonNull(coll:FetchCollection){
     }
     return false;
 }
-
 function checkBookonNull(book:FetchBook){
     if (book.bookparts.length>0){
         return true;
     }
     return false;
 }
-
-export function createHrefName(name:string):string{
+function createHrefName(name:string):string{
     type charObj={
         [key:string]:string
     }
@@ -230,7 +231,14 @@ export function createHrefName(name:string):string{
         'я':'ya',
     }
 
-    let charArray = name.split('');
+    let charArray = name
+    .split(' ')
+    .map((word)=>{
+        if (word.length===1) return word.toUpperCase();
+        return word[0].toUpperCase()+word.slice(1);
+    })
+    .join(' ')
+    .split('');
 
 
     let newArr=[];

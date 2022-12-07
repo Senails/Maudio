@@ -37,6 +37,8 @@ export type EditState = {
     loading:boolean,
     showColl:number,
     showBook:number,
+    dpopElement:number,
+    dpopType:'coll'|'book'|'',
 }
 
 //////////////////////

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { setlenght, setplay} from "../../redux/slices/pleerSlice";
 import { RootState } from "../../redux/store"
@@ -26,25 +26,25 @@ export default function AudioPl(){
         audio.current!.volume=volume;
     },[volume]);
 
-    useEffect(()=>{
-        let audioTag = audio.current!;
-        audioTag.addEventListener('play',play);
-        audioTag.addEventListener('pause',pause);
-        function play(){
-            if (audioTag.currentTime<audioTag.duration){
-                dispatch(setplay('play'));
-            };
-        }
-        function pause(){
-            if (audioTag.currentTime<audioTag.duration){
-                dispatch(setplay('pause'));
-            };
-        }
-        return ()=>{
-            audioTag.removeEventListener('play',play);
-            audioTag.removeEventListener('pause',pause);
-        }
-    },[])
+    // useEffect(()=>{
+    //     let audioTag = audio.current!;
+    //     audioTag.addEventListener('play',play);
+    //     audioTag.addEventListener('pause',pause);
+    //     function play(){
+    //         if (audioTag.currentTime<audioTag.duration){
+    //             dispatch(setplay('play'));
+    //         };
+    //     }
+    //     function pause(){
+    //         if (audioTag.currentTime<audioTag.duration){
+    //             dispatch(setplay('pause'));
+    //         };
+    //     }
+    //     return ()=>{
+    //         audioTag.removeEventListener('play',play);
+    //         audioTag.removeEventListener('pause',pause);
+    //     }
+    // },[])
 
     async function playhandler(){
         if (playpause==='play'){
@@ -54,7 +54,7 @@ export default function AudioPl(){
             interval = setInterval(()=>{
                 let now = audio.current!.currentTime;
                 dispatch(setlenght(now));
-            },250);
+            },100);
 
         }else{
             clearInterval(interval);
@@ -62,5 +62,7 @@ export default function AudioPl(){
         }
     }
 
-    return <audio ref={audio} src={activeSrc}></audio>
+
+
+    return <audio ref={audio} src={activeSrc} loop={false}></audio>
 }
