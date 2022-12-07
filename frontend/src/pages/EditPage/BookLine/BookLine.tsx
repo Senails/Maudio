@@ -112,9 +112,11 @@ export function Bookline({numcoll,numbook,name,bookparts,image,show,canMove}:pro
         </div>
         {(bookparts.length>9)?<>
             <div onClick={()=>scrolparam!=='start'?scrollFragmentsBlock('start'):()=>{}}
-             className={`scrol-icon ${show?'show':''} ${scrolparam==='start'?'opacity':''}`}></div>
+             className={`scrol-icon ${show?'show':''} ${scrolparam==='start'?'opacity':''}`}
+             style={{}}></div>
             <div onClick={()=>scrolparam!=='end'?scrollFragmentsBlock('end'):()=>{}}
-             className={`scrol-icon two ${show?'show':''} ${scrolparam==='end'?'opacity':''}`}></div>
+             className={`scrol-icon two ${show?'show':''} ${scrolparam==='end'?'opacity':''}`}
+             style={{}}></div>
         </>:<></>}
     </div>
 }

@@ -10,6 +10,7 @@
     text-align: center;
 
     >.delete{
+        cursor: pointer;
         position: absolute;
         top: calc(50% - 12px);
         right: 10px;
@@ -98,6 +99,7 @@
     }
 
     .abort-button{
+        cursor: pointer;
         user-select: none;
         position: absolute;
         top:0;

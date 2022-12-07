@@ -100,16 +100,27 @@ export async function removeGoogleFile(googleID){
 }
 export async function deleteRemoveList(removeList){
     let promiseArray = [];
-    for(let googleID of removeList){
-        promiseArray.push(removeGoogleFile(googleID));
+    let pesolvedArray = [];
+
+    if (removeList.length>40){
+        for(let googleID of removeList){
+            promiseArray.push(await removeGoogleFile(googleID));
+        }
+        pesolvedArray = promiseArray;
+    }else{
+        for(let googleID of removeList){
+            promiseArray.push(removeGoogleFile(googleID));
+        }
+        pesolvedArray = await Promise.all(promiseArray);
     }
-    let pesolvedArray = await Promise.all(promiseArray);
+
     let errorList=[];
+
     for(let i=0; i<pesolvedArray.length;i++){
         if (pesolvedArray[i]!=='error') continue;
-
         errorList.push(promiseArray[i]);
     }
+
     if (errorList.length===0) return 'ok';
     return errorList;
 }

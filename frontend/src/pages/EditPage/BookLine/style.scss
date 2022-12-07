@@ -17,6 +17,7 @@
         scrollbar-color: rgba(0, 0, 255, 0) rgba(255, 166, 0, 0);
 
         .add-fragments-button{
+            cursor: pointer;
             // border: 1px solid red;
             position: relative;
             height: 40px;
@@ -54,6 +55,7 @@
         }
     }
     .scrol-icon{
+        cursor: pointer;
         position: absolute;
         top: 60px;
         left: 23px;
@@ -126,6 +128,7 @@
         // border: 1px solid red;
     }
     >.symb{
+        cursor: pointer;
         position: absolute;
         top: calc(50% - 8px);
         left: calc(50% - 12px);
@@ -138,6 +141,7 @@
         transform: rotate(180deg);
     }
     >.delete{
+        cursor: pointer;
         position: relative;
         // border: 1px solid red;
         width: 24px;
@@ -240,6 +244,7 @@
             background-color: #0c0c0c;
         }
         input{
+            cursor: pointer;
             position: absolute;
             top: 0;
             left: 0;
@@ -268,6 +273,7 @@
         }
     }
     >.change-position{
+        cursor: grab;
         position: absolute;
         top: 0;
         right: 50px;

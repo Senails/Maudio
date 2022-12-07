@@ -42,7 +42,7 @@ export default function MainPage(){
             <div className='addbook-icon'>
                 <div></div>
                 <div></div>
-                <Link to={status!=='user'?'/edit/newbook':'/admin'}></Link>
+                <Link to={status!=='user'?'/edit/newbook':'/login'}></Link>
             </div>
         </div>
         {loadend?

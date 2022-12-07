@@ -8,6 +8,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { setEditState } from '../../redux/slices/EditSlice';
 import { useAppDispatch } from '../../redux/store';
 import { abortUpload } from '../../Utils/apiUtils/abortFileUpload';
+import { checkSaveControl, okSaveControl, resetSaveControl } from '../../Utils/EditPage/saveControl';
 import { ValidationEdit } from '../../Utils/EditPage/Validation';
 import { sleep } from '../../Utils/other/sleep';
 import { FragmentsEditor } from './FragmentsEditor/FragmentsEditor';
@@ -24,15 +25,15 @@ export function EditPage(){
 
     let [loadend,setloadend]=useState(false);
     let [error,seterror]=useState('');
-    let [ended,setended]=useState(false);
 
     useEffect(()=>{
         onOpen();
         window.addEventListener('beforeunload',onunload);
+        resetSaveControl();
         return()=>{
             window.removeEventListener('beforeunload',onunload);
-            if (!ended){
-                localStorage.setItem('2222222','222222');
+            if (!checkSaveControl()){
+                onunload();
             }
         }
     },[])
@@ -55,10 +56,9 @@ export function EditPage(){
             setloadend(false);
             let res = await saveSeria();
             if (res==='ok'){
-                setended(true);
-                await sleep(0);
                 dispatch(setEditState(null));
                 setloadend(true);
+                okSaveControl()
                 navigate('/');
             }else{
                 setloadend(true);
@@ -67,32 +67,13 @@ export function EditPage(){
         }
     }
     async function cancelCollection(){
-        setended(true);
-        await sleep(0);
-        navigate('/');
-        localStorage.setItem('3333333','333333')
-        // setloadend(false);
-        // abortUpload();
-        // await sleep(0);
-        // let res = await cancelSeria();
-        // if (res==='ok'){
-        //     dispatch(setEditState(null));
-        //     setloadend(true);
-        //     navigate('/');
-        // }else{
-        //     setloadend(true);
-        //     seterror('попробуете чуть позже');
-        // }
-    }
-    async function removeCollection(){
         setloadend(false);
         abortUpload();
         await sleep(0);
-        let res = await deleteSeria();
+        let res = await cancelSeria();
         if (res==='ok'){
-            setended(true);
-            await sleep(0);
             dispatch(setEditState(null));
+            okSaveControl();
             setloadend(true);
             navigate('/');
         }else{
@@ -100,8 +81,22 @@ export function EditPage(){
             seterror('попробуете чуть позже');
         }
     }
+    async function removeCollection(){
+        setloadend(false);
+        abortUpload();
+        await sleep(0);
+        let res = await deleteSeria();
+        if (res==='ok'){
+            dispatch(setEditState(null));
+            setloadend(true);
+            okSaveControl();
+            navigate('/');
+        }else{
+            setloadend(true);
+            seterror('попробуете чуть позже');
+        }
+    }
     function onunload(){
-        localStorage.setItem('1111111','1111111')
         abortUpload();
         cancelSeria();
     }
@@ -124,6 +119,7 @@ export function EditPage(){
                     </div>
                 </div>
             </div>
+            <p onClick={cancelCollection} className='audiobook-link'>AudioBooks</p>
             {error!==''?<>
                 <div className='error-message' onClick={()=>seterror('')}>
                     <span>Ошибка</span>

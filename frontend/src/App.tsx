@@ -42,7 +42,7 @@ function AppComponent() {
           <Route path="/bookInfo/:bookname" element={<BookInfoPage/>}/>
           <Route path="/listen/:bookname" element={<AudioPage/>}/>
           <Route path="/edit/:bookname" element={userstatus==='user'?<NoPage/>:<EditPage/>}/>
-          <Route path="/admin" element={isAuth?<NoPage/>:<LoginPage/>}/>
+          <Route path="/login" element={isAuth?<NoPage/>:<LoginPage/>}/>
           <Route path="*" element={<NoPage/>}/>
           </Routes>
         </>
