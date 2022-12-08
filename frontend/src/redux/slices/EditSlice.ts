@@ -377,9 +377,7 @@ export const asyncAddBookFrahments = createAsyncThunk(
             let size = part.file.size;
             let abortControler = new AbortController();
             saveController(abortControler);
-            console.log(`загрузка ${part.file.name} начата`)
             let res = await sendFileToBackend(part.file,abortControler);
-            console.log(`загрузка ${part.file.name} окончена`)
 
             if (res==='error'){
                 let payload:payloadFragmentType = {

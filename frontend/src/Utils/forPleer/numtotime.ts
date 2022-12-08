@@ -11,6 +11,5 @@ export function numToTime(number:number){
     s = s.length===1?'0'+s:s;
     m = (m.length===1 && h!=='0')?'0'+m:m;
 
-
     return `${h!=='0'?h+':':''}${m}:${s}`
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { UserSelectLenght } from "../../../../redux/slices/pleerSlice";
 import { RootState, useAppDispatch, useAppSelector } from "../../../../redux/store";
 import { numToTime } from "../../../../Utils/forPleer/numtotime";
@@ -7,116 +7,25 @@ import './style.scss';
 let num = 0.001;
 
 export default function ProgressBar(){
-    let {lenght , activebook,activecollection, bookMap} = useAppSelector((state:RootState)=>state.pleer);
-    let alllenght = bookMap.booklength;
+    let lenght = useAppSelector((state:RootState)=>state.pleer.lenght);
+    let alllenght = useAppSelector((state:RootState)=>state.pleer.bookMap.booklength);
     let dispatch= useAppDispatch();
 
+    let [hoverlenght,sethoverhoverlenght]=useState(0);
     let [UserControl,setUserControl]=useState(false);
-
     let showtime = useRef<HTMLSpanElement>(null);
-    let polsunok = useRef<HTMLDivElement>(null);
-    let progress = useRef<HTMLDivElement>(null);
 
-    useEffect(()=>{
-        if (UserControl) return;
-        let line = progress.current;
-
-        let PercentLenght = lenght/alllenght;
-        let NewWidth = Math.floor(PercentLenght*10000)/100;
-        line!.style.width= `${NewWidth}%`;
-    },[lenght,activebook,activecollection,bookMap]);
-
-
-
-    function mousehandler(event:React.MouseEvent){
-        let polzik = polsunok.current;
-        let line = progress.current;
-
+    function startSelect(){
         setUserControl(true);
-
-        let startX = event.clientX;
-        let {left} = polzik!.getBoundingClientRect();
-
-        let allWhidth = polzik?.offsetWidth;
-        let WidthLine = startX-left;
-        let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
-
-        // let line:HTMLDivElement = polzik!.querySelector('.progressline')!;
-        line!.style.width=percentWhidth+'%';
-
-        document.addEventListener('mouseup',mouseup);
-        document.addEventListener('mousemove',mousemove);
-        function mousemove(e:MouseEvent){
-            e.preventDefault()
-
-            let nowX=e.clientX;
-            let delta = nowX-startX;
-
-            let resultWidth = WidthLine+delta;
-
-            if (resultWidth<=0) resultWidth=0;
-            if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
-
-            let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
-
-            line!.style.width=percent;
-        }
-
-        function mouseup(){
-            let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
-            ResPolzik(percentvalue);
-
-            document.removeEventListener('mousemove',mousemove);
-            document.removeEventListener('mouseup',mouseup);
+    }
+    function endSelect(){
+        if (UserControl){
             setUserControl(false);
+            ResPolzik();
         }
     }
-    function touchhandler(event:React.TouchEvent){
-        let polzik = polsunok.current;
-        let line = progress.current;
-
-        setUserControl(true);
-
-        let startX = event.touches[0].clientX;
-        let {left} = polzik!.getBoundingClientRect();
-
-        let allWhidth = polzik?.offsetWidth;
-        let WidthLine = startX-left;
-        let percentWhidth= Math.floor(WidthLine/allWhidth!*10000)/100;
-
-
-        line!.style.width=percentWhidth+'%';
-
-        document.addEventListener('touchend',touchend);
-        document.addEventListener('touchmove',touchmove);
-
-        function touchmove(e:TouchEvent){
-            let nowX=e.touches[0].clientX;
-            let delta = nowX-startX;
-
-            let resultWidth = WidthLine+delta;
-
-            if (resultWidth<=0) resultWidth=0;
-            if (resultWidth>=allWhidth!) resultWidth=allWhidth!;
-
-            let percent = Math.floor(resultWidth/allWhidth!*10000)/100+'%';
-
-            line!.style.width=percent;
-        }
-
-        function touchend(){
-            let percentvalue = line!.offsetWidth/polzik!.offsetWidth;
-            ResPolzik(percentvalue);
-
-            document.removeEventListener('touchmove',touchmove);
-            document.removeEventListener('touchend',touchend);
-
-            setUserControl(false);
-        }
-    }
-    function ResPolzik(PercetRes:number){
-        let needLenght= alllenght*PercetRes;
-        dispatch(UserSelectLenght(needLenght+num));
+    function ResPolzik(){
+        dispatch(UserSelectLenght(hoverlenght+num));
         if (num===0.001){
             num = 0.002;
         }else{
@@ -124,64 +33,47 @@ export default function ProgressBar(){
         }
     }
 
-    //подсказка времени
-    function mousemove(event:React.MouseEvent){
-        showtime.current!.classList.add('active');
-        let mouseleft = event.pageX;
-        let {left}= event.currentTarget.getBoundingClientRect();
-
+    // контроль hoverlenght
+    function mousemove(event:React.MouseEvent|React.TouchEvent,type:'touchpad'|'mouse'){
+        let mouseleft:number;
+        if (type ==='mouse'){
+            mouseleft = (event as React.MouseEvent).pageX;
+        }else{
+            mouseleft = (event as React.TouchEvent).touches[0].pageX;;
+        }
+        let left= event.currentTarget.getBoundingClientRect().left;
         let allWidth = event.currentTarget.clientWidth;
         let spanWidth=showtime.current!.offsetWidth;
 
-        let Needleft = mouseleft-left;
-        if (Needleft<=0) Needleft=0;
-        if (Needleft>=allWidth) Needleft=allWidth;
+        requestAnimationFrame(()=>{
+            let Needleft = mouseleft-left;
+            if (Needleft<=0) Needleft=0;
+            if (Needleft>=allWidth) Needleft=allWidth;
 
-        let now = (Needleft-spanWidth/2)/allWidth;
-        showtime.current!.style.left=(now*100).toFixed(2)+'%';
+            let now = (Needleft-spanWidth/2)/allWidth;
 
-        let percent = Needleft/allWidth;
-        let time = percent*alllenght;
-        showtime.current!.innerHTML=numToTime(time);
-    }
-    function touchmove(event:React.TouchEvent){
-        showtime.current!.classList.add('active');
-
-        let mouseleft = event.touches[0].pageX;
-        let {left}= event.currentTarget.getBoundingClientRect();
-
-        let allWidth = event.currentTarget.clientWidth;
-        let spanWidth=showtime.current!.offsetWidth;
-
-        let Needleft = mouseleft-left;
-        if (Needleft<=0) Needleft=0;
-        if (Needleft>=allWidth) Needleft=allWidth;
-
-        let now = (Needleft-spanWidth/2)/allWidth;
-        showtime.current!.style.left=(now*100).toFixed(2)+'%';
-
-        let percent = Needleft/allWidth;
-        let time = percent*alllenght;
-        showtime.current!.innerHTML=numToTime(time);
-    }
-    function mouseLeave(){
-        showtime.current!.classList.remove('active');
-    }
-    function touchend(){
-        showtime.current!.classList.remove('active');
+            showtime.current!.style.left=(now*100).toFixed(2)+'%';
+            let percent = Needleft/allWidth;
+            let time = percent*alllenght;
+            sethoverhoverlenght(time);
+        })
     }
 
-    return <div ref={polsunok} className="progressBar-box"
-        onTouchStart={touchhandler} 
-        onMouseDown={mousehandler}  
-        onMouseMove={mousemove} 
-        onTouchMove={touchmove} 
-        onMouseLeave={mouseLeave} 
-        onTouchEnd={touchend}>
+    return <div className="progressBar-box"
+        onTouchStart={startSelect} 
+        onMouseDown={startSelect}
+        
+        onTouchEnd={endSelect}
+        onMouseUp={endSelect}
+        onMouseLeave={endSelect}
+        
+        onMouseMove={(event)=>{mousemove(event,'mouse')}} 
+        onTouchMove={(event)=>{mousemove(event,'touchpad')}}>
 
-        <span ref={showtime} className="show-time"></span>
+        <span ref={showtime} className="show-time">{numToTime(hoverlenght)}</span>
         <div className='progressBar'>
-            <div ref={progress} className='progressline'></div>
+            <div style={{width:`${(UserControl?hoverlenght:lenght)/alllenght*100}%`}}
+            className='progressline'></div>
         </div>
         <span className='timecheck left'>{numToTime(lenght)}</span>
         <span className='timecheck right'>{numToTime(alllenght)}</span>

@@ -39,5 +39,4 @@ export type pleerState={
     userVolume:number,
     lenght:number,
     pleerlenght:number,
-    block:boolean,
 }

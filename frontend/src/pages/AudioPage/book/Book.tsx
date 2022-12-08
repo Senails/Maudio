@@ -4,7 +4,6 @@ import { sleep } from '../../../Utils/other/sleep';
 import { getTimeControl } from '../../../Utils/other/timecontrol';
 import './style.scss';
 
-
 let TimeControl = getTimeControl(1200);
 
 export function Book(){

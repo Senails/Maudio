@@ -1,12 +1,9 @@
 import { Book } from "../../types/pleerSlice";
 
 export function FindFragment(bookmap:Book,lenght:number){
-    let {bookparts} = bookmap;
+    let {bookparts,booklength} = bookmap;
 
-    let alllenght = 0;
-    bookparts.forEach((e)=>alllenght+=e.lenght);
-
-    if (lenght>=alllenght){
+    if (lenght>=booklength){
         return {
             src: bookparts[bookparts.length-1].url,
             lenght: bookparts[bookparts.length-1].lenght,

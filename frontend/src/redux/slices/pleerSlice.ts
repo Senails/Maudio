@@ -49,7 +49,6 @@ let initialState:pleerState = {
     userVolume:getvolume(),
     lenght:0,
     pleerlenght:0,
-    block: false,
 };
   
 export const pleerSlice = createSlice({
@@ -63,54 +62,31 @@ export const pleerSlice = createSlice({
             state.volume = action.payload;
         },
         setlenght(state, action:PayloadAction<number>){
-            let lenght = state.bookMap.bookparts[state.activefragment].lenghtBefore;
-            lenght+=action.payload;
-            state.lenght=lenght;
-
-            if (lenght>=state.bookMap.booklength){
-                let {coll , book}=findnextbook(state);
-                if (coll!==-1){
-                    setbook(state,coll,book,state.playpause);
-                }else{
-                    let {src,lenght, activeFragment}= FindFragment(state.bookMap,0);
-                    state.activefragment=activeFragment;
-                    state.activeSrc = src;
-                    state.pleerlenght=lenght;
-                    state.playpause='pause';
-                }
+            state.lenght = action.payload + state.bookMap.bookparts[state.activefragment].lenghtBefore;
+        },
+        setnextFragment(state){
+            if (state.activefragment !== state.bookMap.bookparts.length-1){
+                state.activeSrc = state.bookMap.bookparts[++state.activefragment].url;
+                state.pleerlenght=0;
                 return;
             }
-
-            if (action.payload>=state.bookMap.bookparts[state.activefragment].lenght){
-                let {src,lenght:len1, activeFragment}= FindFragment(state.bookMap,lenght);
-
+            
+            let {coll , book}=findnextbook(state);
+            if (coll!==-1){
+                setbook(state,coll,book,state.playpause);
+            }else{
+                let {src, activeFragment}= FindFragment(state.bookMap,0);
                 state.activefragment=activeFragment;
                 state.activeSrc = src;
-                state.pleerlenght=len1;
-                state.playpause='play';
+                state.pleerlenght=0;
+                state.playpause='pause';
             }
+            return;
         },
-        setAllState(state,action:PayloadAction<{seria:Seria, hrefparam:string}>){
-            let {seria, hrefparam} = action.payload;
-
-            if (hrefparam===state.hrefparam) return;
-
-            state.hrefparam=hrefparam;
-            state.seria=seria;
-            state.activecollection=0;
-            state.activebook=0;
-            state.bookMap=seria.collections[0].books[0];
-            state.activeSrc=seria.collections[0].books[0].bookparts[0].url;
-            state.activefragment=0;
-            state.playpause='pause';
-            state.lenght=0;
-            state.pleerlenght=0+SmallNumber();
-        },
-        changebook(state, action:PayloadAction<{coll:number,book:number}>){
-            let {coll , book}=action.payload
-            if (state.activecollection===coll && state.activebook===book) return;
-            
-            setbook(state,coll,book,state.playpause);
+        UserSelectVolume(state, action:PayloadAction<number>){
+            state.userVolume = action.payload;
+            state.volume=action.payload;
+            savevolume(action.payload);
         },
         UserSelectLenght(state, action:PayloadAction<number>){
             state.lenght=action.payload;
@@ -134,11 +110,31 @@ export const pleerSlice = createSlice({
             state.activeSrc = src;
             state.pleerlenght=lenght+SmallNumber();
         },
-        UserSelectVolume(state, action:PayloadAction<number>){
-            state.userVolume = action.payload;
-            if (state.playpause==='play') state.volume=action.payload;
-            savevolume(action.payload);
+        setAllState(state,action:PayloadAction<{seria:Seria, hrefparam:string}>){
+            let {seria, hrefparam} = action.payload;
+
+            if (hrefparam===state.hrefparam) return;
+
+            state.hrefparam=hrefparam;
+            state.seria=seria;
+            state.activecollection=0;
+            state.activebook=0;
+            state.bookMap=seria.collections[0].books[0];
+            state.activeSrc=seria.collections[0].books[0].bookparts[0].url;
+            state.activefragment=0;
+            state.playpause='pause';
+            state.lenght=0;
+            state.pleerlenght=0+SmallNumber();
         },
+        changebook(state, action:PayloadAction<{coll:number,book:number}>){
+            let {coll , book}=action.payload
+            if (state.activecollection===coll && state.activebook===book) return;
+            
+            setbook(state,coll,book,state.playpause);
+        },
+        clearnSrc(state){
+            state.activeSrc='';
+        }
     },
 })
 
@@ -150,30 +146,18 @@ export const {
     setplay,
     changebook,
     setAllState,
+    setnextFragment,
+    clearnSrc
 } = pleerSlice.actions;
-export default pleerSlice.reducer
+export default pleerSlice.reducer;
 
-export const setpause = createAsyncThunk(
-    'pleer/setpause',
-    async (param:"pause" | "play", thunkApi) => {
-        let {dispatch , getState}= thunkApi;
-        let state = getState() as RootState;
-
-        
-        if (param==='play'){
-            dispatch(setplay(param));
-        }else{
-            dispatch(setplay(param));
-        }
-        // if (state.pleer.block) return;
-
-        // if (param==='play'){
-        //     dispatch(setplay(param));
-        //     ChangeVolume(state.pleer.volume,state.pleer.userVolume,300);
-        // }else{
-        //     dispatch(setplay(param));
-        //     ChangeVolume(state.pleer.volume,0,300);
-        // }
-    return;
-    }
-)
+export const ResolveError = createAsyncThunk(
+    'pleer/resolveError',
+    async (params,thunkApi)=>{
+    let {dispatch,getState} = thunkApi;
+    let state = (getState() as RootState).pleer;
+    
+    let lenghtNow = state.lenght;
+    dispatch(clearnSrc());
+    dispatch(UserSelectLenght(lenghtNow)); 
+})

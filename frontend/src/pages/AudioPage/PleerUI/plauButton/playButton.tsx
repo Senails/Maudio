@@ -1,35 +1,37 @@
 import { useEffect, useState } from "react";
-import { setpause } from "../../../../redux/slices/pleerSlice";
+import { setplay } from "../../../../redux/slices/pleerSlice";
 import { dispatch, RootState, useAppSelector } from "../../../../redux/store";
 import { sleep } from "../../../../Utils/other/sleep";
+import { getTimeControl } from "../../../../Utils/other/timecontrol";
 
+let timeControl = getTimeControl(500);
 
 export function PlayButton(){
     let playpause = useAppSelector((state:RootState)=>state.pleer.playpause);
-    let [play, setplay] = useState('pause');
+    let [play, setbutton] = useState('pause');
     let [flag, setflag] = useState(false);
 
     useEffect(()=>{
         if (!flag){setflag(true);return;}
-        effectPause();
+        timeControl(effectPause);
         async function effectPause(){
             if (playpause==='pause'){
-                setplay('hide play');
+                setbutton('hide play');
                 await sleep(100);
-                setplay('pause');
+                setbutton('pause');
             }else{
-                setplay('hide pause');
+                setbutton('hide pause');
                 await sleep(100);
-                setplay('play');
+                setbutton('play');
             }
         }
     },[playpause]);
 
     async function PauseHendler(){
         if (playpause==='play'){
-           dispatch(setpause('pause'));
+           dispatch(setplay('pause'));
         }else{
-           dispatch(setpause('play'));
+           dispatch(setplay('play'));
         }
     }
     return <>

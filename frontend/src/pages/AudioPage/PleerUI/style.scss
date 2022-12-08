@@ -76,6 +76,7 @@
                 width: 50px;
                 height: 50px;
                 top: calc(50% - 25px);
+                
                 background-position: center;
                 background-size: contain;
                 background-repeat: no-repeat;
@@ -97,15 +98,17 @@
     }
     @media (max-width: 1200px) {
         .pleer_box {
-            h1{
-                font-size: 40px;
-                line-height: 40px;
-            }
-            .prevbook{
-                left: 0;
-            }
-            .nextbook{
-                right: 0;
+            .wheel-rect{
+                h1{
+                    font-size: 40px;
+                    line-height: 40px;
+                }
+                .prevbook{
+                    left: 0;
+                }
+                .nextbook{
+                    right: 0;
+                }
             }
         }
     }

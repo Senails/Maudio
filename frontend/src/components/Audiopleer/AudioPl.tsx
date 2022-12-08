@@ -1,66 +1,56 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import { setlenght, setplay} from "../../redux/slices/pleerSlice";
-import { RootState } from "../../redux/store"
+import React, { useEffect, useRef, useState } from "react";
+import { ResolveError, setlenght, setnextFragment, setplay} from "../../redux/slices/pleerSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store"
 
-let interval:NodeJS.Timer;
 
 export default function AudioPl(){
-    let {playpause,volume,pleerlenght,activeSrc,activebook,activecollection} = useSelector((state:RootState)=>state.pleer);
-    let dispatch = useDispatch();
+    let playpause = useAppSelector((state)=>state.pleer.playpause);
+    let volume = useAppSelector((state)=>state.pleer.volume);
+    let pleerlenght = useAppSelector((state)=>state.pleer.pleerlenght);
+    let activeSrc = useAppSelector((state)=>state.pleer.activeSrc);
+    let dispatch = useAppDispatch();
+
     let audio = useRef<HTMLAudioElement>(null);
 
 
-    useEffect(()=>{
-        // console.log(pleerlenght);
-        audio.current!.currentTime=pleerlenght;
-        playhandler();
-
-    },[pleerlenght,activebook,activecollection]);
-
-    useEffect(()=>{
-        playhandler();
-    },[playpause]);
-
-    async function playhandler(){
-        if (playpause==='play'){
-            audio.current!.play();
-            dispatch(setlenght(audio.current!.currentTime));
-            if (interval) clearInterval(interval);
-            interval = setInterval(()=>{
-                let now = audio.current!.currentTime;
-                dispatch(setlenght(now));
-            },100);
-
-        }else{
-            clearInterval(interval);
-            audio.current!.pause();
-        }
+    function onerror(){
+        console.log('error')
+        dispatch(ResolveError());
     }
 
+
+    function onended(){
+        let play = playpause;
+        dispatch(setnextFragment())
+        if (play!=='play'){
+            dispatch(setplay('play'));
+        }
+        console.log('ended')
+    }
+    function ontimeupdate(event:React.BaseSyntheticEvent){
+        dispatch(setlenght(event.currentTarget.currentTime))
+    }
+
+    useEffect(()=>{
+        if (playpause==='play'){
+            audio.current!.play();
+        }else {
+            audio.current!.pause();
+        }
+    },[playpause]);
+    useEffect(()=>{
+        audio.current!.currentTime=pleerlenght;
+    },[pleerlenght]);
     useEffect(()=>{
         audio.current!.volume=volume;
     },[volume]);
 
-    // useEffect(()=>{
-    //     let audioTag = audio.current!;
-    //     audioTag.addEventListener('play',play);
-    //     audioTag.addEventListener('pause',pause);
-    //     function play(){
-    //         if (audioTag.currentTime<audioTag.duration){
-    //             dispatch(setplay('play'));
-    //         };
-    //     }
-    //     function pause(){
-    //         if (audioTag.currentTime<audioTag.duration){
-    //             dispatch(setplay('pause'));
-    //         };
-    //     }
-    //     return ()=>{
-    //         audioTag.removeEventListener('play',play);
-    //         audioTag.removeEventListener('pause',pause);
-    //     }
-    // },[])
+    return <audio ref={audio} 
+    onError={onerror}
 
-    return <audio ref={audio} src={activeSrc} loop={false}></audio>
+    onEnded={onended}
+    onTimeUpdate={ontimeupdate}
+    src={activeSrc}
+    autoPlay={playpause==='play'}
+    loop={false}></audio>
 }

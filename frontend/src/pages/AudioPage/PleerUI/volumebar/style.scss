@@ -42,7 +42,7 @@
         align-items: center;
         .volume-polzik-line{
             width: 4px;
-            height: 80px;
+            height: 84px;
             background-color: rgb(93, 93, 93);
             border-radius: 2px;
             position: relative;
@@ -53,6 +53,8 @@
                 border-radius: 2px;
                 background-color: black;
                 height: 50%;
+                min-height: 5px;
+                max-height: calc(100% - 5px);
                 .circle{
                     position: absolute;
                     left: -3px;
@@ -78,7 +80,7 @@
         bottom: 0;
     }
     @media (max-width: 1200px) {
-        top: 5%;
-        right: 0px;
+        top: 10px;
+        right: -20px;
     }
 }

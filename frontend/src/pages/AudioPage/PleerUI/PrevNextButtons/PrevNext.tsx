@@ -21,6 +21,6 @@ export function PrevNextButtons(){
     
     return <>
         <div onClick={clickprev}  className={`prevbook prevnext ${checkprevbook({seria, activecollection, activebook})?'':'opacity'}`}></div>
-        <div onClick={clicknext} className={`nextbook prevnext ${checknextbook({seria, activecollection, activebook})?'':'opacity'}`}></div>
+        <div onClick={clicknext}  className={`nextbook prevnext ${checknextbook({seria, activecollection, activebook})?'':'opacity'}`}></div>
     </>
 }

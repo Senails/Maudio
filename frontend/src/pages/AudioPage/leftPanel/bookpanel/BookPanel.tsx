@@ -16,7 +16,7 @@ export default function BookPanel({name, collNum, bookNum}:Props){
     let activeBook= useAppSelector((state)=>state.pleer.activebook);
     let dispatch = useAppDispatch();
 
-    let isactive = (activeBook===bookNum && activecoll===collNum)?'':'';
+    let isactive = (activeBook===bookNum && activecoll===collNum)?'active':'';
 
     function getwidth(){
        if (activecoll>collNum) return 100;

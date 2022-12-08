@@ -2,12 +2,14 @@ import { setvolume } from "../../redux/slices/pleerSlice";
 import { dispatch } from "../../redux/store";
 import { sleep } from "../other/sleep";
 
-export async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number) {
-    let frames = Math.floor((ms/1000)*60);
+export async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number,callback:()=>void) {
+    let frames = Math.floor((ms/1000)*30);
     let period = Math.floor(ms/frames);
 
-    let OldVolume = NowVolume;
+    console.log(frames)
+    console.log(period)
 
+    let OldVolume = NowVolume;
     let volumedelta = NewVolume-OldVolume;
     let volumepart = volumedelta/frames;
 
@@ -15,10 +17,11 @@ export async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number) 
 
     for(let i=0; i<frames;i++){
         await sleep(period);
-        volumeNow=volumeNow+volumepart;
-        volumeNow=volumeNow<0?0:volumeNow
-
-        dispatch(setvolume(volumeNow));
+        requestAnimationFrame(()=>{
+            volumeNow=volumeNow+volumepart;
+            volumeNow=volumeNow<0?0:volumeNow;
+            dispatch(setvolume(volumeNow));
+        })
     }
     return;
 }
