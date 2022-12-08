@@ -1,4 +1,4 @@
-//колбек будет вызываться не чаще указаного ms
+//колбек будет вызываться не чаще указаного [ms]
 export function getTimeControl(ms:number){
     let idTimeout: NodeJS.Timeout|null = null;
     let lastTime = new Date().getTime();
@@ -41,5 +41,36 @@ export function getTimeControl2(ms:number){
                 callback();
             },ms);
         }
+    }
+}
+//не боллее [count] срабатываний в [period]
+export function getTimeControl3(count:number,period:number=20000){
+    let arr:number[] = [];
+    let timoutID:NodeJS.Timeout;
+
+    return function TimeControl(callback:()=>void){
+        if (timoutID) clearTimeout(timoutID);
+        if (arr.length<=count){
+            callback();
+            arr.push(Date.now());
+            return;
+        }
+
+        let now = Date.now();
+        let minut = period;
+        arr=arr.filter((elem)=>(elem+minut)>now);
+        if (arr.length<count){
+            callback();
+            arr.push(Date.now());
+            return;
+        }
+
+        let min = Math.min(...arr);
+        let delta = now - min;
+        let wait = minut-delta;
+
+        timoutID = setTimeout(()=>{
+            callback();
+        },wait)
     }
 }

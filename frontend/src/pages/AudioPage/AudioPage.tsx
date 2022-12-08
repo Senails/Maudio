@@ -10,6 +10,8 @@ import { PleerUI } from "./PleerUI/Pleer";
 import './style.scss';
 
 export default function AudioPage(){
+    console.log('AudioPage');
+
     let dispatch = useAppDispatch();
     let hrefparam = useAppSelector((state)=>state.pleer.hrefparam);
 

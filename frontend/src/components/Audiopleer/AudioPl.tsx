@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ResolveError, setlenght, setnextFragment, setplay} from "../../redux/slices/pleerSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store"
+import { getTimeControl3 } from "../../Utils/other/timecontrol";
 
+let timecontrol = getTimeControl3(5);
 
 export default function AudioPl(){
     let playpause = useAppSelector((state)=>state.pleer.playpause);
@@ -12,13 +14,10 @@ export default function AudioPl(){
 
     let audio = useRef<HTMLAudioElement>(null);
 
-
     function onerror(){
         console.log('error')
-        dispatch(ResolveError());
+        timecontrol(()=>{dispatch(ResolveError())});
     }
-
-
     function onended(){
         let play = playpause;
         dispatch(setnextFragment())

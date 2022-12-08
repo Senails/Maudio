@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { FindFragment } from '../../Utils/forPleer/findfragment';
 import { RootState } from '../store';
-import { ChangeVolume } from '../../Utils/forPleer/changevolum';
 import { findnextbook } from '../../Utils/forPleer/findnextbook';
 import { setbook } from '../../Utils/forPleer/setbook';
 import { pleerState, Seria } from '../../types/pleerSlice';
 import { getvolume, savevolume } from '../../Utils/forPleer/savevolume';
 import { SmallNumber } from '../../Utils/forPleer/SmallNumber';
+import { sleep } from '../../Utils/other/sleep';
 
 let initialSeria: Seria = {
     name:'',
@@ -159,5 +159,6 @@ export const ResolveError = createAsyncThunk(
     
     let lenghtNow = state.lenght;
     dispatch(clearnSrc());
-    dispatch(UserSelectLenght(lenghtNow)); 
+    await sleep(5);
+    dispatch(UserSelectLenght(lenghtNow));   
 })
