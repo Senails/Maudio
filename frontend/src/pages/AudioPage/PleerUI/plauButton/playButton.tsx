@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { setplay } from "../../../../redux/slices/pleerSlice";
+import { setplay, setshowmini } from "../../../../redux/slices/pleerSlice";
 import { dispatch, RootState, useAppSelector } from "../../../../redux/store";
 import { sleep } from "../../../../Utils/other/sleep";
 import { getTimeControl } from "../../../../Utils/other/timecontrol";
@@ -8,7 +8,7 @@ let timeControl = getTimeControl(500);
 
 export function PlayButton(){
     let playpause = useAppSelector((state:RootState)=>state.pleer.playpause);
-    let [play, setbutton] = useState('pause');
+    let [play, setbutton] = useState<string>(playpause);
     let [flag, setflag] = useState(false);
 
     useEffect(()=>{
@@ -32,6 +32,7 @@ export function PlayButton(){
            dispatch(setplay('pause'));
         }else{
            dispatch(setplay('play'));
+           dispatch(setshowmini(true));
         }
     }
     return <>

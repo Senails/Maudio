@@ -1,4 +1,4 @@
-import { GetToken } from "../../Utils/other/GetSaveToken";
+import { GetToken } from "../../Utils/appData/GetSaveToken";
 import { sleep } from "../../Utils/other/sleep";
 import { adress } from "../apiAdress";
 

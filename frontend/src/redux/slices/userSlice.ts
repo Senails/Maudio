@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SaveToken } from "../../Utils/other/GetSaveToken";
+import { SaveToken } from "../../Utils/appData/GetSaveToken";
 
 
 type UserState = {

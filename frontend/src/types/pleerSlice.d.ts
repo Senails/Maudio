@@ -39,4 +39,5 @@ export type pleerState={
     userVolume:number,
     lenght:number,
     pleerlenght:number,
+    showminipleer:boolean;
 }

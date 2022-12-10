@@ -6,9 +6,6 @@ export async function ChangeVolume(NowVolume:number,NewVolume:number,ms:number,c
     let frames = Math.floor((ms/1000)*30);
     let period = Math.floor(ms/frames);
 
-    console.log(frames)
-    console.log(period)
-
     let OldVolume = NowVolume;
     let volumedelta = NewVolume-OldVolume;
     let volumepart = volumedelta/frames;

@@ -18,6 +18,10 @@ body {
     scrollbar-color: rgba(0, 0, 255, 0) rgba(255, 166, 0, 0);
 }
 
+body.block{
+    overflow: hidden;
+}
+
 body::-webkit-scrollbar {
     width: 0px;               /* ширина scrollbar */
 }

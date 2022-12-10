@@ -15,7 +15,6 @@ export default function AudioPl(){
     let audio = useRef<HTMLAudioElement>(null);
 
     function onerror(){
-        console.log('error')
         timecontrol(()=>{dispatch(ResolveError())});
     }
     function onended(){
@@ -24,7 +23,6 @@ export default function AudioPl(){
         if (play!=='play'){
             dispatch(setplay('play'));
         }
-        console.log('ended')
     }
     function ontimeupdate(event:React.BaseSyntheticEvent){
         dispatch(setlenght(event.currentTarget.currentTime))

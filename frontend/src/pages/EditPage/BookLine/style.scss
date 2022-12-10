@@ -176,7 +176,7 @@
         right: 154px;
 
         text-align: center;
-        border:1px solid #fd6969;
+        border:1px solid #E02323;
         width: 120px;
         height: 24px;
 
@@ -195,7 +195,7 @@
         }
 
         &.haveimage{
-            border: 1px solid #8dff82;
+            border: 1px solid #54FF38;
 
             &:hover{
                 .image-previe{
@@ -238,7 +238,7 @@
             }
         }
         &.loading{
-            border: 1px solid #fdfb6d;
+            border: 1px solid #FF9D29;
         }
         &:hover{
             background-color: #0c0c0c;
@@ -263,13 +263,13 @@
         height: 14px;
         border-radius: 50%;
 
-        background-color: #6dff60;
+        background-color: #54FF38;
 
         &.loading{
-            background-color: #fdfb6d;
+            background-color: #FF9D29;
         }
         &.error{
-            background-color: #fd6969;
+            background-color: #E02323;
         }
     }
     >.change-position{

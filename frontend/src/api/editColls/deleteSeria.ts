@@ -1,7 +1,7 @@
 import { store } from "../../redux/store";
 import { EditState } from "../../types/editSlice";
 import { allFilesToRemoveList } from "../../Utils/apiUtils/apiUtils";
-import { GetToken } from "../../Utils/other/GetSaveToken";
+import { GetToken } from "../../Utils/appData/GetSaveToken";
 import { adress } from "../apiAdress";
 
 export async function deleteSeria():Promise<'error'|'ok'>{

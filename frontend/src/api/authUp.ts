@@ -1,4 +1,4 @@
-import { GetToken } from "../Utils/other/GetSaveToken";
+import { GetToken } from "../Utils/appData/GetSaveToken";
 import { adress } from "./apiAdress";
 import { LoginData } from "./loginUp";
 

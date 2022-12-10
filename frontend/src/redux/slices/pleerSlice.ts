@@ -5,7 +5,7 @@ import { RootState } from '../store';
 import { findnextbook } from '../../Utils/forPleer/findnextbook';
 import { setbook } from '../../Utils/forPleer/setbook';
 import { pleerState, Seria } from '../../types/pleerSlice';
-import { getvolume, savevolume } from '../../Utils/forPleer/savevolume';
+import { getvolume, savevolume } from '../../Utils/appData/savevolume';
 import { SmallNumber } from '../../Utils/forPleer/SmallNumber';
 import { sleep } from '../../Utils/other/sleep';
 
@@ -49,6 +49,7 @@ let initialState:pleerState = {
     userVolume:getvolume(),
     lenght:0,
     pleerlenght:0,
+    showminipleer:false,
 };
   
 export const pleerSlice = createSlice({
@@ -84,8 +85,11 @@ export const pleerSlice = createSlice({
             return;
         },
         UserSelectVolume(state, action:PayloadAction<number>){
-            state.userVolume = action.payload;
-            state.volume=action.payload;
+            let vol = action.payload;
+            vol = vol>1?1:(vol<0)?0:vol;
+
+            state.userVolume = vol;
+            state.volume=vol;
             savevolume(action.payload);
         },
         UserSelectLenght(state, action:PayloadAction<number>){
@@ -134,7 +138,10 @@ export const pleerSlice = createSlice({
         },
         clearnSrc(state){
             state.activeSrc='';
-        }
+        },
+        setshowmini(state,action:PayloadAction<boolean>){
+            state.showminipleer=action.payload
+        },
     },
 })
 
@@ -147,7 +154,8 @@ export const {
     changebook,
     setAllState,
     setnextFragment,
-    clearnSrc
+    clearnSrc,
+    setshowmini
 } = pleerSlice.actions;
 export default pleerSlice.reducer;
 

@@ -7,33 +7,25 @@ import { MainLayouts } from "./layouts/MainLayouts";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { BookInfoPage } from "./pages/BookInfoPage/BookInfoPage";
 import { EditPage } from "./pages/EditPage/EditPage";
-import { store, useAppDispatch, useAppSelector } from "./redux/store";
-import { authUp } from "./api/authUp";
-import { loginUser } from "./redux/slices/userSlice";
+import { store, useAppSelector } from "./redux/store";
 import { Loader } from "./components/Loader/Loader";
 import { Provider } from "react-redux";
-
-
+import { onOpen } from "./Utils/appData/onstart";
 
 function AppComponent() {
   let {userstatus, isAuth} = useAppSelector((state)=>state.user);
-  let dispatch = useAppDispatch();
-
   let[loadend,setloadend]= useState(false);
 
   useEffect(()=>{
-    onopen();
-    async function onopen(){
-      let logindata = await authUp();
-      if (logindata!=='notoken'){
-        dispatch(loginUser(logindata));
-      }
+    let start = async()=>{
+      await onOpen();
       setloadend(true);
     }
+    start();
   },[]);
 
   return (
-    <div className="App">
+    <div className="App" id="App">
       <MainLayouts>
         {loadend?
         <>

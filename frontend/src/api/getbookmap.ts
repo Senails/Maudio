@@ -3,9 +3,9 @@ import { Seria } from "../types/pleerSlice";
 import { bookMapToSeria } from "../Utils/apiUtils/apiUtils";
 import { adress } from "./apiAdress";
 
-export async function getBookMap(bookname:string):Promise<Seria|'error'>{
+export async function getBookMap(href:string):Promise<Seria|'error'>{
     try{
-        let apiadress=adress+`/api/getbookmap/${bookname}`;
+        let apiadress=adress+`/api/getbookmap/${href}`;
         let res = await fetch(apiadress);
         let json:BookMapFetch = await res.json();
         if (json.bookcount===0) return 'error';
