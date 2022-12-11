@@ -6,12 +6,14 @@ type UserState = {
     isAuth:boolean;
     userstatus:'user'|'editor'|'admin';
     token:string;
+    acttimeModal:boolean;
 }
 
 let initialState:UserState ={
     isAuth:false,
     userstatus:'user',
     token:'',
+    acttimeModal:false,
 }
 
 let userSlice = createSlice({
@@ -26,8 +28,14 @@ let userSlice = createSlice({
             state.token=token;
             state.userstatus=status;
         },
+        showhidemodal(state,action:PayloadAction<boolean>){
+            state.acttimeModal=action.payload;
+        }
     },
 })
 
-export const {loginUser} = userSlice.actions;
+export const {
+    loginUser,
+    showhidemodal,
+} = userSlice.actions;
 export default userSlice.reducer

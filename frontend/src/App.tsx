@@ -4,7 +4,6 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import MainPage from "./pages/MainPage/MainPage";
 import { NoPage } from "./pages/Nopage/NoPage";
 import { MainLayouts } from "./layouts/MainLayouts";
-import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { BookInfoPage } from "./pages/BookInfoPage/BookInfoPage";
 import { EditPage } from "./pages/EditPage/EditPage";
 import { store, useAppSelector } from "./redux/store";
@@ -34,7 +33,6 @@ function AppComponent() {
           <Route path="/bookInfo/:bookname" element={<BookInfoPage/>}/>
           <Route path="/listen/:bookname" element={<AudioPage/>}/>
           <Route path="/edit/:bookname" element={userstatus==='user'?<NoPage/>:<EditPage/>}/>
-          <Route path="/login" element={isAuth?<NoPage/>:<LoginPage/>}/>
           <Route path="*" element={<NoPage/>}/>
           </Routes>
         </>
