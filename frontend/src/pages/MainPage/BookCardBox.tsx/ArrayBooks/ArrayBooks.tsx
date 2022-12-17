@@ -12,16 +12,16 @@ export function ArrauBooks(){
     let dispatch = useAppDispatch();
     
     let searchString= useAppSelector((state)=>state.search.searchString);
-    let arrayCard = useAppSelector((state)=>state.search.arrayCard);
-    let status = useAppSelector((state)=>state.user.userstatus);
-
+    let sortingParam= useAppSelector((state)=>state.search.sortingParam);
+    let filterParam= useAppSelector((state)=>state.search.filterParam);
+    let isAuth= useAppSelector((state)=>state.user.isAuth);
     
     let[loadend,setloadend]= useState(false);
     useEffect(()=>{
         timeControl(searchbooks);
         async function searchbooks(){
             setloadend(false);
-            let array = await getArrayBooks(searchString);
+            let array = await getArrayBooks(searchString,sortingParam,filterParam);
             if (array!=='error'){
                 setloadend(true);
                 dispatch(setArrayCard(array));
@@ -30,9 +30,10 @@ export function ArrauBooks(){
                 dispatch(setArrayCard([]));
             }
         }
-    },[searchString,status]);
+    },[searchString,sortingParam,filterParam,isAuth]);
 
 
+    let arrayCard = useAppSelector((state)=>state.search.arrayCard);
     return <>{loadend?<>
         {(arrayCard.length>0)?
         <div className="array-card-conteiner">
@@ -40,9 +41,13 @@ export function ArrauBooks(){
             return <BookCard 
             href={book.href}
             img={book.img}
-            bookcount={book.bookcount} 
             authtor={book.authtor} 
             name={book.name}
+            reit={book.reiting}
+            like={book.like}
+            progress={book.progress}
+            num={index}
+
             key={index}
             />})}
         </div>

@@ -17,6 +17,9 @@
         box-sizing: border-box;
         width: 40px;
         height: 40px;
+        background-color: #363636;
+        border-radius: 50%;
+
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
@@ -24,7 +27,7 @@
     }
     &.block{
         .volume-icon{
-            background-image: url('./../../../../assets/volumeblock.svg');
+            background-image: url('./../../../../assets/voumeBlock.svg');
         }
     }
     .volume-polzik{
@@ -35,7 +38,7 @@
         width: 20px;
         height: 100px;
         border-radius: 10px;
-        background-color: white;
+        background-color: #363636;
         opacity: 0;
         transition: 0.4s;
         display: flex;
@@ -52,7 +55,7 @@
                 bottom: 0;
                 width: 100%;
                 border-radius: 2px;
-                background-color: black;
+                background-color: white;
                 height: 50%;
                 min-height: 5px;
                 max-height: calc(100% - 5px);
@@ -60,7 +63,7 @@
                     position: absolute;
                     left: -3px;
                     top: -5px;
-                    background-color: rgb(32, 32, 32);
+                    background-color: white;
                     width: 10px;
                     height: 10px;
                     border-radius: 50%;

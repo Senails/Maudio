@@ -101,23 +101,25 @@ export function EditPage(){
 
     return <div className={`edit-page `+(ondrag?'ongrag':'')}>    
         {loadend?<>
-            <div className='edit-conteiner'>
-                <ImageInput/>
-                <div className='right-collomn'>
-                    <TextInputs/>
-                    <div className='books-group'>
-                        <div className='box-editor-fragments'>
-                            <FragmentsEditor/>
-                        </div>
+            <div className='all-conteiner'>
+                <div className='edit-conteiner'>
+                    <ImageInput/>
+                    <div className='right-collomn'>
+                        <TextInputs/>
                     </div>
-                    <div className='buttons-group'>
-                        <div onClick={saveCollection}>сохранить</div>
-                        <div onClick={cancelCollection}>отменить</div>
-                        <div onClick={removeCollection}>удалить</div>
+                </div>
+               <div className='buttons-group'>
+                    <div onClick={saveCollection}>сохранить</div>
+                    <div onClick={cancelCollection}>отменить</div>
+                    <div onClick={removeCollection}>удалить</div>
+                </div>
+                <div className='books-group'>
+                    <div className='box-editor-fragments'>
+                        <FragmentsEditor/>
                     </div>
                 </div>
             </div>
-            <p onClick={cancelCollection} className='audiobook-link'>AudioBooks</p>
+            <p onClick={cancelCollection} className='audiobook-link'>Audiobooks</p>
             {error!==''?<>
                 <div className='error-message' onClick={()=>seterror('')}>
                     <span>Ошибка</span>

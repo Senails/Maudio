@@ -1,21 +1,23 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SetLikeOnBackend } from "../../api/bookActions/setLikeOnBackend";
 
 
 export type BookCardtype = {
     href:string;
     img:string;
-    bookcount:number;
     authtor:string;
     name:string;
-    description?:string;
-}
+    like?:boolean;
+    reiting?:number;
+    progress?:number;
+};
 
 type searchState = {
     arrayCard: BookCardtype[];
     searchString: string;
     sortingParam: string;
     filterParam: string;
-}
+};
 
 let initialState:searchState = {
     arrayCard:[],
@@ -39,7 +41,19 @@ export const searchSlise = createSlice({
         },
         setArrayCard(state,action: PayloadAction<BookCardtype[]>){
             state.arrayCard=action.payload;
-        }
+        },
+        resetState(state){
+            let {filterParam, sortingParam, searchString} = initialState;
+
+            state.filterParam=filterParam;
+            state.searchString=searchString;
+            state.sortingParam=sortingParam;
+        },
+        setlike(state,action: PayloadAction<{num:number,like:boolean}>){
+            let {num , like} = action.payload;
+            
+            state.arrayCard[num].like=like;
+        },
     },
 });
 
@@ -48,5 +62,18 @@ export const {
     setArrayCard,
     setSorting,
     setFilter,
+    resetState,
+    setlike,
 } = searchSlise.actions;
 export default searchSlise.reducer
+
+export const userlike = createAsyncThunk(
+    'search/setlike',
+    async (params:{href:string,num:number,like:boolean},thunkApi)=>{
+        let {dispatch} = thunkApi;
+        let {href,num,like} = params;
+
+        dispatch(setlike({num,like}));
+        SetLikeOnBackend(href);
+    }
+)

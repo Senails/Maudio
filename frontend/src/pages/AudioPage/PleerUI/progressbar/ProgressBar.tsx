@@ -59,7 +59,7 @@ export default function ProgressBar(){
         })
     }
 
-    return <div className="progressBar-box"
+    let progressBar = <div className="progressBar-box"
         onTouchStart={startSelect} 
         onMouseDown={startSelect}
         
@@ -78,4 +78,10 @@ export default function ProgressBar(){
         <span className='timecheck left'>{numToTime(lenght)}</span>
         <span className='timecheck right'>{numToTime(alllenght)}</span>
     </div>
+
+    return <div className="progressbar-conteiner">
+        {progressBar}
+    </div>
+
+
 }

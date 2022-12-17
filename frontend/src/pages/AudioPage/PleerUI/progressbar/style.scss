@@ -41,8 +41,10 @@
         opacity: 0;
         position: absolute;
         z-index: 10;
-        top: 0;
+        bottom: 13px;
         left: 20px;
+        padding: 3px;
+
         font-family: 'Inter';
         font-style: normal;
         font-weight: 400;
@@ -50,7 +52,6 @@
         line-height: 20px;
         color: rgb(255, 255, 255);
         background-color: rgba(0, 0, 0, 0.8);
-        padding: 0 5px;
         border-radius: 5px;
         transition: opacity 0.3s;
     }
@@ -60,4 +61,14 @@
             opacity: 1;
         }
     }
+}
+
+.progressbar-conteiner{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+
+    background-color: #161616;
+    // border: 1px solid red;
 }

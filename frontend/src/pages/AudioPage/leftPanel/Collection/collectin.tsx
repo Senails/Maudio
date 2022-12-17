@@ -43,7 +43,7 @@ export default function Collection({name , books, numColl,collLenght}:Props){
                 style={{width: `${activeColl>numColl?100:activeColl<numColl?0:((books[activeBook].beforelenght+lenght)/collLenght*100)}%`}}></div>
             </div>
         </div>
-        <div className={`book-box`} style={{height:`${show?(books.length*40+5):0}px`,opacity: `${show?1:0}`}}>
+        <div className={`book-box`} style={{height:`${show?(books.length*40)+0:0}px`,opacity: `${show?1:0}`}}>
             {arrbooks}
         </div>
     </div>

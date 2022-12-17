@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { setsearch } from "../../../redux/slices/searchSlice";
+import { resetState, setsearch } from "../../../redux/slices/searchSlice";
 import { exitUser, showhidemodal } from "../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { SaveToken } from "../../../Utils/appData/GetSaveToken";
@@ -26,6 +26,7 @@ export function MainTopLine(){
 
     function exitclick(){
         dispatch(exitUser());
+        dispatch(resetState());
         dispatch(setsearch('*'));
         dispatch(setsearch(''));
         SaveToken('');

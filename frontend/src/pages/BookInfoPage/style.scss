@@ -7,7 +7,7 @@
     width: 100%;
     min-height: 100vh;
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 150px 0;
+    padding: 100px 0 150px;
     text-align: center;
 
     .audiobook-link{
@@ -155,8 +155,6 @@
     }
 
     @media (max-width: 800px) {
-        padding: 100px 0;
-
         .info-conteiner{
             flex-direction: column;
 

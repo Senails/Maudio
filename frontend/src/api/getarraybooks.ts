@@ -2,7 +2,7 @@ import { BookCardtype } from "../redux/slices/searchSlice";
 import { BookDataFetch } from "../types/api";
 import { adress } from "./apiAdress";
 
-export async function getArrayBooks(param:string):Promise<BookCardtype[]|'error'>{
+export async function getArrayBooks(param:string,sortingParam:string,filterParam:string):Promise<BookCardtype[]|'error'>{
     let apiadress=adress+`/api/getbooks/${param}`;
     try{
         let res = await fetch(apiadress);

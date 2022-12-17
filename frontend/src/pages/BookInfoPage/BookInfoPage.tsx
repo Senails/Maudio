@@ -52,7 +52,7 @@ export function BookInfoPage(){
         {loadend?
         <>
             <p className='audiobook-link'>
-                <Link to='/'>AudioBooks</Link>
+                <Link to='/'>Audiobooks</Link>
             </p>
             <div className='info-conteiner'>
                 <div className='book-image' style={styleImage}>

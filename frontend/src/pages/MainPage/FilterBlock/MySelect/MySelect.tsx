@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../../../../redux/store';
+import { showMessage } from '../../../../Utils/other/showMessage/showMessahe';
+import { sleep } from '../../../../Utils/other/sleep';
 import './style.scss';
 
 
@@ -28,14 +30,21 @@ export function MySelect({arrVariant,onChange,type,activevar}:propsType){
         </div>
     });
 
+    function clickOnSelect(event:React.MouseEvent){
+        if (!block){ 
+            setopen(!open);
+        }else{
+            showMessage(event,'авторизуйтесь');
+        }
+    }
+
     return <div 
-        onClick={()=>!block?setopen(!open):{}}
+        onClick={clickOnSelect}
         onMouseLeave={()=>setopen(false)}
         className={`filter-component ${open?'open':''} ${block?'block':''}`}
         style={{height:`${arrVariant.length*31}px`}}>
 
         <div className={`${type}-icon`}></div>
         {varList}
-        <div className='help-text'>авторизуйтесь</div>
     </div>
 }

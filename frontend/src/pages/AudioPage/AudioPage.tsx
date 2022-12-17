@@ -42,7 +42,7 @@ export default function AudioPage(){
     return <div className={`AudioPage ${loadend?'':'loading'}`}>
         {loadend?
         <>
-            <span className="audiobooks-audiopage"><Link to={'/'}>AudioBooks</Link></span>
+            <span className="audiobooks-audiopage"><Link to={'/'}>Audiobooks</Link></span>
             <Book/>
             <PleerUI/>
             <LeftPanel/>

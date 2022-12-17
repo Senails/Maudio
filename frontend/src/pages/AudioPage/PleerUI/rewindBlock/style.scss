@@ -13,6 +13,11 @@
         display: flex;
         align-items: center;
 
+        // border: 1px solid red;
+        padding: 5px;
+        border-radius: 10px;
+        background-color: #1d1d1d;
+
         span{
             color: white;
             font-family: "Inter";
@@ -22,7 +27,7 @@
             line-height: 24px;
         }
 
-        opacity: 0.7;
+        opacity: 0.8;
         &:hover{
             opacity: 1; 
         }
