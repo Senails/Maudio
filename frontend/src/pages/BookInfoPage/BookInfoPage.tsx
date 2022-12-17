@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getBookData } from '../../api/getbookdata';
 import { Loader } from '../../components/Loader/Loader';
 import { RootState, useAppSelector } from '../../redux/store';
+import { InfoConteiner } from './InfoConteiner/InfoConteiner';
 import './style.scss';
 
 export type BookData = {
@@ -43,38 +44,15 @@ export function BookInfoPage(){
                 navigate('/404page')
             }
         }
-    },[]);
+    },[status]);
 
-    let styleImage = {
-        backgroundImage: `url(${bookdata.bookimage})`,
-    }
     return <div className="info-page">
         {loadend?
         <>
             <p className='audiobook-link'>
                 <Link to='/'>Audiobooks</Link>
             </p>
-            <div className='info-conteiner'>
-                <div className='book-image' style={styleImage}>
-                    <div className='shadow'>
-                        <div className='play'>
-                            <Link to={`/listen/${bookname}`}></Link>
-                        </div>
-                    </div>
-                </div>
-                <div className='book-info'>
-                    <h1>{bookdata.name}</h1>
-                    <p>{bookdata.description}</p>
-                    <span>
-                        <span className='authtor'>{bookdata.authtor}</span>
-                        <span className='bookcount'>
-                            {bookdata.bookscount}
-                            <div className='book-icon'></div>
-                        </span>
-                        {(status==='admin' || status==='editor')?<span><Link to={`/edit/${bookname}`}>to edit</Link></span>:<></>}
-                    </span>
-                </div>
-            </div>
+            <InfoConteiner/>
         </>
         :<Loader/>}
     </div>

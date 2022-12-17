@@ -4,6 +4,7 @@ import pleerReducer from './slices/pleerSlice';
 import searchReducer from './slices/searchSlice';
 import userReducer from './slices/userSlice';
 import editReducer from './slices/EditSlice';
+import infoReducer from './slices/BookInfoSlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         search: searchReducer,
         user: userReducer,
         edit: editReducer,
+        bookinfo: infoReducer,
     },
 })
 
