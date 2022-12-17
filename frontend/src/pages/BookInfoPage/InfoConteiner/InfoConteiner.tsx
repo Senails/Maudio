@@ -1,3 +1,4 @@
+import { Comments } from './Comments/Comments';
 import { Line1 } from './Line1/Line1';
 import { Line2 } from './Line2/Line2';
 import { Line3 } from './Line3/Line3';
@@ -8,8 +9,6 @@ export function InfoConteiner(){
         <Line1/>
         <Line2/>
         <Line3/>
-        <div className='comments'>
-
-        </div>
+        <Comments/>
     </div>
 }

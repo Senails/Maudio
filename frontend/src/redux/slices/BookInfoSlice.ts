@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Comment = {
+export type comment = {
     user:string;
     date: number;
-    text:number;
+    text:string;
     id:string;
 }
 
@@ -15,7 +15,7 @@ type BookInfoState = {
     description:string;
     image:string;
     bookcount:number;
-    comments:Comment[];
+    comments:comment[];
     userreiting:number;
     progress?:number;
     like?:boolean;
