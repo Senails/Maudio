@@ -5,10 +5,13 @@ import { Line3 } from './Line3/Line3';
 import './style.scss';
 
 export function InfoConteiner(){
-    return <div className='info-conteiner'>
-        <Line1/>
-        <Line2/>
-        <Line3/>
-        <Comments/>
+    return <div className='blurfix'>
+        <div className="fonblur"></div>
+        <div className='info-conteiner'>
+            <Line1/>
+            <Line2/>
+            <Line3/>
+            <Comments/>
+        </div>
     </div>
 }
