@@ -1,4 +1,9 @@
-export async function readBodyToJson(request){
+export async function getJsonBody(req,res,next){
+    req.body = await readBodyToJson(req);
+    next();
+}
+
+async function readBodyToJson(request){
     return new Promise((res)=>{
         try{
             let chunks = '';

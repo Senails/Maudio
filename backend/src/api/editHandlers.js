@@ -1,49 +1,45 @@
 import {
-    readBodyToJson,
     addBookToDB,
     removeBookOnDB,
     deleteRemoveList,
     uploadGoogleFile,
-    createFileName
+    createFileName,
+    findBookByHref,
+    updateBookToDB,
 } from '../utils/reimport.js';
 
 export async function saveBook(req,res){
-    let body = await readBodyToJson(req);
+    let body = req.body;
     let {bookMap, RemoveList} = body;
     await deleteRemoveList(RemoveList);
     let result = await addBookToDB(bookMap);
     
     res.send(result);
 }
-
 export async function editBook(req,res){
-    let body = await readBodyToJson(req);
+    let body = req.body;
     let {bookMap,lasthref,RemoveList}=body;
 
-    let remove1 = await removeBookOnDB(lasthref);
-    let result = await addBookToDB(bookMap);
+    let result = await updateBookToDB(bookMap,lasthref);
     let remove2 = await deleteRemoveList(RemoveList);
 
-    res.send('ok');
+    res.send(result);
 }
-
 export async function deleteBook(req,res){
-    let json = await readBodyToJson(req);
+    let json = req.body;
     let {href, RemoveList}=json;
     let remove1 = await removeBookOnDB(href);
     let remove2 = await deleteRemoveList(RemoveList);
 
     res.send(remove1);
 }
-
 export async function cancelEdit(req,res){
-    let json = await readBodyToJson(req);
+    let json = req.body;
     let {RemoveList}=json;
     let remove2 = await deleteRemoveList(RemoveList);
 
     res.send(remove2);
 }
-
 export async function sendFileToGoogle(req,res){
     let mimeType = req.headers['content-type'];
     if (!mimeType) return res.send('error');

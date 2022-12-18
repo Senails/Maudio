@@ -5,10 +5,11 @@ import {
     removeBookOnDB,
     findBooksBySearch,
     findBookByHref,
+    updateBookToDB,
 } from './mongoDb/Books.js';
 
 import { MongoColl } from './mongoDb/MongoDB.js';
-import { readBodyToJson } from './other/readBody.js';
+import { getJsonBody } from './other/readBody.js';
 import { filterBooksBySearch } from './other/filterBooks.js';
 import { createFileName } from './other/createFileName.js';
 import { bookMapToData } from './other/bookMapToData.js';
@@ -24,7 +25,7 @@ export {
     uploadGoogleFile,
     deleteRemoveList,
     removeGoogleFile,
-    readBodyToJson,
+    getJsonBody,
     findBooksBySearch,
     filterBooksBySearch,
     createFileName,
@@ -35,4 +36,5 @@ export {
     MongoColl,
     addUser,
     findUserByName,
+    updateBookToDB,
 }

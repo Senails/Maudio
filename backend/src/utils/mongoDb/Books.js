@@ -49,6 +49,59 @@ export async function addBookToDB(book){
         })
     })
 }
+export async function updateBookToDB(book,prevhref){
+    return new Promise(async(res,rej)=>{
+        MongoColl(async (mongo)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('books');
+                let prevbook = await findBookByHref(prevhref);
+                let ResHref=book.href;
+                let ResName=book.name;
+
+                if (ResHref!==prevbook.href){
+                    let href = book.href;
+                    let num1 = 0;
+                    ResHref=href;
+
+                    let check1 = await checkBookOnDB(href);
+                    if (check1===true){
+                        while (check1===true){
+                            num1++;
+                            ResHref = href+num1;
+                            check1 = await checkBookOnDB(ResHref);
+                        }
+                    }
+                }
+                if (ResName!==prevbook.name){
+                    let name = book.name;
+                    let num2 =0;
+                    ResName=name;
+
+                    let check2 = await checkBookNameOnDB(ResName);
+                    if (check2===true){
+                        while (check2===true){
+                            num2++;
+                            ResName = name+' '+num2;
+                            check2 = await checkBookNameOnDB(ResName);
+                        }
+                    }
+                }
+
+                let newData = book;
+                newData.href=ResHref;
+                newData.name=ResName;
+                newData.modified=Date.now();
+
+                await coll.updateOne({_id: prevbook._id}, {$set: {...newData}});
+
+                res('ok');
+            }catch(e){
+                res('error');
+            }
+        })
+    })
+}
 export async function removeBookOnDB(href){
     return new Promise(async(res,rej)=>{
         MongoColl(async (mongo)=>{

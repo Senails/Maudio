@@ -30,7 +30,20 @@ let initialState:BookInfoState = {
     description:`Тяга к аферам и авантюрам в комплекте с наивысшим воровским искусством, соединенные в одном флаконе, способны перевернуть вверх дном и королевский дворец вкупе со всеми его обитателями, и столицу с ее жителями, и даже целое государство вместе с его соседями. И в Гиперийском царстве есть такой субъект — молодой, энергичный, сообразительный, деятельный, благородный и по-своему правдивый… аферист. Известный Арканарский вор. Не зря такое звание имеет только он один: равных ему попросту не существует и он всегда способен это доказать любому — и власть имущим, и известным магам, и простому человеку… А еще кличут его Графом, даже не думая, что это — его настоящий родовой титул. Хотя, об этом не ведает и его приемный отец, и он — ловец удачи…`,
     image:'',
     bookcount:12,
-    comments:[],
+    comments:[
+        {
+            user:'Senails',
+            date: Date.now(),
+            text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
+            id:`${Date.now()}`,
+        },
+        {
+            user:'Senails',
+            date: Date.now(),
+            text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
+            id:`${Date.now()}`,
+        }
+    ],
     like: false,
     progress: 33.5,
 }
@@ -44,7 +57,13 @@ export const BookInfoSlice = createSlice({
         },
         setLike(state,action: PayloadAction<boolean>){
             state.like=action.payload;
-        }
+        },
+        setInfoState(){
+
+        },
+        addComment(state,action:PayloadAction<comment>){
+            state.comments.push(action.payload);
+        },
     }
 })
 
@@ -52,6 +71,8 @@ export const BookInfoSlice = createSlice({
 export const {
     setUserReiting,
     setLike,
+    setInfoState,
+    addComment,
 } = BookInfoSlice.actions;
 
 export default BookInfoSlice.reducer;

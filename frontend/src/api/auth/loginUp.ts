@@ -1,9 +1,12 @@
 import { adress } from "../apiAdress";
 
 export type LoginData = {
-    token:string,
+    token:string;
     status:'user'|'editor'|'admin';
+    userName:string;
 }
+//1
+
 
 export async function loginUp(email:string,password:string):Promise<LoginData|'error'>{
     let apiadress=adress+`/api/login`;

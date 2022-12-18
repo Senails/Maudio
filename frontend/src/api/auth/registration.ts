@@ -1,4 +1,3 @@
-import { sleep } from "../../Utils/other/sleep";
 import { adress } from "../apiAdress";
 import { LoginData } from "./loginUp";
 

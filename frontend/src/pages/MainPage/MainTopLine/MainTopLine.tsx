@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { resetState, setsearch } from "../../../redux/slices/searchSlice";
 import { exitUser, showhidemodal } from "../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { SaveToken } from "../../../Utils/appData/GetSaveToken";
 import './style.scss';
 
 
@@ -26,10 +25,8 @@ export function MainTopLine(){
 
     function exitclick(){
         dispatch(exitUser());
-        dispatch(resetState());
         dispatch(setsearch('*'));
-        dispatch(setsearch(''));
-        SaveToken('');
+        dispatch(resetState());
     }
 
     return <div className='main-top-line'>
