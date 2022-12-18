@@ -1,17 +1,27 @@
 import { useState } from "react";
+import { addComment, CommentType } from "../../../../../redux/slices/BookInfoSlice";
 import { showhidemodal } from "../../../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
+import { showMessage } from "../../../../../Utils/other/showMessage/showMessahe";
 
 export function CommentInput(){
     let isAuth = useAppSelector((state)=>state.user.isAuth);
+    let userName = useAppSelector((state)=>state.user.userName);
     let dispatch = useAppDispatch();
 
     let [comment,setcomment]=useState('');
 
     function onclickbutton(event:React.MouseEvent){
         if (!isAuth) return dispatch(showhidemodal(true));
+        if (comment.length<10) return showMessage(event,'напишите хотябы 10 символов');
 
-        console.log('добавить коммент');
+        let payload: CommentType = {
+            user:userName,
+            date:Date.now(),
+            text:comment,
+        }
+        setcomment('');
+        dispatch(addComment(payload))
     }
 
     return <div className="input">

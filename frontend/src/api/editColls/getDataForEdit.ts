@@ -8,9 +8,9 @@ export async function getDataForEdit(bookname:string):Promise<EditState|'error'>
     if (bookname==='newbook'){
         let result:EditState ={
             href:'newbook',
-            collName:'Название серии книг',
-            authtorName:'Имя автора',
-            description:'описание для серии книг',
+            collName:'',
+            authtorName:'',
+            description:'',
             bookImage:{url:'',googleid:'',status:'loadend'},
             collections: [],
             removeOnCancel:[],

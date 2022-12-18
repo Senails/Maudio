@@ -1,8 +1,8 @@
-import { comment } from '../../../../../redux/slices/BookInfoSlice';
+import { CommentType } from '../../../../../redux/slices/BookInfoSlice';
 import { DateToString } from '../../../../../Utils/other/DateToString';
 import './style.scss';
 
-export function CommentBlock({text,user,date,id}:comment){
+export function CommentBlock({text,user,date}:CommentType){
 
     return <div className="comment-comp">
         <div className='headline'>

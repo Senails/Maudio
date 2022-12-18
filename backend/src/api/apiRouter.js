@@ -2,6 +2,7 @@ import express from 'express';
 import { saveBook, deleteBook, editBook, cancelEdit, sendFileToGoogle} from './editHandlers.js';
 import { getBookData,getBookMap,getBooksData} from './getDataHandlers.js';
 import { login, auth, checkToken, registration, checkRegistrData } from './authHandlers.js';
+import { setLike, setReiting, setUserProgress, addComment, removeComment } from './bookActionsHandlers.js';
 import { getJsonBody } from './../utils/reimport.js';
 
 export const apiRouter = express.Router();
@@ -26,3 +27,8 @@ apiRouter.post('/auth',auth);
 apiRouter.post('/register',getJsonBody,checkRegistrData,registration);
 
 // book actions
+apiRouter.post('/setLike',getJsonBody, setLike);
+apiRouter.post('/setReiting',getJsonBody, setReiting);
+apiRouter.post('/setUserProgress',getJsonBody, setUserProgress);
+apiRouter.post('/setAddComment',getJsonBody, addComment);
+apiRouter.post('/setRemoveComment',getJsonBody, removeComment);

@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type comment = {
+export type CommentType = {
     user:string;
     date: number;
     text:string;
-    id:string;
 }
 
 
@@ -15,7 +14,7 @@ type BookInfoState = {
     description:string;
     image:string;
     bookcount:number;
-    comments:comment[];
+    comments:CommentType[];
     userreiting:number;
     progress?:number;
     like?:boolean;
@@ -35,13 +34,11 @@ let initialState:BookInfoState = {
             user:'Senails',
             date: Date.now(),
             text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
-            id:`${Date.now()}`,
         },
         {
             user:'Senails',
             date: Date.now(),
             text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
-            id:`${Date.now()}`,
         }
     ],
     like: false,
@@ -61,7 +58,7 @@ export const BookInfoSlice = createSlice({
         setInfoState(){
 
         },
-        addComment(state,action:PayloadAction<comment>){
+        addComment(state,action:PayloadAction<CommentType>){
             state.comments.push(action.payload);
         },
     }

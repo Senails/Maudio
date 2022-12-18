@@ -12,7 +12,6 @@ export function ArrayComments(){
             user={comm.user}
             date={comm.date}
             text={comm.text}
-            id={comm.id}
 
             key={i}
         />
