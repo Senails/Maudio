@@ -1,10 +1,11 @@
-import { uploadGoogleFile, deleteRemoveList, removeGoogleFile } from './google/google.js';
+import { uploadGoogleFile, deleteRemoveList } from './google/DriveUtils.js';
 
 import { 
     addBookToDB,
     removeBookOnDB,
     findBooksBySearch,
     findBookByHref,
+    findBookById,
     updateBookToDB,
 } from './mongoDb/Books.js';
 
@@ -19,12 +20,22 @@ import { addUser,
     findUserByName,
  } from './mongoDb/Users.js';
 
+import {
+    addLikeBook,
+    cancelLikeBook,
+    userSetReiting,
+    saveComment,
+    deleteComment,
+    saveUserProgress,
+} from './mongoDb/BookActions.js';
+
 export {
-    addBookToDB,
-    removeBookOnDB,
     uploadGoogleFile,
     deleteRemoveList,
-    removeGoogleFile,
+    
+    findBookById,
+    addBookToDB,
+    removeBookOnDB,
     getJsonBody,
     findBooksBySearch,
     filterBooksBySearch,
@@ -37,4 +48,11 @@ export {
     addUser,
     findUserByName,
     updateBookToDB,
+
+    addLikeBook,
+    cancelLikeBook,
+    userSetReiting,
+    saveComment,
+    deleteComment,
+    saveUserProgress,
 }

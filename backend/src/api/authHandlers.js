@@ -2,8 +2,8 @@ import {findUserByID, findUserByEmail, addUser,findUserByName} from './../utils/
 
 
 import jwt from 'jsonwebtoken';
+export const secretJWT = 'dsgytf435hdfas';
 import bcrypt from 'bcrypt';
-const secretJWT = 'dsgytf435hdfas';
 
 
 export async function login(req,res){

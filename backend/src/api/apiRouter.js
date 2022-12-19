@@ -29,6 +29,6 @@ apiRouter.post('/register',getJsonBody,checkRegistrData,registration);
 // book actions
 apiRouter.post('/setLike',getJsonBody, setLike);
 apiRouter.post('/setReiting',getJsonBody, setReiting);
-apiRouter.post('/setUserProgress',getJsonBody, setUserProgress);
 apiRouter.post('/setAddComment',getJsonBody, addComment);
 apiRouter.post('/setRemoveComment',getJsonBody, removeComment);
+apiRouter.post('/setUserProgress',getJsonBody, setUserProgress);

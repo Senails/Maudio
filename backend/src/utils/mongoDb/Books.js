@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import {MongoColl,nameDB} from './MongoDB.js';
 import {filterBooksBySearch} from '../reimport.js';
 
@@ -144,6 +145,21 @@ export async function findBookByHref(href){
                 let coll = db.collection('books');
 
                 let needbook = await coll.findOne({href:href})
+                res(needbook);
+            }catch{
+                res('error');
+            }
+        })
+    })
+}
+export async function findBookById(id){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('books');
+
+                let needbook = await coll.findOne({_id:ObjectId(id)})
                 res(needbook);
             }catch{
                 res('error');
