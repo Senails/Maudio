@@ -15,9 +15,10 @@ export function addLikeBook(userid, bookid){
             if (user==='error' || book==='error') return res('error')
 
             if (user.Likelist){
-                user.Likelist.push(bookid);
+                user.Likelist[bookid]=true;
             }else{
-                user.Likelist=[bookid];
+                user.Likelist={};
+                user.Likelist[bookid]=true;
             }
 
             if (book.popular){
@@ -51,7 +52,7 @@ export function cancelLikeBook(userid, bookid){
             if (user==='error' || book==='error') return res('error')
 
             if (user.Likelist){
-                user.Likelist= user.Likelist.filter((bookID)=>bookID!==bookid);
+                delete user.Likelist[bookid];
             }
 
             if (book.popular){
@@ -71,11 +72,6 @@ export function cancelLikeBook(userid, bookid){
         })
     })
 }
-
-
-
-
-
 export function userSetReiting(userid, bookid, reiting){
     return new Promise(async (res,rej)=>{
         MongoColl(async (mongo)=>{

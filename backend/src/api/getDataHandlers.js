@@ -6,14 +6,12 @@ export async function getBookData(req,res){
     book = bookMapToData(book);
     res.json(book);
 }
-
 export async function getBookMap(req,res){
     let {href} = req.params;
     let book = await findBookByHref(href);
 
     res.json(book);
 }
-
 export async function getBooksData(req,res){
     let {search} = req.params;
     let search1=''

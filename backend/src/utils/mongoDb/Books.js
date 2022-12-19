@@ -108,11 +108,15 @@ export async function removeBookOnDB(href){
         MongoColl(async (mongo)=>{
             try{
                 let db = mongo.db(nameDB);
-                let coll = db.collection('books');
+                let collBook = db.collection('books');
 
                 let check = await checkBookOnDB(href);
                 if (check===false) return res('ok');
-                await coll.deleteOne({href: href});
+                let bookid = (await findBookByHref(href))._id.toString();
+
+                await collBook.deleteOne({href: href});
+                removeBookFromMemory(bookid);
+
                 res('ok');
             }catch{
                 res('error');
@@ -183,7 +187,6 @@ async function checkBookOnDB(hrefName){
         })
     })
 }
-
 async function checkBookNameOnDB(name){
     return new Promise((res,rej)=>{
         MongoColl(async (mongo)=>{
@@ -195,5 +198,37 @@ async function checkBookNameOnDB(name){
             if (one!==null) return res(true);
             return res(false);
         })
+    })
+}
+async function removeBookFromMemory(bookid){
+    MongoColl(async (mongo)=>{
+        let db = mongo.db(nameDB);
+        let collUser = db.collection('users');
+
+        let proekcia = {
+            Likelist:1,
+            cansedArray:1,
+            progressArray:1,
+        }
+        let usersArray = await collUser.find().project(proekcia).toArray();
+
+        usersArray.forEach((user) => {
+            let flag = false;
+            if (user.Likelist && user.Likelist[bookid]){
+                delete user.Likelist[bookid];
+                flag = true;
+            }
+            if (user.cansedArray && user.cansedArray[bookid]){
+                delete user.cansedArray[bookid];
+                flag = true;
+            }
+            if (user.progressArray && user.progressArray[bookid]){
+                delete user.progressArray[bookid];
+                flag = true;
+            }
+            if (flag){
+                collUser.updateOne({_id: user._id}, {$set: {...user}});
+            }
+        });
     })
 }
