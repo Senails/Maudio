@@ -2,40 +2,27 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getBookData } from '../../api/getbookdata';
 import { Loader } from '../../components/Loader/Loader';
-import { RootState, useAppSelector } from '../../redux/store';
+import { setInfoState } from '../../redux/slices/BookInfoSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../../redux/store';
 import { InfoConteiner } from './InfoConteiner/InfoConteiner';
 import './style.scss';
 
-export type BookData = {
-    name:string,
-    authtor:string,
-    description:string,
-    bookscount:number,
-    bookimage:string,
-    href?:string,
-}
-let initDataState:BookData={
-    name:'',
-    authtor:'',
-    description:'',
-    bookscount:0,
-    bookimage:'',
-}
+
 export function BookInfoPage(){
     let {bookname}=useParams();
     let navigate = useNavigate();
-    let status = useAppSelector((state:RootState)=>state.user.userstatus);
+    let dispatch = useAppDispatch();
 
-    let[bookdata,setbookdata] = useState<BookData>(initDataState);
+    let token = useAppSelector((state:RootState)=>state.user.token);
     let[loadend,setloadend]= useState(false);
 
     useEffect(()=>{
         onload()
         async function onload(){
             try{
-                let data = await getBookData(bookname!);
+                let data = await getBookData(bookname!,token);
                 if (data!=='error'){
-                    setbookdata(data);
+                    dispatch(setInfoState(data))
                     setloadend(true);
                 }else{
                     navigate('/404page');
@@ -44,7 +31,7 @@ export function BookInfoPage(){
                 navigate('/404page')
             }
         }
-    },[status]);
+    },[token]);
 
     return <div className="info-page">
         {loadend?

@@ -3,6 +3,7 @@ import { SetLikeOnBackend } from "../../api/bookActions/setLikeOnBackend";
 
 
 export type BookCardtype = {
+    _id:string,
     href:string;
     img:string;
     authtor:string;

@@ -3,10 +3,12 @@ import { uploadGoogleFile, deleteRemoveList } from './google/DriveUtils.js';
 import { 
     addBookToDB,
     removeBookOnDB,
-    findBooksBySearch,
     findBookByHref,
     findBookById,
     updateBookToDB,
+    findBooksDataWithParams,
+    findBookData,
+    findBookMapa,
 } from './mongoDb/Books.js';
 
 import { MongoColl } from './mongoDb/MongoDB.js';
@@ -37,7 +39,6 @@ export {
     addBookToDB,
     removeBookOnDB,
     getJsonBody,
-    findBooksBySearch,
     filterBooksBySearch,
     createFileName,
     findBookByHref,
@@ -47,7 +48,11 @@ export {
     MongoColl,
     addUser,
     findUserByName,
+    
     updateBookToDB,
+    findBooksDataWithParams,
+    findBookData,
+    findBookMapa,
 
     addLikeBook,
     cancelLikeBook,

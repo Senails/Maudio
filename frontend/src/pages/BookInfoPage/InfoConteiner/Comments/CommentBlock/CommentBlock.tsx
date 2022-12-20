@@ -1,12 +1,12 @@
-import { CommentType } from '../../../../../redux/slices/BookInfoSlice';
+import { FetchComment } from '../../../../../api/getbookdata';
 import { DateToString } from '../../../../../Utils/other/DateToString';
 import './style.scss';
 
-export function CommentBlock({text,user,date}:CommentType){
+export function CommentBlock({text,username,date}:FetchComment){
 
     return <div className="comment-comp">
         <div className='headline'>
-            <span>{user}</span>
+            <span>{username}</span>
             <span>{DateToString(date)}</span>
             <span>удалить</span>
         </div>

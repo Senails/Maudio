@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import {findUserByID} from './Users.js';
 import {MongoColl,nameDB} from './MongoDB.js';
 import {filterBooksBySearch} from '../reimport.js';
 
@@ -124,23 +125,6 @@ export async function removeBookOnDB(href){
         })
     })
 }
-export async function findBooksBySearch(search){
-    return new Promise((res,rej)=>{
-        MongoColl(async (mongo)=>{
-            try{
-                let db = mongo.db(nameDB);
-                let coll = db.collection('books');
-
-                let arraybooks = await coll.find().toArray();
-                let needbooks = filterBooksBySearch(arraybooks,search);
-        
-                res(needbooks);
-            }catch{
-                res('error');
-            }
-        })
-    })
-}
 export async function findBookByHref(href){
     return new Promise((res,rej)=>{
         MongoColl(async (mongo)=>{
@@ -172,6 +156,130 @@ export async function findBookById(id){
     })
 }
 
+
+export async function findBookMapa(href, userID){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            let book = await findBookByHref(href);
+            if (!book) return res('error');
+            let bookid = book._id.toString();
+
+            if (!userID){
+                res(book);
+                return;
+            }
+
+            let user = await findUserByID(userID);
+           
+            if (user.progressArray[bookid]){
+                book.progress=user.progressArray[bookid];
+            }
+
+            res(book)
+        })
+    })
+}
+export async function findBookData(href, userID){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            let db = mongo.db(nameDB);
+            let collBook = db.collection('books');
+
+            let book = await collBook.findOne({href:href});
+            if (!book) return res('error');
+            delete book.collections;
+
+            let bookid = book._id.toString();
+
+            if (!userID){
+                res(book);
+                return;
+            }
+
+            let user = await findUserByID(userID);
+
+            if (user.Likelist[bookid]){
+                book.like = true;
+            }
+            if (user.cansedArray[bookid]){
+                book.userReiting = user.cansedArray[bookid];
+            }
+            if (user.progressArray[bookid]){
+                book.progress = user.progressArray[bookid];
+            }
+           
+            res(book)
+        })
+    })
+}
+export async function findBooksDataWithParams(sorting , filter , search, userID){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            let db = mongo.db(nameDB);
+            let coll = db.collection('books');
+
+            //сортировка
+            let sortObj = {modified:-1};
+            if (sorting==='по популярности'){
+                sortObj = {
+                    popular:-1,
+                    modified:-1
+                };
+            }
+            if (sorting==='по рейтингу'){
+                sortObj = {
+                    Reiting:-1,
+                    modified:-1
+                };
+            }
+            let proj = {
+                href: 1,
+                name:1,
+                authtorname: 1,
+                image:1,
+                Reiting:1,
+            };
+            let arraybooks = await coll.find().sort(sortObj).project(proj).toArray();
+            if (!arraybooks) return res('error');
+            //фильтр по названию
+            if (search!==''){
+                arraybooks = filterBooksBySearch(arraybooks,search);
+            }
+            //отдать если нет токена
+            if (!userID){
+                res(arraybooks);
+                return;
+            }
+            //добавить данные юзера
+            let user = await findUserByID(userID);
+            arraybooks = arraybooks.map((book)=>{
+                let bookID = book._id.toString();
+                if (user.Likelist[bookID]){
+                    book.like=true;
+                }
+                if (user.progressArray[bookID]){
+                    book.progress=user.progressArray[bookID];
+                }
+                return book;
+            })
+            //фильтрация если нужна
+            if (filter && filter!=='все'){
+                arraybooks = arraybooks.filter((book)=>{
+                    if (filter==='любимые' && book.like){
+                        return true
+                    }
+                    if (filter==='уже слушал' && book.progress){
+                        return true
+                    }
+
+                    return false;
+                })
+            }
+            //end
+            res(arraybooks)
+        })
+    })
+}
 
 ////////////
 async function checkBookOnDB(hrefName){

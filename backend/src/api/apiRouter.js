@@ -1,6 +1,6 @@
 import express from 'express';
 import { saveBook, deleteBook, editBook, cancelEdit, sendFileToGoogle} from './editHandlers.js';
-import { getBookData,getBookMap,getBooksData} from './getDataHandlers.js';
+import { getBookData,getBookMap,getBooksDataPost} from './getDataHandlers.js';
 import { login, auth, checkToken, registration, checkRegistrData } from './authHandlers.js';
 import { setLike, setReiting, setUserProgress, addComment, removeComment } from './bookActionsHandlers.js';
 import { getJsonBody } from './../utils/reimport.js';
@@ -10,9 +10,7 @@ export const apiRouter = express.Router();
 // get data
 apiRouter.get('/getbookdata/:href',getBookData);
 apiRouter.get('/getbookmap/:href',getBookMap);
-apiRouter.get('/getbooks/:search',getBooksData);
-apiRouter.get('/getbooks',getBooksData);
-
+apiRouter.post('/getbooks',getJsonBody,getBooksDataPost);
 
 // edit
 apiRouter.post('/sendfile',checkToken, sendFileToGoogle);

@@ -1,15 +1,19 @@
-type fetchImage = {
+export type fetchImage = {
     url: string,
     googleid:string,
 }
 
 export type BookDataFetch = {
+    _id:string,
     href:string,
     name:string,
     authtorname:string,
-    bookcount:number,
     image:fetchImage,
-    description:string,
+    bookcount?:number,
+    description?:string,
+    Reiting?:numer,
+    like?:boolean,
+    progress?:number,
 }
 
 export type Fetchbookpart={

@@ -2,30 +2,47 @@ import { BookCardtype } from "../redux/slices/searchSlice";
 import { BookDataFetch } from "../types/api";
 import { adress } from "./apiAdress";
 
-export async function getArrayBooks(param:string,sortingParam:string,filterParam:string):Promise<BookCardtype[]|'error'>{
-    let apiadress=adress+`/api/getbooks/${param}`;
+export async function getArrayBooks(param:string,sortingParam:string,filterParam:string,token:string):Promise<BookCardtype[]|'error'>{
+    let apiadress=adress+`/api/getbooks`;
     try{
-        let res = await fetch(apiadress);
+
+        let reqBody = {
+            sorting: sortingParam,
+            search: param,
+            filter: filterParam
+        }
+
+        let res = await fetch(apiadress,{
+            method: 'POST',
+            headers: {
+              'Authorization': token,
+            },
+            body: JSON.stringify(reqBody)
+          });
         let arrayCard = await res.json();
 
         let needArray: BookCardtype[] = arrayCard
         .map((bookcard:BookDataFetch)=>{
             let {
+                _id,
                 authtorname,
                 image,
-                bookcount,
-                description,
                 href,
                 name,
+                Reiting,
+                like,
+                progress,
              } = bookcard;
 
             return {
+                _id,
                 href,
                 img: image.url,
-                bookcount,
                 authtor:authtorname,
                 name: name,
-                description,
+                reiting:Reiting,
+                like,
+                progress,
             }
         })
 

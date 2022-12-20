@@ -1,48 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type CommentType = {
-    user:string;
-    date: number;
-    text:string;
-}
+import { BookData, FetchComment } from "../../api/getbookdata";
 
 
 type BookInfoState = {
+    _id:string;
     name:string;
     authtor:string;
     reiting:number;
     description:string;
     image:string;
     bookcount:number;
-    comments:CommentType[];
-    userreiting:number;
+
+    comments?:FetchComment[];
+    userreiting?:number;
     progress?:number;
     like?:boolean;
 }
 
-
 let initialState:BookInfoState = {
-    name:'Хроники убийцы короля',
-    authtor:'Патрик Ротфус',
-    reiting: 4.5,
+    _id:'',
+    name:'',
+    authtor:'',
+    reiting: 0,
     userreiting:0,
-    description:`Тяга к аферам и авантюрам в комплекте с наивысшим воровским искусством, соединенные в одном флаконе, способны перевернуть вверх дном и королевский дворец вкупе со всеми его обитателями, и столицу с ее жителями, и даже целое государство вместе с его соседями. И в Гиперийском царстве есть такой субъект — молодой, энергичный, сообразительный, деятельный, благородный и по-своему правдивый… аферист. Известный Арканарский вор. Не зря такое звание имеет только он один: равных ему попросту не существует и он всегда способен это доказать любому — и власть имущим, и известным магам, и простому человеку… А еще кличут его Графом, даже не думая, что это — его настоящий родовой титул. Хотя, об этом не ведает и его приемный отец, и он — ловец удачи…`,
+    description:``,
     image:'',
     bookcount:12,
-    comments:[
-        {
-            user:'Senails',
-            date: Date.now(),
-            text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
-        },
-        {
-            user:'Senails',
-            date: Date.now(),
-            text:'да мне пофиг на все ваши комментарии мне пофиг и вобще не пишите их я не для вас их делал мелкие засранцы',
-        }
-    ],
+    comments:[],
     like: false,
-    progress: 33.5,
+    progress: 0,
 }
 
 export const BookInfoSlice = createSlice({
@@ -55,11 +41,40 @@ export const BookInfoSlice = createSlice({
         setLike(state,action: PayloadAction<boolean>){
             state.like=action.payload;
         },
-        setInfoState(){
+        setInfoState(state,action:PayloadAction<BookData>){
+            let {
+                _id,
+                Reiting,
+                name,
+                authtorname,
+                bookcount,
+                comments,
+                description,
+                image,
+                like,
+                progress,
+                userReiting,
+            } = action.payload;
 
+            state._id=_id;
+            state.name=name;
+            state.authtor=authtorname;
+            state.bookcount=bookcount;
+            state.description=description;
+            state.image=image.url;
+            state.reiting=Reiting;
+
+            state.comments=comments;
+            state.like=like;
+            state.progress=progress;
+            state.userreiting=userReiting;
         },
-        addComment(state,action:PayloadAction<CommentType>){
-            state.comments.push(action.payload);
+        addComment(state,action:PayloadAction<FetchComment>){
+            if (state.comments){
+                state.comments.push(action.payload);
+            }else{
+                state.comments=[action.payload]
+            }
         },
     }
 })

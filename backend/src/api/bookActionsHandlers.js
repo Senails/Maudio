@@ -12,9 +12,9 @@ import {secretJWT} from './authHandlers.js';
 
 export async function setLike(req,res){
     let token = req.headers.authorization;
+    let userID = jwt.decode(token, secretJWT).id;
 
     let {bookid, like} = req.body;
-    let userID = jwt.decode(token, secretJWT).id;
 
     let result;
     if (like){

@@ -1,23 +1,53 @@
-import {findBookByHref,findBooksBySearch,bookMapToData} from './../utils/reimport.js';
+import jwt from 'jsonwebtoken';
+import {secretJWT} from './authHandlers.js';
+
+import {findBookMapa,findBooksDataWithParams,findBookData} from './../utils/reimport.js';
 
 export async function getBookData(req,res){
     let {href} = req.params;
-    let book = await findBookByHref(href);
-    book = bookMapToData(book);
-    res.json(book);
+
+    let token = req.headers.authorization;
+    let userID = '';
+    try{
+        if (token) userID = jwt.decode(token, secretJWT).id;
+    }catch{}
+
+    try{
+        let book = await findBookData(href,userID);
+        res.json(book);
+    }catch{
+        res.send('error');
+    }
 }
 export async function getBookMap(req,res){
     let {href} = req.params;
-    let book = await findBookByHref(href);
 
-    res.json(book);
+    let token = req.headers.authorization;
+    let userID = '';
+    try{
+        if (token) userID = jwt.decode(token, secretJWT).id;
+    }catch{}
+
+    try{
+        let book = await findBookMapa(href,userID);
+        res.json(book);
+    }catch{
+        res.send('error');
+    }
 }
-export async function getBooksData(req,res){
-    let {search} = req.params;
-    let search1=''
-    if (search) search1=search;
-    let books = await findBooksBySearch(search1);
+export async function getBooksDataPost(req,res){
+    let token = req.headers.authorization;
+    let userID = '';
+    try{
+        if (token) userID = jwt.decode(token, secretJWT).id;
+    }catch{}
 
-    books=books.map((bookcard)=>bookMapToData(bookcard));
-    res.json(books);
+    let {sorting , filter , search} = req.body;
+
+    try{
+        let books = await findBooksDataWithParams(sorting , filter , search, userID);
+        res.json(books);
+    }catch{
+        res.send('error');
+    }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { addComment, CommentType } from "../../../../../redux/slices/BookInfoSlice";
+import { FetchComment } from "../../../../../api/getbookdata";
+import { addComment } from "../../../../../redux/slices/BookInfoSlice";
 import { showhidemodal } from "../../../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { showMessage } from "../../../../../Utils/other/showMessage/showMessahe";
@@ -15,8 +16,8 @@ export function CommentInput(){
         if (!isAuth) return dispatch(showhidemodal(true));
         if (comment.length<10) return showMessage(event,'напишите хотябы 10 символов');
 
-        let payload: CommentType = {
-            user:userName,
+        let payload: FetchComment = {
+            username:userName,
             date:Date.now(),
             text:comment,
         }

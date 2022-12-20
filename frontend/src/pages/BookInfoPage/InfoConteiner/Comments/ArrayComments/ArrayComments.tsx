@@ -7,9 +7,9 @@ export function ArrayComments(){
     let comments = useAppSelector((state)=>state.bookinfo.comments);
 
 
-    let commsBloks = comments.map((comm,i)=>{
+    let commsBloks = comments && comments.map((comm,i)=>{
         return <CommentBlock
-            user={comm.user}
+            username={comm.username}
             date={comm.date}
             text={comm.text}
 
@@ -18,7 +18,7 @@ export function ArrayComments(){
     })
 
     return <div className="array-comments">
-        {comments.length>0?<div className='space'></div>:<></>}
-        {commsBloks}
+        {(comments && comments.length>0)?<div className='space'></div>:<></>}
+        {commsBloks?.reverse()}
     </div>
 }

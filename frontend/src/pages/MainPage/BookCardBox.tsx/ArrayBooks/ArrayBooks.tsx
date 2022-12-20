@@ -14,14 +14,14 @@ export function ArrauBooks(){
     let searchString= useAppSelector((state)=>state.search.searchString);
     let sortingParam= useAppSelector((state)=>state.search.sortingParam);
     let filterParam= useAppSelector((state)=>state.search.filterParam);
-    let isAuth= useAppSelector((state)=>state.user.isAuth);
+    let token= useAppSelector((state)=>state.user.token);
     
     let[loadend,setloadend]= useState(false);
     useEffect(()=>{
         timeControl(searchbooks);
         async function searchbooks(){
             setloadend(false);
-            let array = await getArrayBooks(searchString,sortingParam,filterParam);
+            let array = await getArrayBooks(searchString,sortingParam,filterParam,token);
             if (array!=='error'){
                 setloadend(true);
                 dispatch(setArrayCard(array));
@@ -30,7 +30,7 @@ export function ArrauBooks(){
                 dispatch(setArrayCard([]));
             }
         }
-    },[searchString,sortingParam,filterParam,isAuth]);
+    },[searchString,sortingParam,filterParam,token]);
 
 
     let arrayCard = useAppSelector((state)=>state.search.arrayCard);

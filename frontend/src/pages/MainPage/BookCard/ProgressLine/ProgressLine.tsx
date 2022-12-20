@@ -3,7 +3,7 @@ type props = {
 }
 
 export function ProgressLine({progress}:props){
-    let num = progress.toFixed();
+    let num = (progress*100).toFixed();
     return <div className='propress-line'>
         <span>{num}%</span>
         <div className='light-line' style={{width:`${num}%`}}></div>

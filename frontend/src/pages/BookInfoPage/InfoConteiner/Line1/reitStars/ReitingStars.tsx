@@ -43,7 +43,7 @@ export function ReitingStarts(){
             if (hoverreiting>=num) return true;
             return false;
         }
-        if (userreiting>=num) return true;
+        if (userreiting && userreiting>=num) return true;
         return false;
     }
 
