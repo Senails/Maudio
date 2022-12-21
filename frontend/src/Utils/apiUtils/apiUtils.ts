@@ -156,10 +156,13 @@ export function bookMapToSeria(map:BookMapFetch):Seria{
     })
 
     let seria: Seria = {
+        _id: map._id!,
         name:map.name,
         description:map.description,
         authtor:map.authtorname,
         collections: colls,
+
+        progress: map.progress,
     }
     return seria;
 }

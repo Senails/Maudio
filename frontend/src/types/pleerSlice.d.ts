@@ -20,10 +20,13 @@ export type Collection = {
 }
 
 export type Seria = {
+    _id:string,
     name: string,
     description: string,
     authtor: string,
     collections: Collection[],
+
+    progress?:number,
 }
 
 export type pleerState={

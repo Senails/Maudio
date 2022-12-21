@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FetchComment } from "../../../../../api/getbookdata";
-import { addComment } from "../../../../../redux/slices/BookInfoSlice";
+import { userAddComment } from "../../../../../redux/slices/BookInfoSlice";
 import { showhidemodal } from "../../../../../redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { showMessage } from "../../../../../Utils/other/showMessage/showMessahe";
@@ -8,6 +8,7 @@ import { showMessage } from "../../../../../Utils/other/showMessage/showMessahe"
 export function CommentInput(){
     let isAuth = useAppSelector((state)=>state.user.isAuth);
     let userName = useAppSelector((state)=>state.user.userName);
+    let _id = useAppSelector((state)=>state.bookinfo._id);
     let dispatch = useAppDispatch();
 
     let [comment,setcomment]=useState('');
@@ -21,8 +22,8 @@ export function CommentInput(){
             date:Date.now(),
             text:comment,
         }
-        setcomment('');
-        dispatch(addComment(payload))
+        setcomment('');//
+        dispatch(userAddComment({_id,comm:payload}))
     }
 
     return <div className="input">

@@ -171,7 +171,7 @@ export async function findBookMapa(href, userID){
 
             let user = await findUserByID(userID);
            
-            if (user.progressArray[bookid]){
+            if (user.progressArray && user.progressArray[bookid]){
                 book.progress=user.progressArray[bookid];
             }
 
@@ -198,13 +198,13 @@ export async function findBookData(href, userID){
 
             let user = await findUserByID(userID);
 
-            if (user.Likelist[bookid]){
+            if (user.Likelist && user.Likelist[bookid]){
                 book.like = true;
             }
-            if (user.cansedArray[bookid]){
+            if (user.cansedArray && user.cansedArray[bookid]){
                 book.userReiting = user.cansedArray[bookid];
             }
-            if (user.progressArray[bookid]){
+            if (user.progressArray && user.progressArray[bookid]){
                 book.progress = user.progressArray[bookid];
             }
            
@@ -254,10 +254,10 @@ export async function findBooksDataWithParams(sorting , filter , search, userID)
             let user = await findUserByID(userID);
             arraybooks = arraybooks.map((book)=>{
                 let bookID = book._id.toString();
-                if (user.Likelist[bookID]){
+                if (user.Likelist && user.Likelist[bookID]){
                     book.like=true;
                 }
-                if (user.progressArray[bookID]){
+                if (user.progressArray && user.progressArray[bookID]){
                     book.progress=user.progressArray[bookID];
                 }
                 return book;

@@ -1,7 +1,29 @@
 import { store } from "../../redux/store";
+import { adress } from "../apiAdress";
+import { FetchComment } from "../getbookdata";
 
-export async function saveComment(href:string){
+export async function saveComment(_id:string,comm:FetchComment){
     let token = store.getState().user.token;
 
-    // написать код лайка для href
+    let apiadress=adress+`/api/setAddComment`;
+    try{
+
+        let reqBody = {
+            bookid: _id,
+            commentData: comm
+        }
+
+        let res = await fetch(apiadress,{
+            method: 'POST',
+            headers: {
+              'Authorization': token,
+            },
+            body: JSON.stringify(reqBody)
+          });
+        let arrayCard = await res.json();
+
+        return arrayCard;
+    }catch{
+        return "error";
+    }
 }

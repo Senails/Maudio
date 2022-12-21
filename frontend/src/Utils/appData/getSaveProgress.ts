@@ -41,15 +41,19 @@ export async function getProgress() {
 
   let data = await getBookMap(href!);
   if (data==='error')return;
-    let seriaLenght = data.collections.reduce<number>((accumulator,coll)=>accumulator+coll.lenght,0);
-    if (alllenght>seriaLenght) return;
-    if (activeColl>data.collections.length) return;
-    if (activeBook>data.collections[activeColl].books.length) return;
-    if (activeLenght>data.collections[activeColl].books[activeBook].booklength) return;
 
-    dispatch(setAllState({seria:data, hrefparam: href}));
-    dispatch(changebook({coll:activeColl,book:activeBook}));
-    dispatch(UserSelectLenght(activeLenght));
-    dispatch(setshowmini(true));
+  console.log(data);
+
+
+  let seriaLenght = data.collections.reduce<number>((accumulator,coll)=>accumulator+coll.lenght,0);
+  if (alllenght>seriaLenght) return;
+  if (activeColl>data.collections.length) return;
+  if (activeBook>data.collections[activeColl].books.length) return;
+  if (activeLenght>data.collections[activeColl].books[activeBook].booklength) return;
+
+  dispatch(setAllState({seria:data, hrefparam: href}));
+  dispatch(changebook({coll:activeColl,book:activeBook}));
+  dispatch(UserSelectLenght(activeLenght));
+  dispatch(setshowmini(true));
   return 'end';
 }

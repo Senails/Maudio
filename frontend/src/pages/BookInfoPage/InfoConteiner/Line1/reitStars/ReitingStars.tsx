@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { setUserReiting } from '../../../../../redux/slices/BookInfoSlice';
+import { setUserReiting, userSelectReiting } from '../../../../../redux/slices/BookInfoSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../redux/store';
 import { showMessage } from '../../../../../Utils/other/showMessage/showMessahe';
 import './style.scss';
@@ -7,6 +7,7 @@ import './style.scss';
 
 
 export function ReitingStarts(){
+    let _id = useAppSelector((state)=>state.bookinfo._id);
     let reiting = useAppSelector((state)=>state.bookinfo.reiting);
     let userreiting = useAppSelector((state)=>state.bookinfo.userreiting);
     let isAuth = useAppSelector((state)=>state.user.isAuth);
@@ -24,7 +25,7 @@ export function ReitingStarts(){
         let {left} = event.currentTarget.getBoundingClientRect();
         let X = event.clientX;
         let cense= Math.ceil((X-left)/event.currentTarget.clientWidth*5);
-        dispatch(setUserReiting(cense));
+        dispatch(userSelectReiting({_id,reit:cense}));
     }
     function mouseleave(){
         sethover(false);

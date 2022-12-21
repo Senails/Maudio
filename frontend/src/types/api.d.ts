@@ -48,4 +48,7 @@ export type BookMapFetch = {
     image:fetchImage,
     description:string,
     collections: FetchCollection[]
+
+    _id?:string,
+    progress?:number,
 }

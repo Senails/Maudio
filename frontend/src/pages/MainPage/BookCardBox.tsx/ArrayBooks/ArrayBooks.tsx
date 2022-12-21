@@ -39,6 +39,7 @@ export function ArrauBooks(){
         <div className="array-card-conteiner">
             {arrayCard.map((book:BookCardtype,index:number)=>{
             return <BookCard 
+            _id={book._id}
             href={book.href}
             img={book.img}
             authtor={book.authtor} 

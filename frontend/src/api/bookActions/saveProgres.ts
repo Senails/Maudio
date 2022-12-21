@@ -1,7 +1,21 @@
-import { store } from "../../redux/store";
+import { adress } from "../apiAdress";
 
-export async function saveProgres(href:string){
-    let token = store.getState().user.token;
+export async function saveProgres(bookid:string,token:string,progress:number){
+    let apiadress=adress+`/api/setUserProgress`;
+    try{
+        let reqBody = {
+            bookid: bookid,
+            progress: progress
+        }
 
-    // написать код лайка для href
+        let res = await fetch(apiadress,{
+            method: 'POST',
+            headers: {
+              'Authorization': token,
+            },
+            body: JSON.stringify(reqBody)
+        });
+    }catch{
+        return "error";
+    }
 }

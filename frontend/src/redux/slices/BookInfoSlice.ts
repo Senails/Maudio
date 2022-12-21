@@ -1,4 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { removeCommentOnBackend } from "../../api/bookActions/removeComment";
+import { saveComment } from "../../api/bookActions/saveComment";
+import { SetLikeOnBackend } from "../../api/bookActions/setLikeOnBackend";
+import { SetCenseOnBackend } from "../../api/bookActions/setReiting";
 import { BookData, FetchComment } from "../../api/getbookdata";
 
 
@@ -76,6 +80,18 @@ export const BookInfoSlice = createSlice({
                 state.comments=[action.payload]
             }
         },
+        removeComment(state,action:PayloadAction<FetchComment>){
+            let selectComment = action.payload;
+            if (state.comments){
+                state.comments= state.comments.filter((comment)=>{
+                    if (comment.username===selectComment.username 
+                        && comment.date === selectComment.date){
+                        return false;
+                    }
+                    return true;
+                })
+            }
+        },
     }
 })
 
@@ -85,6 +101,50 @@ export const {
     setLike,
     setInfoState,
     addComment,
+    removeComment,
 } = BookInfoSlice.actions;
 
 export default BookInfoSlice.reducer;
+
+export const userSetLike = createAsyncThunk(
+    'bookinfo/userSetLike',
+    async (params:{_id:string,like:boolean},thunkApi)=>{
+        let {dispatch} = thunkApi;
+        let {_id,like} = params;
+
+        dispatch(setLike(like));
+        SetLikeOnBackend(_id,like);
+    }
+)
+export const userSelectReiting = createAsyncThunk(
+    'bookinfo/userSelectReiting',
+    async (params:{_id:string,reit:number},thunkApi)=>{
+        let {dispatch} = thunkApi;
+        let {_id,reit} = params;
+
+        dispatch(setUserReiting(reit));
+        SetCenseOnBackend(_id,reit);
+    }
+)
+
+
+export const userAddComment = createAsyncThunk(
+    'bookinfo/userAddComment',
+    async (params:{_id:string,comm:FetchComment},thunkApi)=>{
+        let {dispatch} = thunkApi;
+        let {_id,comm} = params;
+
+        dispatch(addComment(comm));
+        saveComment(_id,comm);
+    }
+)
+export const userRemoveComment = createAsyncThunk(
+    'bookinfo/userRemoveComment',
+    async (params:{_id:string,comm:FetchComment} , thunkApi)=>{
+        let {dispatch} = thunkApi;
+        let {_id,comm} = params;
+
+        dispatch(removeComment(comm));
+        removeCommentOnBackend(_id,comm);
+    }
+)

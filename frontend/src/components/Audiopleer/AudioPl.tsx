@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { ResolveError, setlenght, setnextFragment, setplay} from "../../redux/slices/pleerSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store"
+import { saveUserProgress } from "../../Utils/apiUtils/saveUserProgress";
 import { getTimeControl3 } from "../../Utils/other/timecontrol";
 
 let timecontrol = getTimeControl3(5);
 
 export default function AudioPl(){
+    let isAuth = useAppSelector((state)=>state.user.isAuth);
+
     let playpause = useAppSelector((state)=>state.pleer.playpause);
     let volume = useAppSelector((state)=>state.pleer.volume);
     let pleerlenght = useAppSelector((state)=>state.pleer.pleerlenght);
@@ -23,9 +26,13 @@ export default function AudioPl(){
         if (play!=='play'){
             dispatch(setplay('play'));
         }
+
+        if (isAuth) saveUserProgress();
     }
     function ontimeupdate(event:React.BaseSyntheticEvent){
-        dispatch(setlenght(event.currentTarget.currentTime))
+        dispatch(setlenght(event.currentTarget.currentTime));
+
+        if (isAuth) saveUserProgress();
     }
 
     useEffect(()=>{

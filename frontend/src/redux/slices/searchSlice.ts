@@ -70,11 +70,11 @@ export default searchSlise.reducer
 
 export const userlike = createAsyncThunk(
     'search/setlike',
-    async (params:{href:string,num:number,like:boolean},thunkApi)=>{
+    async (params:{_id:string,num:number,like:boolean},thunkApi)=>{
         let {dispatch} = thunkApi;
-        let {href,num,like} = params;
+        let {_id,num,like} = params;
 
         dispatch(setlike({num,like}));
-        SetLikeOnBackend(href);
+        SetLikeOnBackend(_id,like);
     }
 )

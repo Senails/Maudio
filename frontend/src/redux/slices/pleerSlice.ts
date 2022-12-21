@@ -10,6 +10,7 @@ import { SmallNumber } from '../../Utils/forPleer/SmallNumber';
 import { sleep } from '../../Utils/other/sleep';
 
 let initialSeria: Seria = {
+    _id:'',
     name:'',
     description:'',
     authtor:'',
@@ -37,6 +38,7 @@ let initialSeria: Seria = {
 }
 
 let initialState:pleerState = {
+
     hrefparam:'',
     seria:initialSeria,
     activecollection : 0,

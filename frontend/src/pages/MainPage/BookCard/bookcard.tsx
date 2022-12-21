@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { userlike } from '../../../redux/slices/searchSlice';
  
 type props = {
+    _id:string;
     href:string;
     img:string;
     authtor:string;
@@ -20,7 +21,7 @@ type props = {
 }
 
 export function BookCard(propsParam:props){
-    let {img,authtor,name,progress,href,reit,like,num} = propsParam;
+    let {img,authtor,name,progress,href,reit,like,num,_id} = propsParam;
 
     let navigate = useNavigate();
     let dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export function BookCard(propsParam:props){
     function onheartClick(event:React.MouseEvent){
         event.stopPropagation();
         if (isAuth){
-            dispatch(userlike({href,num,like:!like}));
+            dispatch(userlike({_id,num,like:!like}));
         }else{
             showMessage(event,'авторизуйтесь');
         }
