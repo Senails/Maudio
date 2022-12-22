@@ -1,5 +1,7 @@
 import { saveProgres } from "../../api/bookActions/saveProgres";
-import { store } from "../../redux/store";
+import { changebook, UserSelectLenght } from "../../redux/slices/pleerSlice";
+import { dispatch, store } from "../../redux/store";
+import { Collection } from "../../types/pleerSlice";
 import { getTimeControl } from "../other/timecontrol";
 
 let TimeControl = getTimeControl(10000);
@@ -9,8 +11,7 @@ export function saveUserProgress(){
         let state = store.getState();
         let colls = state.pleer.seria.collections;
 
-        let allLenght = colls
-        .reduce((sum, coll) => sum + coll.lenght,0);
+        let allLenght = colls.reduce((sum, coll) => sum + coll.lenght,0);
 
         let sumlenghtnow=0;
         colls.forEach((coll,i)=>{
@@ -32,4 +33,54 @@ export function saveUserProgress(){
 
         saveProgres(bookid,token,progress);
     })
+}
+
+export function setUserProgress(progress:number){
+    let state = store.getState();
+    let colls = state.pleer.seria.collections;
+
+    let {CollNum,BookNum,lenght} = findPosition(colls,progress);
+
+    dispatch(changebook({coll:CollNum,book:BookNum}));
+    dispatch(UserSelectLenght(lenght));
+}
+
+function findPosition(colls:Collection[],progress:number):{CollNum:number,BookNum:number,lenght:number}
+{
+    let allLenght = colls.reduce((sum, coll) => sum + coll.lenght,0);
+    let needlenght = allLenght*progress;
+
+    let collnum = 0;
+    let accum1 = 0;
+
+    while (true){
+        if (needlenght<(colls[collnum].lenght+accum1)){
+            break;
+        }
+        accum1+=colls[collnum].lenght;
+        collnum++;
+    }
+
+    let lenghtInColl = needlenght-accum1;
+    let books = colls[collnum].books
+
+    let booknum = 0;
+    let accum2 = 0;
+
+    while (true){
+        if (lenghtInColl<(books[booknum].booklength+accum2)){
+            break;
+        }
+        accum2+=books[booknum].booklength;
+        booknum++;
+    }
+
+    let lenghtInBook = lenghtInColl-accum2;
+
+
+    return {
+        CollNum:collnum,
+        BookNum:booknum,
+        lenght:lenghtInBook,
+    }
 }

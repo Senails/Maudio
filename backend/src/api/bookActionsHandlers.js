@@ -12,6 +12,7 @@ import {secretJWT} from './authHandlers.js';
 
 export async function setLike(req,res){
     let token = req.headers.authorization;
+    if (!token) return res.send();
     let userID = jwt.decode(token, secretJWT).id;
 
     let {bookid, like} = req.body;
@@ -27,6 +28,7 @@ export async function setLike(req,res){
 }
 export async function setReiting(req,res){
     let token = req.headers.authorization;
+    if (!token) return res.send();
 
     let {bookid, reiting} = req.body;
     let userID = jwt.decode(token, secretJWT).id;
@@ -51,6 +53,7 @@ export async function removeComment(req,res){
 }
 export async function setUserProgress(req,res){
     let token = req.headers.authorization;
+    if (!token) return res.send();
 
     let {bookid, progress} = req.body;
     let userID = jwt.decode(token, secretJWT).id;

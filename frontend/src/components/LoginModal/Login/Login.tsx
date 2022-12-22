@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUp } from '../../../api/auth/loginUp';
 import { loginUser, showhidemodal } from '../../../redux/slices/userSlice';
+import { setLenghtOnLogin } from '../../../Utils/apiUtils/setLenghOnLogin';
+
 import { Loader } from '../../Loader/Loader';
 import { ExitModal } from '../exitmodal/ExitModal';
 import { LoginHeader } from '../Header/Header';
@@ -33,6 +35,7 @@ export function Login({changeModal}:{changeModal:()=>void}){
         }else{
             dispatch(loginUser(res));
             dispatch(showhidemodal(false));
+            setLenghtOnLogin();
         }
         setloadend(true);
     }

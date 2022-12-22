@@ -4,6 +4,7 @@ import { getBookMap } from "../../api/getbookmap";
 import { Loader } from "../../components/Loader/Loader";
 import { setAllState } from "../../redux/slices/pleerSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { setUserProgress } from "../../Utils/apiUtils/saveUserProgress";
 import { Book } from "./book/Book";
 import LeftPanel from "./leftPanel/LeftPanel";
 import { PleerUI } from "./PleerUI/Pleer";
@@ -15,7 +16,7 @@ export default function AudioPage(){
 
     let navigate = useNavigate();
     let {bookname} = useParams();
-    let[loadend,setloadend]= useState(false);
+    let [loadend,setloadend]= useState(false);
 
     useEffect(()=>{
         onload()
@@ -30,7 +31,11 @@ export default function AudioPage(){
             let data = await getBookMap(bookname!);
             if (data!=='error'){
                 dispatch(setAllState({seria:data, hrefparam: bookname!}));
+                if (data.progress){
+                    setUserProgress(data.progress);
+                }
                 setloadend(true);
+                return;
             }else{
                 navigate('/404page');
             }

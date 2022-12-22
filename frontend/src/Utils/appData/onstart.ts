@@ -1,10 +1,10 @@
-import { getProgress, saveProgress } from "./getSaveProgress";
+import { getProgress, SetUnloadSaveProgress } from "./getSaveProgress";
 import { tryauth } from "./GetSaveToken";
 
 export async function onOpen(){
     let arr = [
       tryauth(),
-      saveProgress(),
+      SetUnloadSaveProgress(),
       getProgress(),
     ];
     await Promise.all(arr);

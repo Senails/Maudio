@@ -120,7 +120,8 @@ export const pleerSlice = createSlice({
             let {seria, hrefparam} = action.payload;
 
             if (hrefparam===state.hrefparam) return;
-
+            
+            
             state.hrefparam=hrefparam;
             state.seria=seria;
             state.activecollection=0;

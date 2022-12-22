@@ -1,6 +1,7 @@
 import { getBookMap } from "../../api/getbookmap";
 import { changebook, setAllState, setshowmini, UserSelectLenght } from "../../redux/slices/pleerSlice";
 import { dispatch, store } from "../../redux/store";
+import { setUserProgress } from "../apiUtils/saveUserProgress";
 
 let progresskey = '3sadh1dgsg6fgd';
 
@@ -12,24 +13,28 @@ type memType = {
   alllenght:number;
 }
 
-export async function saveProgress() {
+export async function SetUnloadSaveProgress() {
   window.addEventListener('beforeunload',beforeunload);
   function beforeunload(){
-    let pleerState = store.getState().pleer;
-    if (pleerState.hrefparam==='')return;
-
-    let memoBook:memType = {
-      href:pleerState.hrefparam,
-      activeColl:pleerState.activecollection,
-      activeBook:pleerState.activebook,
-      activeLenght:pleerState.lenght,
-      alllenght: pleerState.seria.collections
-      .reduce<number>((accumulator,coll)=>accumulator+coll.lenght,0),
-    }
-    let json = JSON.stringify(memoBook);
-    localStorage.setItem(progresskey,json);
+    saveProgressLastBook();
   }
   return 'end';
+}
+
+export function saveProgressLastBook() {
+  let pleerState = store.getState().pleer;
+  if (pleerState.hrefparam==='')return;
+
+  let memoBook:memType = {
+    href:pleerState.hrefparam,
+    activeColl:pleerState.activecollection,
+    activeBook:pleerState.activebook,
+    activeLenght:pleerState.lenght,
+    alllenght: pleerState.seria.collections
+    .reduce<number>((accumulator,coll)=>accumulator+coll.lenght,0),
+  }
+  let json = JSON.stringify(memoBook);
+  localStorage.setItem(progresskey,json);
 }
 
 export async function getProgress() {
@@ -42,8 +47,11 @@ export async function getProgress() {
   let data = await getBookMap(href!);
   if (data==='error')return;
 
-  console.log(data);
-
+  if (data.progress){
+    dispatch(setAllState({seria:data, hrefparam: href}));
+    setUserProgress(data.progress);
+    return;
+  }
 
   let seriaLenght = data.collections.reduce<number>((accumulator,coll)=>accumulator+coll.lenght,0);
   if (alllenght>seriaLenght) return;
