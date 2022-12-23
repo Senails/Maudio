@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { registration } from "../../../api/auth/registration";
-import { loginUser, showhidemodal } from "../../../redux/slices/userSlice";
-import { useAppDispatch } from "../../../redux/store";
+import { loginUser, setErrorMessage, setLoading, showhidemodal } from "../../../redux/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { ValidRegist } from "../../../Utils/apiUtils/ValidRegist";
+import { sleep } from "../../../Utils/other/sleep";
 import { Loader } from "../../Loader/Loader";
 import { ExitModal } from "../exitmodal/ExitModal";
 import { LoginHeader } from "../Header/Header";
@@ -10,41 +11,45 @@ import { Input } from "../Input/Intput";
 
 export function Registration({changeModal}:{changeModal:()=>void}){
     let dispatch = useAppDispatch();
+    let error = useAppSelector((state)=>state.user.errorMessage);
+    let loading = useAppSelector((state)=>state.user.loading);
 
-    
+
     let [name,setname]=useState('');
     let [email,setemail]=useState('');
     let [password,setpassword]=useState('');
     let [repeatpassword,setrepeatpassword]=useState('');
 
 
-    let [error,seterror]=useState('');
-
-
-    let [loadend,setloadend]= useState(true);
     async function clickopen(){
-        setloadend(false);
+        dispatch(setLoading(true));
         let check = ValidRegist(name,email,password,repeatpassword);
         if (check!=='ok'){
-            seterror(check);
-            setloadend(true);
+            dispatch(setErrorMessage(check));
+            dispatch(setLoading(false));
             return;
         }
         let res = await registration(name,email,password);
         if (res.type==='error'){
-            seterror(res.message!);
-            setloadend(true);
+            dispatch(setErrorMessage(res.message!));
+            dispatch(setLoading(false));
             return;
         }
 
-        seterror('');
         dispatch(loginUser(res.json!));
         dispatch(showhidemodal(false));
-        setloadend(true);
+        dispatch(setErrorMessage(''));
+        await sleep(300);
+        dispatch(setLoading(false));
+    }
+
+    function changemodal(){
+        changeModal();
+        dispatch(setErrorMessage(''));
     }
 
     return <div className='login-modal'>
-        {loadend?<>
+        {!loading?<>
             <ExitModal/>
             <LoginHeader text='Регистрация' error={error}/>
             <form name='register'>
@@ -67,7 +72,7 @@ export function Registration({changeModal}:{changeModal:()=>void}){
             </form>
             <button onClick={clickopen}>зарегистрироваться</button>
             <div className='bottom-line'>
-                <span onClick={changeModal}>войти</span>
+                <span onClick={changemodal}>войти</span>
                 <span></span>
             </div>
         </>:<Loader/>}

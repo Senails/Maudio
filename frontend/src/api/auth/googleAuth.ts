@@ -4,6 +4,7 @@ import { LoginData } from "./loginUp";
 
 export async function googleAuth(token:string):Promise<LoginData|'error'>{
     if (token==='none') return 'error';
+
     try{
         let apiadress=adress+`/api/googleAuth`;
         let res = await fetch(apiadress,{
@@ -13,7 +14,6 @@ export async function googleAuth(token:string):Promise<LoginData|'error'>{
             },
         })
         let json = await res.json();
-
         return json;
     }catch{
         return 'error';

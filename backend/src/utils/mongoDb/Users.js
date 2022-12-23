@@ -106,12 +106,11 @@ export async function registerGoogleUser(email,name){
                 while (true){
                     if (user){
                         userName=name+'*'+(num===0?'':num);
-                        user = await findUserByName(name);
+                        user = await findUserByName(userName);
                     }else{
                         break;
                     }
                 }
-
                 let newUser = {
                     name:userName,
                     googleemail:email,

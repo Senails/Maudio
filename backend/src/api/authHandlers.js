@@ -18,11 +18,11 @@ export async function login(req,res){
     let {email, password} = req.body;
     let user = await findUserByEmail(email);
 
-    if (user==='error' || !user) return res.send('error');
+    if (user==='error' || !user) return res.json('error');
     let {password:userPassword, _id, status, name:userName} = user;
 
     let passCheck = await bcrypt.compare(password, userPassword);
-    if (!passCheck) return res.send('error');
+    if (!passCheck) return res.json('error');
 
     let token = jwt.sign({id: _id}, secretJWT);
 
@@ -64,10 +64,10 @@ export async function auth(req,res){
     try{
         userID = jwt.decode(tokenReq, secretJWT).id;
     }catch{
-        return res.send('error');
+        return res.json('error');
     }
     let user = await findUserByID(userID);
-    if (user==='error' || !user) return res.send('error');
+    if (user==='error' || !user) return res.json('error');
 
     let {_id, status,name:userName} = user;
     let token = jwt.sign({id: _id}, secretJWT);
@@ -88,23 +88,22 @@ export async function googleAuth(req,res){
     try{
         userData = jwt.decode(tokenReq);
     }catch{
-        return res.send('error');
+        return res.json('error');
     }
 
     let {email, name} = userData;
     let user = await findGoogleUser(email);
-    if (user==='error') return res.send('error');
+    if (user==='error') return res.json('error');
 
     try{
         if (!user) {
             await registerGoogleUser(email,name);
             user = await findGoogleUser(email);
-            if (user==='error' || !user) return res.send('error');
+            if (user==='error' || !user) return res.json('error');
         }
     }catch{
-        return res.send('error');
+        return res.json('error');
     }
-
     let {_id, status, name: userName} = user;
     let token = jwt.sign({id: _id}, secretJWT);
 
@@ -124,14 +123,14 @@ export async function checkToken(req,res,next){
     try{
         userID = jwt.decode(tokenReq, secretJWT).id;
     }catch{
-        return res.send('error');
+        return res.json('error');
     }
 
     let user = await findUserByID(userID);
-    if (user==='error' || !user) return res.send('error');
+    if (user==='error' || !user) return res.json('error');
     let {_id, status} = user;
 
-    if (status!=='editor' && status!=='admin') return res.send('error');
+    if (status!=='editor' && status!=='admin') return res.json('error');
 
     res.status(200);
     next();

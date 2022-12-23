@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { showhidemodal } from '../../redux/slices/userSlice';
+import { setErrorMessage, showhidemodal } from '../../redux/slices/userSlice';
 import { useAppSelector } from '../../redux/store';
 import { sleep } from '../../Utils/other/sleep';
 import { getTimeControl } from '../../Utils/other/timecontrol';
@@ -12,6 +12,7 @@ let timecontrol = getTimeControl(300);
 export function LoginModal(){
     let dispatch = useDispatch();
     let acttimeModal = useAppSelector((state)=>state.user.acttimeModal);
+    let loading = useAppSelector((state)=>state.user.loading);
 
     let [hide,sethide]=useState('hide');
     let [show,setshow]=useState(false);
@@ -39,11 +40,14 @@ export function LoginModal(){
     if (!show) return <></>;
 
     function clickonFon(event:React.MouseEvent){
+        if (loading) return;
+
         let path = event.nativeEvent.composedPath();
         let elems = document.querySelectorAll('.login-modal');
         
         if (!path.includes(elems[1]) && !path.includes(elems[0])){
             dispatch(showhidemodal(false));
+            dispatch(setErrorMessage(''));
         }
     }
 

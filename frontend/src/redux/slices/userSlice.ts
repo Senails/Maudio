@@ -8,6 +8,8 @@ type UserState = {
     userstatus:'user'|'editor'|'admin';
     token:string;
     acttimeModal:boolean;
+    loading:boolean;
+    errorMessage:string;
 }
 
 let initialState:UserState ={
@@ -16,6 +18,8 @@ let initialState:UserState ={
     userstatus:'user',
     token:'',
     acttimeModal:false,
+    loading:false,
+    errorMessage:'',
 }
 
 let userSlice = createSlice({
@@ -42,6 +46,12 @@ let userSlice = createSlice({
             state.userstatus='user';
             SaveToken('');
         },
+        setLoading(state,action:PayloadAction<boolean>){
+            state.loading=action.payload
+        },
+        setErrorMessage(state,action:PayloadAction<string>){
+            state.errorMessage=action.payload
+        },
     },
 })
 
@@ -49,5 +59,7 @@ export const {
     loginUser,
     showhidemodal,
     exitUser,
+    setLoading,
+    setErrorMessage,
 } = userSlice.actions;
 export default userSlice.reducer

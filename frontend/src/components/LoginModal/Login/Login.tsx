@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUp } from '../../../api/auth/loginUp';
-import { loginUser, showhidemodal } from '../../../redux/slices/userSlice';
+import { loginUser, setErrorMessage, setLoading, showhidemodal } from '../../../redux/slices/userSlice';
+import { useAppSelector } from '../../../redux/store';
 import { setLenghtOnLogin } from '../../../Utils/apiUtils/setLenghOnLogin';
+import { sleep } from '../../../Utils/other/sleep';
 
 import { Loader } from '../../Loader/Loader';
 import { ExitModal } from '../exitmodal/ExitModal';
@@ -12,13 +14,11 @@ import { Input } from '../Input/Intput';
 
 export function Login({changeModal}:{changeModal:()=>void}){
     let dispatch = useDispatch();
+    let error = useAppSelector((state)=>state.user.errorMessage);
+    let loading = useAppSelector((state)=>state.user.loading);
 
     let [email,setemail]=useState('');
     let [password,setpassword]=useState('');
-
-
-    let [loadend,setloadend]= useState(true);
-    let [error,seterror]=useState('');
 
 
     async function clickopen(){
@@ -26,24 +26,31 @@ export function Login({changeModal}:{changeModal:()=>void}){
     }
     async function open(email:string,password:string){
         if (email==='' || password===''){
-            seterror('заполните поля');
+            dispatch(setErrorMessage('заполните поля'));
             return;
         }
-        setloadend(false);
+        dispatch(setLoading(true));
         let res = await loginUp(email,password);
         if (res==='error'){
-            seterror('ошибка авторизации');
+            dispatch(setErrorMessage('ошибка авторизации'));
         }else{
             dispatch(loginUser(res));
             dispatch(showhidemodal(false));
+            dispatch(setErrorMessage(''));
             setLenghtOnLogin();
+            await sleep(300);
         }
-        setloadend(true);
+        dispatch(setLoading(false));
     }
 
+
+    function changemodal(){
+        changeModal();
+        dispatch(setErrorMessage(''));
+    }
     
     return <div className='login-modal'>
-        {loadend?<>
+        {!loading?<>
             <ExitModal/>
             <LoginHeader text='Войти' error={error}/>
             <form name='login'>
@@ -60,7 +67,7 @@ export function Login({changeModal}:{changeModal:()=>void}){
             <span>или</span>
             <GoogleButton/>
             <div className='bottom-line'>
-                <span onClick={changeModal}>регистрация</span>
+                <span onClick={changemodal}>регистрация</span>
                 <span></span>
             </div>
         </>:<Loader/>}
