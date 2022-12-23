@@ -6,6 +6,7 @@ import { setLenghtOnLogin } from '../../../Utils/apiUtils/setLenghOnLogin';
 
 import { Loader } from '../../Loader/Loader';
 import { ExitModal } from '../exitmodal/ExitModal';
+import { GoogleButton } from '../googleButton/GoogleButton';
 import { LoginHeader } from '../Header/Header';
 import { Input } from '../Input/Intput';
 
@@ -56,6 +57,8 @@ export function Login({changeModal}:{changeModal:()=>void}){
                 />
             </form>
             <button onClick={clickopen}>войти</button>
+            <span>или</span>
+            <GoogleButton/>
             <div className='bottom-line'>
                 <span onClick={changeModal}>регистрация</span>
                 <span></span>

@@ -73,3 +73,56 @@ export async function addUser(email,password,name){
         })
     })
 }
+
+//google
+
+export async function findGoogleUser(email){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('users');
+
+                let user = await coll.findOne({googleemail:email})
+
+                res(user);
+            }catch(e){
+                res('error');
+            }
+        });
+    });
+}
+
+export async function registerGoogleUser(email,name){
+    return new Promise((res,rej)=>{
+        MongoColl(async (mongo)=>{
+            try{
+                let db = mongo.db(nameDB);
+                let coll = db.collection('users');
+
+                let userName = name;
+                let num = 0;
+                let user = await findUserByName(name);
+                while (true){
+                    if (user){
+                        userName=name+'*'+(num===0?'':num);
+                        user = await findUserByName(name);
+                    }else{
+                        break;
+                    }
+                }
+
+                let newUser = {
+                    name:userName,
+                    googleemail:email,
+                    status:'user'
+                }
+
+                await coll.insertOne(newUser);
+                res('ok');
+            }catch(e){
+                res('error');
+            }
+        })
+    });
+}

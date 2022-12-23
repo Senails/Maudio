@@ -37,11 +37,12 @@ export function LoginModal(){
     }
 
     if (!show) return <></>;
+
     function clickonFon(event:React.MouseEvent){
         let path = event.nativeEvent.composedPath();
-        let elem = document.querySelectorAll('.login-modal');
+        let elems = document.querySelectorAll('.login-modal');
         
-        if (!path.includes(elem[1])){
+        if (!path.includes(elems[1]) && !path.includes(elems[0])){
             dispatch(showhidemodal(false));
         }
     }

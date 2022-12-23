@@ -3,7 +3,6 @@ import { registration } from "../../../api/auth/registration";
 import { loginUser, showhidemodal } from "../../../redux/slices/userSlice";
 import { useAppDispatch } from "../../../redux/store";
 import { ValidRegist } from "../../../Utils/apiUtils/ValidRegist";
-import { sleep } from "../../../Utils/other/sleep";
 import { Loader } from "../../Loader/Loader";
 import { ExitModal } from "../exitmodal/ExitModal";
 import { LoginHeader } from "../Header/Header";
@@ -66,11 +65,11 @@ export function Registration({changeModal}:{changeModal:()=>void}){
                     onChange={setrepeatpassword}
                 />
             </form>
-            <button onClick={clickopen}>регистрация</button>
+            <button onClick={clickopen}>зарегистрироваться</button>
             <div className='bottom-line'>
                 <span onClick={changeModal}>войти</span>
                 <span></span>
-            </div>  
+            </div>
         </>:<Loader/>}
 </div>
 }

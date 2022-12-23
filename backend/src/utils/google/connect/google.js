@@ -44,8 +44,11 @@ async function authorize() {
     return client;
 }
 export const drive = await google.drive({
-    version: 'v3',
-    auth: await authorize(),
+  version: 'v3',
+  auth: await authorize(),
 });
 
-
+// export const drive = await google.drive({
+//   version: 'v3',
+//   auth: 'AIzaSyCF8vXJXHFAuId7vBH80DCV7mN7a7wYujQ',
+// });

@@ -19,16 +19,16 @@ export function LoginConteiner(){
         })
     }
 
-    let modal1=<Login changeModal={changeModal}/>
-    let modal2=<Registration changeModal={changeModal}/>
+    let modal1=<Registration changeModal={changeModal}/>
+    let modal2=<Login changeModal={changeModal}/>
 
     return <div className='conteiner'>
-    <div className={`double-block ${move?'move':''}`}>
+    <div className={`double-block ${move?'move':''} ${!activemodal?'active':''}`}>
         <div className='screen'>
-            {activemodal?modal2:modal1};
+            {modal1};
         </div>
         <div className='screen'>
-            {activemodal?modal1:modal2};
+            {modal2};
         </div>
     </div>
 </div>

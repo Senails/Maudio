@@ -20,6 +20,9 @@ import { addUser,
     findUserByEmail,
     findUserByID,
     findUserByName,
+
+    findGoogleUser,
+    registerGoogleUser,
  } from './mongoDb/Users.js';
 
 import {
@@ -43,11 +46,14 @@ export {
     createFileName,
     findBookByHref,
     bookMapToData,
+    MongoColl,
+
+    addUser,
     findUserByEmail,
     findUserByID,
-    MongoColl,
-    addUser,
     findUserByName,
+    registerGoogleUser,
+    findGoogleUser,
     
     updateBookToDB,
     findBooksDataWithParams,

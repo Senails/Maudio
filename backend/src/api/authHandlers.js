@@ -1,4 +1,12 @@
-import {findUserByID, findUserByEmail, addUser,findUserByName} from './../utils/reimport.js';
+import {
+    findUserByID,
+    findUserByEmail,
+    addUser,
+    findUserByName,
+
+    registerGoogleUser,
+    findGoogleUser,
+} from './../utils/reimport.js';
 
 
 import jwt from 'jsonwebtoken';
@@ -72,6 +80,41 @@ export async function auth(req,res){
     res.json(response);
 }
 
+
+export async function googleAuth(req,res){
+    let tokenReq = req.headers.authorization;
+    let userData;
+
+    try{
+        userData = jwt.decode(tokenReq);
+    }catch{
+        return res.send('error');
+    }
+
+    let {email, name} = userData;
+    let user = await findGoogleUser(email);
+    if (user==='error') return res.send('error');
+
+    try{
+        if (!user) {
+            await registerGoogleUser(email,name);
+            user = await findGoogleUser(email);
+            if (user==='error' || !user) return res.send('error');
+        }
+    }catch{
+        return res.send('error');
+    }
+
+    let {_id, status, name: userName} = user;
+    let token = jwt.sign({id: _id}, secretJWT);
+
+    let response = {
+        token,
+        userName,
+        status,
+    }
+    res.json(response);
+}
 
 //utils
 export async function checkToken(req,res,next){
