@@ -10,19 +10,19 @@ import Loadable from 'react-loadable';
 
 
 const AudioPage = Loadable({
-  loader: ()=>import("./pages/AudioPage/AudioPage"),
+  loader: ()=>import(/* webpackChunkName: "AudioPage" */ "./pages/AudioPage/AudioPage"),
   loading: ()=><Loader shadow={true}/>
 });
 const MainPage = Loadable({
-  loader: ()=>import("./pages/MainPage/MainPage"),
+  loader: ()=>import(/* webpackChunkName: "MainPage" */ "./pages/MainPage/MainPage"),
   loading: ()=><Loader shadow={true}/>
 });
 const BookInfoPage = Loadable({
-  loader: ()=>import("./pages/BookInfoPage/BookInfoPage"),
+  loader: ()=>import(/* webpackChunkName: "BookInfoPage" */ "./pages/BookInfoPage/BookInfoPage"),
   loading: ()=><Loader shadow={true}/>
 });
 const EditPage = Loadable({
-  loader: ()=>import("./pages/EditPage/EditPage"),
+  loader: ()=>import(/* webpackChunkName: "EditPage" */ "./pages/EditPage/EditPage"),
   loading: ()=><Loader shadow={true}/>
 });
 
