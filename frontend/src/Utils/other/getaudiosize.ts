@@ -1,12 +1,21 @@
+const audioForCheckLenght = new Audio();
+audioForCheckLenght.preload='metadata';
+audioForCheckLenght.volume=0;
+
+
+
 export async function getAudioSize(url:string):Promise<number>{
     return new Promise((res)=>{
-      let audio = new Audio();
-      audio.preload='metadata';
-      audio.addEventListener('loadedmetadata',loadedmetadata)
-      audio.src = url;
+      audioForCheckLenght.addEventListener('loadedmetadata',loadedmetadata);
+      audioForCheckLenght.autoplay=true;
+      audioForCheckLenght.src = url;
 
       function loadedmetadata(){
-        res(audio.duration);
+        res(audioForCheckLenght.duration);
+
+        audioForCheckLenght.autoplay=false;
+        audioForCheckLenght.src = '';
+        audioForCheckLenght.removeEventListener('loadedmetadata',loadedmetadata);
       }
     })
   }

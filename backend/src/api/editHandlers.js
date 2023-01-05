@@ -11,27 +11,27 @@ import {
 export async function saveBook(req,res){
     let body = req.body;
     let {bookMap, RemoveList} = body;
-    await deleteRemoveList(RemoveList);
     let result = await addBookToDB(bookMap);
     
     res.send(result);
+    deleteRemoveList(RemoveList);
 }
 export async function editBook(req,res){
     let body = req.body;
     let {bookMap,lasthref,RemoveList}=body;
 
     let result = await updateBookToDB(bookMap,lasthref);
-    let remove2 = await deleteRemoveList(RemoveList);
 
     res.send(result);
+    deleteRemoveList(RemoveList);
 }
 export async function deleteBook(req,res){
     let json = req.body;
     let {href, RemoveList}=json;
     let remove1 = await removeBookOnDB(href);
-    let remove2 = await deleteRemoveList(RemoveList);
 
     res.send(remove1);
+    deleteRemoveList(RemoveList);
 }
 export async function cancelEdit(req,res){
     let json = req.body;

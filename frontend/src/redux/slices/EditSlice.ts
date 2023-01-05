@@ -326,6 +326,8 @@ export const asyncSetBookImage = createAsyncThunk(
         }
     }
 );
+
+
 export const asyncAddBookFrahments = createAsyncThunk(
     'edit/asyncAddBookFrahments',
     async (params:{numColl:number,nummBook:number,files:File[]}, thunkApi) => {
@@ -377,8 +379,8 @@ export const asyncAddBookFrahments = createAsyncThunk(
             let size = part.file.size;
             let abortControler = new AbortController();
             saveController(abortControler);
-            let res = await sendFileToBackend(part.file,abortControler);
 
+            let res = await sendFileToBackend(part.file,abortControler);
             if (res==='error'){
                 let payload:payloadFragmentType = {
                     name:part.file.name,
@@ -400,7 +402,8 @@ export const asyncAddBookFrahments = createAsyncThunk(
                 break;
             }else{
                 dispatch(addToCancelRemoveList(res.googleid));
-                let lenght = await getAudioSize(res.url);
+                let lenght = await getAudioSize(URL.createObjectURL(part.file));
+
                 let payload:payloadFragmentType = {
                     name:part.file.name,
                     id:part.partID,
@@ -412,8 +415,8 @@ export const asyncAddBookFrahments = createAsyncThunk(
                     googleid:res.googleid,
                     url:res.url,
                 }
-                successFragments.push(part.partID);
 
+                successFragments.push(part.partID);
                 dispatch(changeFragment(payload));
             }
         }
