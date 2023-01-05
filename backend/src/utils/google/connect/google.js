@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import {authenticate} from '@google-cloud/local-auth';
+import {credentials} from './credentials.js';
 import {google} from 'googleapis';
 import __dirname from './__dirname.js';
 
@@ -18,8 +19,7 @@ async function loadSavedCredentialsIfExist() {
     }
 }
 async function saveCredentials(client) {
-    const content = await fs.readFile(CREDENTIALS_PATH);
-    const keys = JSON.parse(content);
+    const keys = credentials;
     const key = keys.installed || keys.web;
     const payload = JSON.stringify({
       type: 'authorized_user',

@@ -32,3 +32,5 @@ apiRouter.post('/setReiting',getJsonBody, setReiting);
 apiRouter.post('/setAddComment',getJsonBody, addComment);
 apiRouter.post('/setRemoveComment',getJsonBody, removeComment);
 apiRouter.post('/setUserProgress',getJsonBody, setUserProgress);
+
+//testing

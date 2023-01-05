@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
-import AudioPage from "./pages/AudioPage/AudioPage";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import MainPage from "./pages/MainPage/MainPage";
 import { NoPage } from "./pages/Nopage/NoPage";
 import { MainLayouts } from "./layouts/MainLayouts";
-import { BookInfoPage } from "./pages/BookInfoPage/BookInfoPage";
-import { EditPage } from "./pages/EditPage/EditPage";
 import { store, useAppSelector } from "./redux/store";
 import { Loader } from "./components/Loader/Loader";
 import { Provider } from "react-redux";
 import { onOpen } from "./Utils/appData/onstart";
+import Loadable from 'react-loadable';
+
+
+const AudioPage = Loadable({
+  loader: ()=>import("./pages/AudioPage/AudioPage"),
+  loading: ()=><Loader shadow={true}/>
+});
+const MainPage = Loadable({
+  loader: ()=>import("./pages/MainPage/MainPage"),
+  loading: ()=><Loader shadow={true}/>
+});
+const BookInfoPage = Loadable({
+  loader: ()=>import("./pages/BookInfoPage/BookInfoPage"),
+  loading: ()=><Loader shadow={true}/>
+});
+const EditPage = Loadable({
+  loader: ()=>import("./pages/EditPage/EditPage"),
+  loading: ()=><Loader shadow={true}/>
+});
 
 function AppComponent() {
-  let {userstatus, isAuth} = useAppSelector((state)=>state.user);
+  let {userstatus} = useAppSelector((state)=>state.user);
   let[loadend,setloadend]= useState(false);
 
   useEffect(()=>{

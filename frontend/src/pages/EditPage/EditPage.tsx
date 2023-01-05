@@ -16,7 +16,7 @@ import { ImageInput } from './Imageinput/ImageInput';
 import './style.scss';
 import { TextInputs } from './TextInputs/textInputs';
 
-export function EditPage(){
+export default function EditPage(){
     let dispatch = useAppDispatch();
     let navigate = useNavigate();
     let { bookname } = useParams()

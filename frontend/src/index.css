@@ -64,3 +64,31 @@ body::-webkit-scrollbar {
 .miniopacity{
     opacity: 0.8;
 }
+
+
+@media (max-height: 450px) and (orientation:landscape){
+    body *{
+        display: none;
+    }
+    body{
+        background-color: rgb(19, 19, 19);
+    }
+    body::after{
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        display: block;
+        text-align: center;
+        width: 70%;
+        content: 'пожалуйста поверните телефон вертикально';
+
+        color: white;
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+    }
+}

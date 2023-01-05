@@ -1,5 +1,5 @@
 import './style.scss';
-import {useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { ProgressLine } from './ProgressLine/ProgressLine';
 import { LikeHeart } from './likeHeart/LikeHeart';
 import React from 'react';
@@ -23,14 +23,8 @@ type props = {
 export function BookCard(propsParam:props){
     let {img,authtor,name,progress,href,reit,like,num,_id} = propsParam;
 
-    let navigate = useNavigate();
     let dispatch = useAppDispatch();
-
     let isAuth = useAppSelector((state)=>state.user.isAuth);
-
-    const divStyle = {
-        backgroundImage: `url(${img})`,
-    };
 
     function onheartClick(event:React.MouseEvent){
         event.stopPropagation();
@@ -41,9 +35,9 @@ export function BookCard(propsParam:props){
         }
     }
 
-    return <div className={`book-card ${like?'like':''}`} onClick={()=>navigate(`/bookInfo/${href}`)}>
+    return <div className={`book-card ${like?'like':''}`}>
         <div className='book-image book'></div>
-        <div className='book-image' style={divStyle}></div>
+        <div className='book-image' style={{backgroundImage: `url(${img})`}}></div>
 
         <h2>{name}</h2>
         <p>{authtor}</p>
@@ -51,5 +45,7 @@ export function BookCard(propsParam:props){
         <StarIcon reit={reit}/>
         <LikeHeart like={like?like:false} onClick={onheartClick}/>
         {progress?<ProgressLine progress={progress}/>:<></>}
+
+        <Link to={`/bookInfo/${href}`}></Link>
     </div>
 }

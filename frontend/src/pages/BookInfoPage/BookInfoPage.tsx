@@ -8,7 +8,7 @@ import { InfoConteiner } from './InfoConteiner/InfoConteiner';
 import './style.scss';
 
 
-export function BookInfoPage(){
+export default function BookInfoPage(){
     let {bookname}=useParams();
     let navigate = useNavigate();
     let dispatch = useAppDispatch();
