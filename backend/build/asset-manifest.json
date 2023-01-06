@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.83580f6e.css",
-    "main.js": "/static/js/main.ea5ae0f2.js",
-    "AudioPage.css": "/static/css/AudioPage.c432b16e.chunk.css",
+    "main.css": "/static/css/main.7e45dd4c.css",
+    "main.js": "/static/js/main.a4bf3e61.js",
+    "AudioPage.css": "/static/css/AudioPage.d4548c1c.chunk.css",
     "AudioPage.js": "/static/js/AudioPage.7a909e99.chunk.js",
-    "MainPage.css": "/static/css/MainPage.7099a87b.chunk.css",
+    "MainPage.css": "/static/css/MainPage.3bed0348.chunk.css",
     "MainPage.js": "/static/js/MainPage.5842610e.chunk.js",
-    "BookInfoPage.css": "/static/css/BookInfoPage.20fb19b4.chunk.css",
+    "BookInfoPage.css": "/static/css/BookInfoPage.810c3ec0.chunk.css",
     "BookInfoPage.js": "/static/js/BookInfoPage.e4187cca.chunk.js",
     "EditPage.css": "/static/css/EditPage.a47b1b48.chunk.css",
     "EditPage.js": "/static/js/EditPage.15a4f10e.chunk.js",
@@ -29,19 +29,19 @@
     "static/media/sorting.svg": "/static/media/sorting.45f0fef0b44ad3e9667c.svg",
     "static/media/filter.svg": "/static/media/filter.ee49ddbf2a6099b2404d.svg",
     "static/media/pause.svg": "/static/media/pause.7c054e60cb47285918b7.svg",
-    "main.83580f6e.css.map": "/static/css/main.83580f6e.css.map",
-    "main.ea5ae0f2.js.map": "/static/js/main.ea5ae0f2.js.map",
-    "AudioPage.c432b16e.chunk.css.map": "/static/css/AudioPage.c432b16e.chunk.css.map",
+    "main.7e45dd4c.css.map": "/static/css/main.7e45dd4c.css.map",
+    "main.a4bf3e61.js.map": "/static/js/main.a4bf3e61.js.map",
+    "AudioPage.d4548c1c.chunk.css.map": "/static/css/AudioPage.d4548c1c.chunk.css.map",
     "AudioPage.7a909e99.chunk.js.map": "/static/js/AudioPage.7a909e99.chunk.js.map",
-    "MainPage.7099a87b.chunk.css.map": "/static/css/MainPage.7099a87b.chunk.css.map",
+    "MainPage.3bed0348.chunk.css.map": "/static/css/MainPage.3bed0348.chunk.css.map",
     "MainPage.5842610e.chunk.js.map": "/static/js/MainPage.5842610e.chunk.js.map",
-    "BookInfoPage.20fb19b4.chunk.css.map": "/static/css/BookInfoPage.20fb19b4.chunk.css.map",
+    "BookInfoPage.810c3ec0.chunk.css.map": "/static/css/BookInfoPage.810c3ec0.chunk.css.map",
     "BookInfoPage.e4187cca.chunk.js.map": "/static/js/BookInfoPage.e4187cca.chunk.js.map",
     "EditPage.a47b1b48.chunk.css.map": "/static/css/EditPage.a47b1b48.chunk.css.map",
     "EditPage.15a4f10e.chunk.js.map": "/static/js/EditPage.15a4f10e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.83580f6e.css",
-    "static/js/main.ea5ae0f2.js"
+    "static/css/main.7e45dd4c.css",
+    "static/js/main.a4bf3e61.js"
   ]
 }
