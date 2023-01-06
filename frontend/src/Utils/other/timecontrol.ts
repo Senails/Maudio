@@ -44,7 +44,7 @@ export function getTimeControl2(ms:number){
     }
 }
 //не боллее [count] срабатываний в [period]
-export function getTimeControl3(count:number,period:number=20000){
+export function getTimeControl3(count:number,period:number=10000){
     let arr:number[] = [];
     let timoutID:NodeJS.Timeout;
 

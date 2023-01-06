@@ -50,6 +50,7 @@ export async function getProgress() {
   if (data.progress){
     dispatch(setAllState({seria:data, hrefparam: href}));
     setUserProgress(data.progress);
+    dispatch(setshowmini(true));
     return;
   }
 

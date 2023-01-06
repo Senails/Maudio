@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store"
 import { saveUserProgress } from "../../Utils/apiUtils/saveUserProgress";
 import { getTimeControl3 } from "../../Utils/other/timecontrol";
 
-let timecontrol = getTimeControl3(5);
+let timecontrol = getTimeControl3(5,5000);
 
 export default function AudioPl(){
     let isAuth = useAppSelector((state)=>state.user.isAuth);
