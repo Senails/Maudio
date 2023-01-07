@@ -22,7 +22,7 @@ export default function AudioPl(){
     }
     function onended(){
         let play = playpause;
-        dispatch(setnextFragment())
+        dispatch(setnextFragment());
         if (play!=='play'){
             dispatch(setplay('play'));
         }
@@ -48,12 +48,18 @@ export default function AudioPl(){
     useEffect(()=>{
         audio.current!.volume=volume;
     },[volume]);
+    useEffect(()=>{
+        if (playpause==='play'){
+            audio.current?.play();
+        }
+    },[activeSrc]);
 
     return <audio ref={audio} 
     onError={onerror}
 
     onEnded={onended}
     onTimeUpdate={ontimeupdate}
+
     src={activeSrc}
     autoPlay={playpause==='play'}
     loop={false}></audio>

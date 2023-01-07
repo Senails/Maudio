@@ -4,7 +4,7 @@ import { dispatch, store } from "../../redux/store";
 import { Collection } from "../../types/pleerSlice";
 import { getTimeControl } from "../other/timecontrol";
 
-let TimeControl = getTimeControl(30000);
+let TimeControl = getTimeControl(120000);
 
 export function saveUserProgress(){
     TimeControl(()=>{
