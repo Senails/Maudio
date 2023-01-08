@@ -49,18 +49,30 @@ export default function AudioPl(){
         audio.current!.volume=volume;
     },[volume]);
     useEffect(()=>{
-        if (playpause==='play'){
-            audio.current?.play();
+        if (activeSrc!=='' && playpause==='play' && audio.current!.paused){
+            audio.current!.play();
         }
     },[activeSrc]);
+    useEffect(()=>{
+        let intervalID = setInterval(()=>{
+            document.body.click();
+            // console.log('body click')
+        },180000)
+
+        return ()=>{
+            clearInterval(intervalID);
+        }
+    },[]);
 
     return <audio ref={audio} 
     onError={onerror}
+    onStalled={onerror}
 
     onEnded={onended}
     onTimeUpdate={ontimeupdate}
 
     src={activeSrc}
     autoPlay={playpause==='play'}
+    preload={"metadata"}
     loop={false}></audio>
 }
