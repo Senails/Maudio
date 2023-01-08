@@ -76,6 +76,7 @@ export default function AudioPl(){
 
     onPlay={()=>console.log('on play')}
     onPause={()=>console.log('on pause')}
+    //12
 
     src={activeSrc}
     autoPlay={playpause==='play'}
