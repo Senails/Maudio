@@ -18,19 +18,22 @@ export default function AudioPl(){
     let audio = useRef<HTMLAudioElement>(null);
 
     function onerror(){
+        console.log('on error')
         timecontrol(()=>{dispatch(ResolveError())});
     }
     function onended(){
-        let play = playpause;
+        console.log('on ended')
         dispatch(setnextFragment());
-        if (play!=='play'){
-            dispatch(setplay('play'));
-        }
 
         if (isAuth) saveUserProgress();
     }
     function ontimeupdate(event:React.BaseSyntheticEvent){
+        console.log('on timeupdate')
         dispatch(setlenght(event.currentTarget.currentTime));
+
+        if (event.currentTarget.currentTime>=event.currentTarget.duration){
+            dispatch(setnextFragment());
+        }
 
         if (isAuth) saveUserProgress();
     }
@@ -57,7 +60,7 @@ export default function AudioPl(){
         let intervalID = setInterval(()=>{
             document.body.click();
             // console.log('body click')
-        },180000)
+        },60000)
 
         return ()=>{
             clearInterval(intervalID);
@@ -70,6 +73,9 @@ export default function AudioPl(){
 
     onEnded={onended}
     onTimeUpdate={ontimeupdate}
+
+    onPlay={()=>console.log('on play')}
+    onPause={()=>console.log('on pause')}
 
     src={activeSrc}
     autoPlay={playpause==='play'}
