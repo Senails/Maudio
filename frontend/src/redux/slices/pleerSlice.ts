@@ -170,6 +170,6 @@ export const ResolveError = createAsyncThunk(
     
     let lenghtNow = state.lenght;
     dispatch(clearnSrc());
-    await sleep(5);
+    await sleep(20);
     dispatch(UserSelectLenght(lenghtNow));   
 })

@@ -2,9 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { ResolveError, setlenght, setnextFragment, setplay} from "../../redux/slices/pleerSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store"
 import { saveUserProgress } from "../../Utils/apiUtils/saveUserProgress";
-import { getTimeControl3 } from "../../Utils/other/timecontrol";
+import { getTimeControl2, getTimeControl3 } from "../../Utils/other/timecontrol";
 
 let timecontrol = getTimeControl3(5,5000);
+let timecontrolForPlay = getTimeControl2(300);
 
 export default function AudioPl(){
     let isAuth = useAppSelector((state)=>state.user.isAuth);
@@ -18,7 +19,7 @@ export default function AudioPl(){
     let audio = useRef<HTMLAudioElement>(null);
 
     function onerror(){
-        console.log('on error')
+        console.log('on error');
         timecontrol(()=>{dispatch(ResolveError())});
     }
     function onended(){
@@ -52,9 +53,14 @@ export default function AudioPl(){
         audio.current!.volume=volume;
     },[volume]);
     useEffect(()=>{
-        if (activeSrc!=='' && playpause==='play' && audio.current!.paused){
-            audio.current!.play();
-        }
+        timecontrolForPlay(()=>{
+            let timoutID = setTimeout(()=>{
+                audio.current!.play();
+            },20);
+
+            if (activeSrc!=='' && playpause==='play' && audio.current!.paused) return;
+            clearTimeout(timoutID);
+        })
     },[activeSrc]);
     useEffect(()=>{
         let intervalID = setInterval(()=>{
