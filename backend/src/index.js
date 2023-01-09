@@ -5,7 +5,7 @@ import {apiRouter} from './api/apiRouter.js';
 import __dirname from './__dirname.js';
 
 let app = express();
-let filepath = path.join(__dirname,'../build/');
+let filepath = path.join(__dirname,'../../frontend/build/');
 
 app.use(cors());
 app.use(express.static(filepath));
