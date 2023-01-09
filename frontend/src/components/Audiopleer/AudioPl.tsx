@@ -12,8 +12,14 @@ export default function AudioPl(){
 
     let playpause = useAppSelector((state)=>state.pleer.playpause);
     let volume = useAppSelector((state)=>state.pleer.volume);
-    let pleerlenght = useAppSelector((state)=>state.pleer.pleerlenght);
     let activeSrc = useAppSelector((state)=>state.pleer.activeSrc);
+
+    let pleerlenght = useAppSelector((state)=>state.pleer.pleerlenght);
+    let fragmentLenght = useAppSelector((state)=>{
+        let numFragment = state.pleer.activefragment;
+        let lenght = state.pleer.bookMap.bookparts[numFragment].lenght;
+        return lenght;
+    });
     let dispatch = useAppDispatch();
 
     let audio = useRef<HTMLAudioElement>(null);
@@ -32,7 +38,7 @@ export default function AudioPl(){
         console.log('on timeupdate')
         dispatch(setlenght(event.currentTarget.currentTime));
 
-        if (event.currentTarget.currentTime>=event.currentTarget.duration){
+        if (event.currentTarget.currentTime>=fragmentLenght){
             dispatch(setnextFragment());
         }
 
