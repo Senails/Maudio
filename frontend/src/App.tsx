@@ -21,7 +21,6 @@ function AppComponent() {
   return (
     <div className="App" id="App">
       <MainLayouts>
-        <>
           <Routes>
           <Route path="/" element={<MainPage/>}/>
           <Route path="/bookInfo/:bookname" element={<BookInfoPage/>}/>
@@ -29,7 +28,6 @@ function AppComponent() {
           <Route path="/edit/:bookname" element={userstatus==='user'?<NoPage/>:<EditPage/>}/>
           <Route path="*" element={<NoPage/>}/>
           </Routes>
-        </>
       </MainLayouts>
     </div>
   );
