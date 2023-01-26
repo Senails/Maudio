@@ -21,4 +21,7 @@ app.get('*',(req,res)=>{
 let PORT = process.env.PORT||3001;
 app.listen(PORT, function() {
 	console.log('running');
+    setInterval(()=>{
+        console.log('I wrking, dont close me');
+    },1000*60*10)
 });

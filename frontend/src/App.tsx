@@ -1,47 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { NoPage } from "./pages/Nopage/NoPage";
 import { MainLayouts } from "./layouts/MainLayouts";
 import { store, useAppSelector } from "./redux/store";
-import { Loader } from "./components/Loader/Loader";
 import { Provider } from "react-redux";
 import { onOpen } from "./Utils/appData/onstart";
-import Loadable from 'react-loadable';
+import MainPage from "./pages/MainPage/MainPage";
+import BookInfoPage from "./pages/BookInfoPage/BookInfoPage";
+import AudioPage from "./pages/AudioPage/AudioPage";
+import EditPage from "./pages/EditPage/EditPage";
 
-
-const AudioPage = Loadable({
-  loader: ()=>import(/* webpackChunkName: "AudioPage" */ "./pages/AudioPage/AudioPage"),
-  loading: ()=><Loader shadow={true}/>
-});
-const MainPage = Loadable({
-  loader: ()=>import(/* webpackChunkName: "MainPage" */ "./pages/MainPage/MainPage"),
-  loading: ()=><Loader shadow={true}/>
-});
-const BookInfoPage = Loadable({
-  loader: ()=>import(/* webpackChunkName: "BookInfoPage" */ "./pages/BookInfoPage/BookInfoPage"),
-  loading: ()=><Loader shadow={true}/>
-});
-const EditPage = Loadable({
-  loader: ()=>import(/* webpackChunkName: "EditPage" */ "./pages/EditPage/EditPage"),
-  loading: ()=><Loader shadow={true}/>
-});
 
 function AppComponent() {
   let {userstatus} = useAppSelector((state)=>state.user);
-  let[loadend,setloadend]= useState(false);
 
   useEffect(()=>{
-    let start = async()=>{
-      await onOpen();
-      setloadend(true);
-    }
-    start();
+    onOpen();
   },[]);
 
   return (
     <div className="App" id="App">
       <MainLayouts>
-        {loadend?
         <>
           <Routes>
           <Route path="/" element={<MainPage/>}/>
@@ -51,7 +30,6 @@ function AppComponent() {
           <Route path="*" element={<NoPage/>}/>
           </Routes>
         </>
-        :<Loader shadow={true}/>}
       </MainLayouts>
     </div>
   );
