@@ -13,16 +13,7 @@ app.use(cors());
 app.use('/api/',apiRouter);
 
 
-app.use(compression({ filter: shouldCompress }))
-function shouldCompress (req, res) {
-  if (req.headers['x-no-compression']) {
-    // don't compress responses with this request header
-    return false
-  }
-
-  // fallback to standard filter function
-  return compression.filter(req, res)
-}
+app.use(compression());
 app.use(express.static(filepath));
 app.get('*',(req,res)=>{
     res.contentType('text/html');
