@@ -1,5 +1,5 @@
 import express from 'express';
-import compression from 'compression';
+// import compression from 'compression';
 import cors from 'cors';
 import path from 'path';
 
@@ -10,11 +10,10 @@ let app = express();
 let filepath = path.join(__dirname,'../../frontend/build/');
 
 app.use(cors());
-app.use('/api/',apiRouter);
-
-
 app.use(compression());
+
 app.use(express.static(filepath));
+app.use('/api/',apiRouter);
 app.get('*',(req,res)=>{
     res.contentType('text/html');
     res.status(200);
